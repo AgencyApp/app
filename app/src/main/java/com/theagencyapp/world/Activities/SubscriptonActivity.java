@@ -10,7 +10,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.theagencyapp.world.R;
 
-public class SuscriptonActivity extends AppCompatActivity {
+public class SubscriptonActivity extends AppCompatActivity
+{
     EditText insertCode;
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
