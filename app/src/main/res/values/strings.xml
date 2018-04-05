@@ -21,5 +21,6 @@
     <string name="or">OR</string>
     <string name="todo">TODO</string>
     <string name="error_unequal_password">Password does not match!</string>
+    <string name="action_add_company">Create Company</string>
 </resources>
 
