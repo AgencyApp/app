@@ -13,12 +13,12 @@
 
 
         <ScrollView
-            android:id="@+id/login_form"
+            android:id="@+id/signup_form"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/email_login_form"
+                android:id="@+id/email_signup_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -29,8 +29,8 @@
                     android:layout_height="102dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/agency_logo"
-                    android:contentDescription="@string/todo" />
+                    android:contentDescription="@string/todo"
+                    app:srcCompat="@drawable/agency_logo" />
 
                 <TextView
                     android:id="@+id/title"
