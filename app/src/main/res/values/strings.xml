@@ -5,6 +5,7 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_up">Sign Up</string>
     <string name="action_sign_in_google">Sign in with Google</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -19,5 +20,6 @@
     <string name="sign_up_here">DONT HAVE AN ACCOUNT? SIGN UP HERE</string>
     <string name="or">OR</string>
     <string name="todo">TODO</string>
+    <string name="error_unequal_password">Password does not match!</string>
 </resources>
 
