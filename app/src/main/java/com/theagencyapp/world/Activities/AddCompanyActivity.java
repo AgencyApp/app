@@ -3,6 +3,7 @@ package com.theagencyapp.world.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -53,6 +54,49 @@ public class AddCompanyActivity extends AppCompatActivity {
 
     public void onAddCompanyClick(View view)
     {
+        String company_name = companyName.getText().toString().trim();
+        String logo = logoUrl.getText().toString().trim();
+        String company_address = address.getText().toString().trim();
+        String type = companyType.getText().toString().trim();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        if (TextUtils.isEmpty(company_name))
+        {
+            companyName.setError(getString(R.string.error_field_required));
+            focusView = companyName;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(logo))
+        {
+            logoUrl.setError(getString(R.string.error_field_required));
+            focusView = logoUrl;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(company_address))
+        {
+            address.setError(getString(R.string.error_field_required));
+            focusView = address;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(type))
+        {
+            companyType.setError(getString(R.string.error_invalid_password));
+            focusView = companyType;
+            cancel = true;
+        }
+
+        if (cancel)
+        {
+            focusView.requestFocus();
+            return;
+        }
+
+
         Company company=new Company(companyName.getText().toString(),logoUrl.getText().toString(),address.getText().toString(),companyType.getText().toString(),currentInsertCode+1,currentInsertCode+2);
         companyRefrence.child("Companies").push().setValue(company);
         insertCodeReference.setValue(currentInsertCode+2);
