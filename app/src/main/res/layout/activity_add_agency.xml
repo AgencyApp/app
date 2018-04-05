@@ -1,82 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/coordinatorLayout"
     android:layout_height="match_parent"
     tools:context="com.theagencyapp.world.Activities.AddCompanyActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/addCompany_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="97dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Company Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/addCompany_logoUrl"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_marginEnd="97dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="59dp"
-        android:ems="10"
-        android:hint="logo url"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addCompany_type" />
+        <ScrollView
+            android:id="@+id/signup_form"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/addCompany_Address"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_marginEnd="97dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="58dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Address"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addCompany_logoUrl" />
+            <LinearLayout
+                android:id="@+id/email_signup_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/addCompany_type"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_marginEnd="97dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="36dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Company type"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addCompany_name" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="102dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/todo"
+                    app:srcCompat="@drawable/agency_logo" />
 
-    <Button
-        android:id="@+id/addCompany"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
-        android:text="Button"
-        android:onClick="onAddComapnayClick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.432"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addCompany_Address" />
-</android.support.constraint.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_horizontal"
+                    android:text="@string/action_add_company"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorPrimary" />
+
+                <EditText
+                    android:id="@+id/addCompany_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Company Name"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/addCompany_logoUrl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:ems="10"
+                    android:hint="Logo Url" />
+
+                <EditText
+                    android:id="@+id/addCompany_Address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:ems="10"
+                    android:hint="Address"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/addCompany_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:ems="10"
+                    android:hint="Company type"
+                    android:inputType="textPersonName" />
+
+                <Button
+                    android:id="@+id/addCompany"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="238dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button_rounded_corners"
+                    android:onClick="addCompanyClick"
+                    android:text="@string/action_add_company"
+                    android:textColor="@android:color/background_light"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
+
