@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">AgencyApp</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_google">Sign in with Google</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="welcome_to_agency">Welcome to Agency</string>
+    <string name="catchy_title">Your company in the 21st century</string>
+    <string name="sign_up_here">DONT HAVE AN ACCOUNT? SIGN UP HERE</string>
+    <string name="or">OR</string>
+    <string name="todo">TODO</string>
+</resources>
+

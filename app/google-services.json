@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "248534221712",
+    "firebase_url": "https://theagencyapp-3a4bf.firebaseio.com",
+    "project_id": "theagencyapp-3a4bf",
+    "storage_bucket": "theagencyapp-3a4bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248534221712:android:6d5b112b9b48d08b",
+        "android_client_info": {
+          "package_name": "com.theagencyapp.world"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248534221712-4gv7s1sbmminfssrgo10bl2rut011ss2.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "248534221712-872r115tr45b8b580a2tdrpdcvipe8ub.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.theagencyapp.world",
+            "certificate_hash": "c7242f0c57cf846669a845172bc424419ef9f1e5"
+          }
+        },
+        {
+          "client_id": "248534221712-08ahj2q9lvmoq2tc25bgd2qargioiv8b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTkFXat1G5oPwoysiAQn3TtWz7uRM9ezs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248534221712-4gv7s1sbmminfssrgo10bl2rut011ss2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
