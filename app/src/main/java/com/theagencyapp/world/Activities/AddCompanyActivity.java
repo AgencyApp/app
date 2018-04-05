@@ -85,7 +85,7 @@ public class AddCompanyActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(type))
         {
-            companyType.setError(getString(R.string.error_invalid_password));
+            companyType.setError(getString(R.string.error_field_required));
             focusView = companyType;
             cancel = true;
         }
