@@ -51,7 +51,7 @@ public class AddCompanyActivity extends AppCompatActivity {
 
     }
 
-    public void onAddCommpanyClick(View view)
+    public void onAddCompanyClick(View view)
     {
         Company company=new Company(companyName.getText().toString(),logoUrl.getText().toString(),address.getText().toString(),companyType.getText().toString(),currentInsertCode+1,currentInsertCode+2);
         companyRefrence.child("Companies").push().setValue(company);
