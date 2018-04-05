@@ -44,6 +44,9 @@ public class SubscriptonActivity extends AppCompatActivity
         }
         else
         {
+            insertCode.setError(getString(R.string.invalid_code));
+            insertCode.requestFocus();
+            return;
 
         }
 
