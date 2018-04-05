@@ -25,6 +25,11 @@ public class SubscriptonActivity extends AppCompatActivity
         firebaseUser=auth.getCurrentUser();
     }
 
+    protected boolean authenticateCode(String code)
+    {
+        return true;
+    }
+
     public void onSubcriptionClick(View view){
         Intent intent= new Intent(this,AddCompanyActivity.class);
         startActivity(intent);
@@ -33,7 +38,14 @@ public class SubscriptonActivity extends AppCompatActivity
     public void onInsertCodeEnter(View view)
     {
        String code=insertCode.getText().toString();
-       
+        if (authenticateCode(code))
+        {
+
+        }
+        else
+        {
+
+        }
 
 
     }
