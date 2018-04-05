@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/button_rounded_corners"
-                    android:onClick="addCompanyClick"
+                    android:onClick="onAddCompanyClick"
                     android:text="@string/action_add_company"
                     android:textColor="@android:color/background_light"
                     android:textStyle="bold" />
