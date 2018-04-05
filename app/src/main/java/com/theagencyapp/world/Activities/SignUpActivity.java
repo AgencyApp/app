@@ -102,11 +102,11 @@ public class SignUpActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {
 
-                            User user=new User(Name.getText().toString(),PhoneNo.getText().toString(),"",0);
+                            User user=new User(Name.getText().toString(),PhoneNo.getText().toString(),"","");
                             FirebaseUser firebaseUser=auth.getCurrentUser();
                             databaseReference.child("Users").child(firebaseUser.getUid()).setValue(user);
 
-                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                            startActivity(new Intent(SignUpActivity.this, SubscriptonActivity.class));
                             finish();
                         }
                     }

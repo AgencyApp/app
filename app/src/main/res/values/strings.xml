@@ -25,5 +25,8 @@
     <string name="enter_company_code">Company Code</string>
     <string name="join_company">Join Company</string>
     <string name="invalid_code">Invalid Agency Code</string>
+    <string name="action_add_company">Add Company</string>
+    <string name="status_employee">Employee</string>
+    <string name="status_Client">Client</string>
 </resources>
 

@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,8 @@ public class AddCompanyActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private DatabaseReference insertCodeReference;
     private DatabaseReference companyRefrence;
+    private DatabaseReference agencyRefTable;
+    private FirebaseUser firebaseUser;
     int currentInsertCode;
 
     @Override
@@ -37,6 +40,9 @@ public class AddCompanyActivity extends AppCompatActivity {
         logoUrl=(EditText)findViewById(R.id.addCompany_logoUrl);
         insertCodeReference= FirebaseDatabase.getInstance().getReference("meta_data/insert_code");
         companyRefrence=FirebaseDatabase.getInstance().getReference();
+        auth=FirebaseAuth.getInstance();
+        firebaseUser=auth.getCurrentUser();
+        agencyRefTable=FirebaseDatabase.getInstance().getReference();
         insertCodeReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -97,10 +103,20 @@ public class AddCompanyActivity extends AppCompatActivity {
         }
 
 
-        Company company=new Company(companyName.getText().toString(),logoUrl.getText().toString(),address.getText().toString(),companyType.getText().toString(),currentInsertCode+1,currentInsertCode+2);
-        companyRefrence.child("Companies").push().setValue(company);
-        insertCodeReference.setValue(currentInsertCode+2);
-        Toast.makeText(this,"done",Toast.LENGTH_LONG);
+        Company company=new Company(companyName.getText().toString(),logoUrl.getText().toString(),address.getText().toString(),companyType.getText().toString(),"Client"+String.valueOf(currentInsertCode+1),"Employee"+String.valueOf(currentInsertCode+1));
+        String key=companyRefrence.child("Companies").push().getKey();
+        companyRefrence.child("Companies").child(key).setValue(company);
+        agencyRefTable.child("AgencyRefTable").child("Employee"+String.valueOf(currentInsertCode+1)).setValue(key);
+        agencyRefTable.child("AgencyRefTable").child("Client"+String.valueOf(currentInsertCode+1)).setValue(key);
+        insertCodeReference.setValue(String.valueOf(currentInsertCode+1));
+        FirebaseDatabase.getInstance().getReference("Users/"+firebaseUser.getUid()+"/agencyid").setValue(key);
+        FirebaseDatabase.getInstance().getReference("Users/"+firebaseUser.getUid()+"/status").setValue("Owner");
+        Intent intent =new Intent(this,MainActivity.class);
+        intent.putExtra("agencyId",key);
+        intent.putExtra("status","Owner");
+        startActivity(intent);
+
+
     }
 
 

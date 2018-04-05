@@ -9,10 +9,10 @@ public class Company {
     String logoUrl;
     String address;
     String companyType;
-    int clientCode;
-    int employeeCode;
+    String clientCode;
+    String employeeCode;
 
-    public Company(String companyName, String logoUrl, String address, String companyType, int clientCode, int employeeCode) {
+    public Company(String companyName, String logoUrl, String address, String companyType, String clientCode, String employeeCode) {
         this.companyName = companyName;
         this.logoUrl = logoUrl;
         this.address = address;
@@ -24,19 +24,19 @@ public class Company {
     public Company() {
     }
 
-    public int getClientCode() {
+    public String getClientCode() {
         return clientCode;
     }
 
-    public void setClientCode(int clientCode) {
+    public void setClientCode(String clientCode) {
         this.clientCode = clientCode;
     }
 
-    public int getEmployeeCode() {
+    public String getEmployeeCode() {
         return employeeCode;
     }
 
-    public void setEmployeeCode(int employeeCode) {
+    public void setEmployeeCode(String employeeCode) {
         this.employeeCode = employeeCode;
     }
 

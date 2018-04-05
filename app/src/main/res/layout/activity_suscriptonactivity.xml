@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:id="@+id/coordinatorLayout"
     android:layout_height="match_parent"
-    tools:context="com.theagencyapp.world.Activities.LoginActivity">
+    tools:context="com.theagencyapp.world.Activities.SubscriptonActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,7 +61,8 @@
                     android:background="@drawable/button_rounded_corners"
                     android:text="@string/join_company"
                     android:textColor="@android:color/background_light"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:onClick="onInsertCodeEnter"/>
 
                 <Button
                     android:id="@+id/suscription_buySuscription"
@@ -70,7 +71,8 @@
                     android:layout_marginEnd="122dp"
                     android:layout_marginStart="122dp"
                     android:layout_marginTop="104dp"
-                    android:text="getSuscribtion" />
+                    android:text="getSuscribtion"
+                    android:onClick="onSubcriptionClick"/>
 
             </LinearLayout>
         </ScrollView>

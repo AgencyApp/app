@@ -8,13 +8,21 @@ import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.theagencyapp.world.R;
+
+import java.util.concurrent.Semaphore;
 
 public class SubscriptonActivity extends AppCompatActivity
 {
     EditText insertCode;
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
+    DatabaseReference agencyRefTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +33,30 @@ public class SubscriptonActivity extends AppCompatActivity
         firebaseUser=auth.getCurrentUser();
     }
 
-    protected boolean authenticateCode(String code)
+    protected String authenticateCode(String code)
     {
-        return true;
+        agencyRefTable= FirebaseDatabase.getInstance().getReference("AgencyRefTable/"+code);
+        final String[] s = new String[1];
+        agencyRefTable.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null)
+                {
+                    s[0] =dataSnapshot.getValue(String.class);
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        return s[0];
     }
 
     public void onSubcriptionClick(View view){
@@ -37,18 +66,50 @@ public class SubscriptonActivity extends AppCompatActivity
 
     public void onInsertCodeEnter(View view)
     {
-       String code=insertCode.getText().toString();
-        if (authenticateCode(code))
-        {
+       final String code=insertCode.getText().toString();
 
-        }
-        else
-        {
-            insertCode.setError(getString(R.string.invalid_code));
-            insertCode.requestFocus();
-            return;
+        agencyRefTable= FirebaseDatabase.getInstance().getReference("AgencyRefTable/"+code);
+        agencyRefTable.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null)
+                {
+                      String  agencyid =dataSnapshot.getValue(String.class);
+                    if (!agencyid.equals(""))
+                    {
+                        FirebaseDatabase.getInstance().getReference("Users/"+firebaseUser.getUid()+"/agencyid").setValue(agencyid);
+                        Intent intent = new Intent(SubscriptonActivity.this,MainActivity.class);
+                        intent.putExtra("agencyId",agencyid);
+                        if(code.startsWith("E"))
+                        {
+                            FirebaseDatabase.getInstance().getReference("Users/"+firebaseUser.getUid()+"/status").setValue("Employee");
+                            intent.putExtra("status","Employee");
 
-        }
+                        }
+                        else
+                        {
+                            FirebaseDatabase.getInstance().getReference("Users/"+firebaseUser.getUid()+"/status").setValue("Client");
+                            intent.putExtra("status","Client");
+                        }
+                        startActivity(intent);
+                        finish();
+                    }
+
+
+                }
+                else
+                {
+                    insertCode.setError(getString(R.string.invalid_code));
+                    insertCode.requestFocus();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
     }

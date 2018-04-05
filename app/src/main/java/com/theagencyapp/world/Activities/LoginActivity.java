@@ -42,6 +42,12 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.theagencyapp.world.ClassModel.User;
 import com.theagencyapp.world.R;
 
 
@@ -83,8 +89,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+            checkSuscription();
         }
         setContentView(R.layout.activity_login);
         // Set up the login form.
@@ -129,8 +134,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public void onGoogle_Signin(View view)
     {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        return;
+        //Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        //startActivityForResult(signInIntent, RC_SIGN_IN);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -194,6 +200,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void signUpHere(View v)
     {
         startActivity(new Intent(this, SignUpActivity.class));
+        finish();
     }
 
     private boolean mayRequestContacts()
@@ -302,8 +309,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
-                            showProgress(false);
+
                             if (!task.isSuccessful()) {
+                                showProgress(false);
                                 // there was an error
                                // mPasswordView.setError(getString(R.string.error_incorrect_password));
                                 //mPasswordView.requestFocus();
@@ -315,14 +323,49 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
                             } else {
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
+
+                                checkSuscription();
+
+
+
+
                             }
                         }
                     });
 
         }
+    }
+
+    private void checkSuscription()
+    {
+        String uid=auth.getCurrentUser().getUid();
+        DatabaseReference agid= FirebaseDatabase.getInstance().getReference("Users/"+uid);
+        agid.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user =dataSnapshot.getValue(User.class);
+                if(user.getAgencyid().equals(""))
+                {
+                    Intent intent=new Intent(LoginActivity.this,SubscriptonActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("agencyId",user.getAgencyid());
+                    intent.putExtra("status",user.getStatus());
+                    startActivity(intent);
+                    finish();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private boolean isEmailValid(String email)

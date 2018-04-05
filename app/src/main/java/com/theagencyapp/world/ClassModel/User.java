@@ -9,9 +9,9 @@ public class User {
     String name;
     String phoneNo;
     String agencyid;
-    int status;
+    String  status;
 
-    public User(String name, String phoneNo, String agencyid, int status) {
+    public User(String name, String phoneNo, String agencyid, String status) {
         this.name = name;
         this.phoneNo = phoneNo;
         this.agencyid = agencyid;
@@ -45,11 +45,11 @@ public class User {
         this.agencyid = agencyid;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }
