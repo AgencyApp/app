@@ -1,98 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/coordinatorLayout"
     android:layout_height="match_parent"
     tools:context="com.theagencyapp.world.Activities.SignUpActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/SignUpEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="84dp"
-        android:layout_marginStart="85dp"
-        android:layout_marginTop="36dp"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/SignUpPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="84dp"
-        android:layout_marginStart="85dp"
-        android:layout_marginTop="48dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SignUpEmail" />
+        <ScrollView
+            android:id="@+id/login_form"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/signUpConfirmPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="84dp"
-        android:layout_marginStart="85dp"
-        android:layout_marginTop="34dp"
-        android:ems="10"
-        android:hint="Conform Password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SignUpPassword" />
+            <LinearLayout
+                android:id="@+id/email_login_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/signUpPhoneNo"
-        android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_marginEnd="84dp"
-        android:layout_marginStart="85dp"
-        android:layout_marginTop="17dp"
-        android:ems="10"
-        android:hint="PhoneNo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpName" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="102dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/agency_logo"
+                    android:contentDescription="@string/todo" />
 
-    <EditText
-        android:id="@+id/signUpName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="84dp"
-        android:layout_marginStart="85dp"
-        android:layout_marginTop="37dp"
-        android:ems="10"
-        android:hint="Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpConfirmPassword" />
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_horizontal"
+                    android:text="@string/action_sign_up"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorPrimary" />
 
-    <Button
-        android:id="@+id/SignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="68dp"
-        android:layout_marginEnd="123dp"
-        android:layout_marginStart="123dp"
-        android:layout_marginTop="30dp"
-        android:onClick="onSinupClick"
-        android:text="SignUp"
-        android:textSize="32sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpPhoneNo" />
+                <EditText
+                    android:id="@+id/SignUpEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="84dp"
+                    android:layout_marginStart="85dp"
+                    android:ems="10"
+                    android:hint="Email"
+                    android:inputType="textPersonName" />
 
-</android.support.constraint.ConstraintLayout>
+                <EditText
+                    android:id="@+id/SignUpPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="84dp"
+                    android:layout_marginStart="85dp"
+                    android:ems="10"
+                    android:hint="Password"
+                    android:inputType="textPassword" />
+
+                <EditText
+                    android:id="@+id/signUpConfirmPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="84dp"
+                    android:layout_marginStart="85dp"
+                    android:ems="10"
+                    android:hint="Confirm Password"
+                    android:inputType="textPassword" />
+
+                <EditText
+                    android:id="@+id/signUpPhoneNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="43dp"
+                    android:layout_marginEnd="84dp"
+                    android:layout_marginStart="85dp"
+                    android:ems="10"
+                    android:hint="Phone" />
+
+                <EditText
+                    android:id="@+id/signUpName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="84dp"
+                    android:layout_marginStart="85dp"
+                    android:ems="10"
+                    android:hint="Name" />
+
+                <Button
+                    android:id="@+id/SignUp"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="238dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button_rounded_corners"
+                    android:onClick="onSignupClick"
+                    android:text="@string/action_sign_up"
+                    android:textColor="@android:color/background_light"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
