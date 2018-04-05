@@ -22,7 +22,7 @@ import com.theagencyapp.world.ClassModel.*;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword,confirmIntputPassword,Name,PhoneNo;
+    private EditText inputEmail, inputPassword, confirmInputPassword, Name, PhoneNo;
     private Button btnSignUp;
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
@@ -34,32 +34,61 @@ public class SignUpActivity extends AppCompatActivity {
         inputEmail=(EditText)findViewById(R.id.SignUpEmail);
         inputPassword=(EditText)findViewById(R.id.SignUpPassword);
         btnSignUp=(Button)findViewById(R.id.SignUp);
-        confirmIntputPassword=(EditText)findViewById(R.id.signUpConfirmPassword);
+        confirmInputPassword = (EditText) findViewById(R.id.signUpConfirmPassword);
         Name=(EditText)findViewById(R.id.signUpName);
         PhoneNo=(EditText)findViewById(R.id.signUpPhoneNo);
         auth=FirebaseAuth.getInstance();
         databaseReference= FirebaseDatabase.getInstance().getReference();
     }
 
-    public void onSinupClick(View view)
+    public void onSignupClick(View view)
     {
         String email = inputEmail.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
+        String confirm_password = inputPassword.getText().toString().trim();
+        String name = Name.getText().toString().trim();
+
+        boolean cancel = false;
+        View focusView = null;
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-            return;
+            inputEmail.setError(getString(R.string.error_field_required));
+            focusView = inputEmail;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(name))
+        {
+            Name.setError(getString(R.string.error_field_required));
+            focusView = Name;
+            cancel = true;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-            return;
+            inputPassword.setError(getString(R.string.error_field_required));
+            focusView = inputPassword;
+            cancel = true;
         }
 
         if (password.length() < 6) {
-            Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+            inputPassword.setError(getString(R.string.error_invalid_password));
+            focusView = inputPassword;
+            cancel = true;
+        }
+
+        if (!password.equals(confirm_password))
+        {
+            confirmInputPassword.setError(getString(R.string.error_unequal_password));
+            focusView = confirmInputPassword;
+            cancel = true;
+        }
+
+        if (cancel)
+        {
+            focusView.requestFocus();
             return;
         }
+
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
