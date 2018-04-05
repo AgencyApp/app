@@ -13,15 +13,16 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.LoginActivity"></activity>
         <activity android:name=".Activities.MainActivity" />
-        <activity android:name=".Activities.SignUpActivity" />
+        <activity android:name=".Activities.SignUpActivity">
+
+        </activity>
         <activity android:name=".Activities.AddCompanyActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.SuscriptonActivity"></activity>
+        <activity android:name=".Activities.SubscriptonActivity"></activity>
     </application>
 
 </manifest>
