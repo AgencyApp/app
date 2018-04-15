@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
-            checkSuscription();
+            checkSubscription();
         }
         setContentView(R.layout.activity_login);
         // Set up the login form.
@@ -325,7 +325,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                             } else {
 
-                                checkSuscription();
+                                checkSubscription();
 
 
 
@@ -337,7 +337,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private void checkSuscription()
+    private void checkSubscription()
     {
         String uid=auth.getCurrentUser().getUid();
         DatabaseReference agid= FirebaseDatabase.getInstance().getReference("Users/"+uid);
@@ -345,7 +345,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user =dataSnapshot.getValue(User.class);
-                if (true)
+                if (user.getAgencyid().equals(""))
                 {
                     Intent intent=new Intent(LoginActivity.this,SubscriptonActivity.class);
                     startActivity(intent);
