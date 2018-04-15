@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         auth = FirebaseAuth.getInstance();
 
@@ -94,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
+        //populateAutoComplete();
 
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
@@ -134,9 +135,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public void onGoogle_Signin(View view)
     {
-        return;
-        //Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        //startActivityForResult(signInIntent, RC_SIGN_IN);
+        //return;
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -344,7 +345,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user =dataSnapshot.getValue(User.class);
-                if(user.getAgencyid().equals(""))
+                if (true)
                 {
                     Intent intent=new Intent(LoginActivity.this,SubscriptonActivity.class);
                     startActivity(intent);

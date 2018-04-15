@@ -28,5 +28,6 @@
     <string name="invalid_code">Invalid Agency Code</string>
     <string name="status_employee">Employee</string>
     <string name="status_Client">Client</string>
+    <string name="action_create_company">Create Company</string>
 </resources>
 
