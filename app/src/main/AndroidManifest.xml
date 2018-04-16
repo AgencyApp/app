@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.LoginActivity"></activity>
+        <activity android:name=".Activities.LoginActivity" />
         <activity
             android:name=".Activities.MainActivity"
             android:theme="@style/splashScreenTheme">
@@ -22,11 +22,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".Activities.SignUpActivity"></activity>
-        <activity android:name=".Activities.AddCompanyActivity"></activity>
+        <activity android:name=".Activities.SignUpActivity" />
+        <activity android:name=".Activities.AddCompanyActivity" />
         <activity android:name=".Activities.SubscriptonActivity" />
+        <activity android:name=".Activities.AddProject"></activity>
     </application>
 
 </manifest>
