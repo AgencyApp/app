@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
+import com.theagencyapp.world.ClassModel.Client;
+import com.theagencyapp.world.ClassModel.Client_Display;
+import com.theagencyapp.world.ClassModel.Employee_Display;
 import com.theagencyapp.world.R;
 
 import java.text.SimpleDateFormat;
@@ -22,12 +25,15 @@ import java.util.Locale;
 
 public class AddProject extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private EditText edittext;
+    private EditText projectDeadline;
     final Calendar myCalendar = Calendar.getInstance();
     ImageButton high;
     ImageButton medium;
     ImageButton low;
-
+    EditText description;
+    EditText title;
+    ArrayList<Client_Display> client_displays;
+    ArrayList<Employee_Display>employee_displays;
     String priority = null;
     int clientSelected = 0;
 
@@ -37,11 +43,13 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
         setContentView(R.layout.activity_add_project);
 
 
-        edittext = findViewById(R.id.add_project_deadline);
+        projectDeadline = findViewById(R.id.add_project_deadline);
         high = findViewById(R.id.priority_high);
         medium = findViewById(R.id.priority_medium);
         low = findViewById(R.id.priority_low);
         Spinner sp = findViewById(R.id.clients_spinner);
+        description=(EditText)findViewById(R.id.add_project_description);
+        title=(EditText)findViewById(R.id.add_project_title);
 
         ArrayList<String> data = new ArrayList<>();
         data.add("No Client");
@@ -66,7 +74,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
 
         };
 
-        edittext.setOnClickListener(new View.OnClickListener() {
+        projectDeadline.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -81,7 +89,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-        edittext.setText(sdf.format(myCalendar.getTime()));
+        projectDeadline.setText(sdf.format(myCalendar.getTime()));
     }
 
     public void onHighPriorityClick(View view) {

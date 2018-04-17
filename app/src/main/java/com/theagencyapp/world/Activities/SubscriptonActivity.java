@@ -84,12 +84,14 @@ public class SubscriptonActivity extends AppCompatActivity
                         if(code.startsWith("E"))
                         {
                             FirebaseDatabase.getInstance().getReference("Users/"+firebaseUser.getUid()+"/status").setValue("Employee");
+                            FirebaseDatabase.getInstance().getReference("AgencyEmpRef/"+agencyid+"/").setValue(firebaseUser.getUid());
                             intent.putExtra("status","Employee");
 
                         }
                         else
                         {
                             FirebaseDatabase.getInstance().getReference("Users/"+firebaseUser.getUid()+"/status").setValue("Client");
+                            FirebaseDatabase.getInstance().getReference("AgencyClientRef/"+agencyid+"/").setValue(firebaseUser.getUid());
                             intent.putExtra("status","Client");
                         }
                         startActivity(intent);
