@@ -4,7 +4,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.theagencyapp.world.ClassModel.Project;
 import com.theagencyapp.world.ProjectFragment;
 import com.theagencyapp.world.R;
+import com.theagencyapp.world.Activities.AddProject;
 import com.theagencyapp.world.dummy.DummyContent;
 
 public class MainActivity extends AppCompatActivity implements ProjectFragment.OnListFragmentInteractionListener {
@@ -93,14 +95,14 @@ public class MainActivity extends AppCompatActivity implements ProjectFragment.O
     private void loadProjectFragment() {
 
         Fragment fragment = ProjectFragment.newInstance(0);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_frame, fragment);
-        ft.commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment).commit();
     }
 
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-
+    public void onListFragmentInteraction(DummyContent.DummyItem action) {
+        if (/*action.equals("add_project")*/true) {
+            startActivity(new Intent(this, AddProject.class));
+        }
     }
 }

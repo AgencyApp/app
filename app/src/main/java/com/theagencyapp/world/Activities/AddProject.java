@@ -86,7 +86,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     private void updateLabel() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "dd/MM/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         projectDeadline.setText(sdf.format(myCalendar.getTime()));
