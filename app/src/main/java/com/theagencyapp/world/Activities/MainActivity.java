@@ -38,12 +38,6 @@ public class MainActivity extends AppCompatActivity implements ProjectFragment.O
                 case R.id.navigation_clients:
                     //mTextMessage.setText(R.string.title_clients);
                     return true;
-                case R.id.navigation_chat:
-                    //mTextMessage.setText(R.string.title_chat);
-                    return true;
-                case R.id.navigation_notifications:
-                    //mTextMessage.setText(R.string.title_notifications);
-                    return true;
             }
             return false;
         }
