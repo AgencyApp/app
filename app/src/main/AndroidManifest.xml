@@ -17,16 +17,18 @@
         <activity
             android:name=".Activities.MainActivity"
             android:theme="@style/splashScreenTheme">
+
+        </activity>
+        <activity android:name=".Activities.SignUpActivity" />
+        <activity android:name=".Activities.AddCompanyActivity" />
+        <activity android:name=".Activities.SubscriptonActivity" />
+        <activity android:name=".Activities.AddProject">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.SignUpActivity" />
-        <activity android:name=".Activities.AddCompanyActivity" />
-        <activity android:name=".Activities.SubscriptonActivity" />
-        <activity android:name=".Activities.AddProject"></activity>
     </application>
 
 </manifest>
