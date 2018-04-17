@@ -1,8 +1,10 @@
 package com.theagencyapp.world;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.theagencyapp.world.dummy.DummyContent;
 import com.theagencyapp.world.dummy.DummyContent.DummyItem;
+import com.theagencyapp.world.Activities.AddProject;
 
 import java.util.List;
 
@@ -60,7 +63,7 @@ public class ProjectFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_project_list, container, false);
 
-        // Set the adapter
+        /*// Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
@@ -70,7 +73,19 @@ public class ProjectFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             recyclerView.setAdapter(new MyProjectRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }
+        }*/
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.projects_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(new MyProjectRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+
+        FloatingActionButton myFab = (FloatingActionButton) view.findViewById(R.id.add_project_fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mListener.onListFragmentInteraction(new DummyItem("2", "Hello", "hello"));
+            }
+        });
+
         return view;
     }
 
@@ -103,7 +118,8 @@ public class ProjectFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(DummyItem action);
     }
+
+
 }
