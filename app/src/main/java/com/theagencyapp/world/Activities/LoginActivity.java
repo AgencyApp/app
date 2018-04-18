@@ -3,8 +3,11 @@ package com.theagencyapp.world.Activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -81,11 +84,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private CoordinatorLayout coordinatorLayout;
     private GoogleSignInClient mGoogleSignInClient;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         auth = FirebaseAuth.getInstance();
 
@@ -339,23 +342,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void checkSubscription()
     {
-        String uid=auth.getCurrentUser().getUid();
-        DatabaseReference agid= FirebaseDatabase.getInstance().getReference("Users/"+uid);
+
+        final String uid = auth.getCurrentUser().getUid();
+        DatabaseReference agid = FirebaseDatabase.getInstance().getReference("Users/" + uid);
+        final Context context = this;
         agid.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User user =dataSnapshot.getValue(User.class);
-                if (user.getAgencyid().equals(""))
-                {
-                    Intent intent=new Intent(LoginActivity.this,SubscriptonActivity.class);
+                User user = dataSnapshot.getValue(User.class);
+                String agencyId = user.getAgencyid();
+                String name = user.getName();
+                if (agencyId != null && agencyId.equals("")) {
+                    Intent intent = new Intent(LoginActivity.this, SubscriptonActivity.class);
                     startActivity(intent);
                     finish();
-                }
-                else
-                {
+                } else {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("agencyId",user.getAgencyid());
-                    intent.putExtra("status",user.getStatus());
+                    intent.putExtra("agencyId", user.getAgencyid());
+                    intent.putExtra("status", user.getStatus());
+
+                    sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("agency_id", agencyId);
+                    editor.putString("user_id", uid);
+                    editor.putString("user_name", uid);
+                    editor.commit();
+
                     startActivity(intent);
                     finish();
 
@@ -364,20 +376,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Snackbar snackbar = Snackbar
+                        .make(findViewById(R.id.main_layout_id), "Error fetching data", Snackbar.LENGTH_LONG);
+
+                snackbar.show();
 
             }
         });
+
+        //TODO: Fetch agency name from firebase
+
     }
 
     private boolean isEmailValid(String email)
     {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password)
     {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 

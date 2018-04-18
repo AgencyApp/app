@@ -79,10 +79,10 @@ public class ProjectFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new MyProjectRecyclerViewAdapter(DummyContent.ITEMS, mListener));
 
-        FloatingActionButton myFab = (FloatingActionButton) view.findViewById(R.id.add_project_fab);
+        FloatingActionButton myFab = view.findViewById(R.id.add_project_fab);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mListener.onListFragmentInteraction(new DummyItem("2", "Hello", "hello"));
+                mListener.onListFragmentInteraction(new DummyItem("2", "add_project", "hello"));
             }
         });
 

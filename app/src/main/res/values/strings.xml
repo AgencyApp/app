@@ -135,5 +135,9 @@
     <string name="description">Description</string>
     <string name="deadline">Deadline</string>
     <string name="set_deadline">Set Deadline</string>
+    <string name="title_activity_slide_navigation">slide_navigation</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
 
