@@ -12,10 +12,19 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.theagencyapp.world.ClassModel.Client;
 import com.theagencyapp.world.ClassModel.Client_Display;
+import com.theagencyapp.world.ClassModel.Employee;
 import com.theagencyapp.world.ClassModel.Employee_Display;
+import com.theagencyapp.world.ClassModel.User;
 import com.theagencyapp.world.R;
+import com.theagencyapp.world.Utility.Fetcher;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,6 +92,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
     }
 
     private void updateLabel() {
@@ -132,4 +142,140 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+    public  void FetchClient()
+    {
+        final FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
+
+        DatabaseReference agid= FirebaseDatabase.getInstance().getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
+        agid.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String agencyid=dataSnapshot.getValue(String.class);
+                DatabaseReference clients=firebaseDatabase.getReference("AgencyClientRef/"+agencyid);
+                clients.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            if(snapshot.getValue(boolean.class))
+                            {
+                                fetchClientData(snapshot.getKey());
+                            }
+                        }
+                        //onDatasetnotify();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    public void fetchClientData(final String clientId)
+    {
+        final FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
+        DatabaseReference user=firebaseDatabase.getReference("Users/"+clientId);
+        user.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final User user =dataSnapshot.getValue(User.class);
+                DatabaseReference client=firebaseDatabase.getReference("Client/"+clientId);
+                client.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Client client=dataSnapshot.getValue(Client.class);
+                        client_displays.add(new Client_Display(user.getName(),user.getPhoneNo(),user.getAgencyid(),user.getStatus(),client.getRatings(),client.getImageUrl()));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    public  void FetchEmployee()
+    {
+        final FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
+
+        DatabaseReference agid= FirebaseDatabase.getInstance().getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
+        agid.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String agencyid=dataSnapshot.getValue(String.class);
+                DatabaseReference clients=firebaseDatabase.getReference("AgencyEmployeeRef/"+agencyid);
+                clients.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            if(snapshot.getValue(boolean.class))
+                            {
+                                fetchEmployeeData(snapshot.getKey());
+                            }
+                        }
+                        //onDatasetnotify();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+   void  fetchEmployeeData(final String employeeId)
+   {
+       final FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
+       DatabaseReference user=firebaseDatabase.getReference("Users/"+employeeId);
+       user.addListenerForSingleValueEvent(new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+               final User user =dataSnapshot.getValue(User.class);
+               DatabaseReference employee=firebaseDatabase.getReference("Employee/"+employeeId);
+               employee.addListenerForSingleValueEvent(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(DataSnapshot dataSnapshot) {
+                       Employee employee=dataSnapshot.getValue(Employee.class);
+                       employee_displays.add(new new(user.getName(),user.getPhoneNo(),user.getAgencyid(),user.getStatus(),client.getRatings(),client.getImageUrl()));
+                   }
+
+                   @Override
+                   public void onCancelled(DatabaseError databaseError) {
+
+                   }
+               });
+
+           }
+
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+
+           }
+       });
+   }
 }
