@@ -2,8 +2,10 @@ package com.theagencyapp.world.Activities;
 
 import android.app.DatePickerDialog;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -50,7 +52,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_project);
-
+        setTitle("Add Project");
 
         projectDeadline = findViewById(R.id.add_project_deadline);
         high = findViewById(R.id.priority_high);
