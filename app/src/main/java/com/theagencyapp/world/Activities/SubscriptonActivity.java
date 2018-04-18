@@ -13,8 +13,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.theagencyapp.world.ClassModel.Client;
+import com.theagencyapp.world.ClassModel.Employee;
 import com.theagencyapp.world.R;
 
+import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public class SubscriptonActivity extends AppCompatActivity
@@ -85,6 +88,10 @@ public class SubscriptonActivity extends AppCompatActivity
                         {
                             FirebaseDatabase.getInstance().getReference("Users/"+firebaseUser.getUid()+"/status").setValue("Employee");
                             FirebaseDatabase.getInstance().getReference("AgencyEmpRef/"+agencyid+"/").child(firebaseUser.getUid()).setValue(true);
+                            ArrayList<String>temp=new ArrayList<>();
+                            temp.add("Web");
+                            temp.add("Android");
+                            FirebaseDatabase.getInstance().getReference("Employees/"+firebaseUser.getUid()).setValue(new Employee(temp,"google.com"));
                             intent.putExtra("status","Employee");
 
                         }
@@ -92,6 +99,7 @@ public class SubscriptonActivity extends AppCompatActivity
                         {
                             FirebaseDatabase.getInstance().getReference("Users/"+firebaseUser.getUid()+"/status").setValue("Client");
                             FirebaseDatabase.getInstance().getReference("AgencyClientRef/"+agencyid+"/").child(firebaseUser.getUid()).setValue(true);
+                            FirebaseDatabase.getInstance().getReference("Clients/"+firebaseUser.getUid()).setValue(new Client(5.0f,"google.com"));
                             intent.putExtra("status","Client");
                         }
                         startActivity(intent);

@@ -6,4 +6,29 @@
     android:layout_height="match_parent"
     tools:context="com.theagencyapp.world.Activities.AddTeam">
 
+    <Button
+        android:id="@+id/add_team_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="124dp"
+        android:onClick="onDone"
+        android:text="Done"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_team_title" />
+
+    <EditText
+        android:id="@+id/add_team_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="140dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="61dp"
+        android:ems="10"
+        android:hint="Team Title"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

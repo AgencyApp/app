@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 public class Employee {
     ArrayList<String> skills;
-    String ImageUrl;
+    String imageUrl;
 
     public Employee(ArrayList<String> skills, String imageUrl) {
         this.skills = skills;
-        ImageUrl = imageUrl;
+        this.imageUrl = imageUrl;
     }
 
     public Employee() {
@@ -27,10 +27,10 @@ public class Employee {
     }
 
     public String getImageUrl() {
-        return ImageUrl;
+        return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
-        ImageUrl = imageUrl;
+        this.imageUrl = imageUrl;
     }
 }

@@ -6,11 +6,11 @@ package com.theagencyapp.world.ClassModel;
 
 public class Client {
     float ratings;
-    String ImageUrl;
+    String imageUrl;
 
     public Client(float ratings, String imageUrl) {
         this.ratings = ratings;
-        ImageUrl = imageUrl;
+        this.imageUrl = imageUrl;
     }
 
     public Client() {
@@ -25,10 +25,10 @@ public class Client {
     }
 
     public String getImageUrl() {
-        return ImageUrl;
+        return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
-        ImageUrl = imageUrl;
+        this.imageUrl = imageUrl;
     }
 }

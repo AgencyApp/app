@@ -1,11 +1,13 @@
 package com.theagencyapp.world.Activities;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +26,8 @@ import com.theagencyapp.world.ClassModel.Client;
 import com.theagencyapp.world.ClassModel.Client_Display;
 import com.theagencyapp.world.ClassModel.Employee;
 import com.theagencyapp.world.ClassModel.Employee_Display;
+import com.theagencyapp.world.ClassModel.Team;
+import com.theagencyapp.world.ClassModel.Team_Display;
 import com.theagencyapp.world.ClassModel.User;
 import com.theagencyapp.world.R;
 import com.theagencyapp.world.Utility.Fetcher;
@@ -44,9 +48,10 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
     EditText description;
     EditText title;
     ArrayList<Client_Display> client_displays;
-    ArrayList<Employee_Display>employee_displays;
+    ArrayList<Team_Display>teams;
     String priority = null;
     int clientSelected = 0;
+    FirebaseDatabase firebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +66,9 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
         Spinner sp = findViewById(R.id.clients_spinner);
         description=(EditText)findViewById(R.id.add_project_description);
         title=(EditText)findViewById(R.id.add_project_title);
-
+        client_displays=new ArrayList<>();
+        teams=new ArrayList<>();
+        firebaseDatabase=FirebaseDatabase.getInstance();
         ArrayList<String> data = new ArrayList<>();
         data.add("No Client");
         data.add("Textra Software Solutions");
@@ -94,6 +101,9 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        FetchClient();
+        FetchTeam();
 
     }
 
@@ -147,14 +157,13 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
 
     public  void FetchClient()
     {
-        final FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
 
-        DatabaseReference agid= FirebaseDatabase.getInstance().getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
+        DatabaseReference agid= firebaseDatabase.getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
         agid.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String agencyid=dataSnapshot.getValue(String.class);
-                DatabaseReference clients=firebaseDatabase.getReference("AgencyClientRef/"+agencyid);
+                final DatabaseReference clients=firebaseDatabase.getReference("AgencyClientRef/"+agencyid);
                 clients.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -164,7 +173,9 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
                                 fetchClientData(snapshot.getKey());
                             }
                         }
+
                         //onDatasetnotify();
+
                     }
 
                     @Override
@@ -184,18 +195,19 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
     }
     public void fetchClientData(final String clientId)
     {
-        final FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
         DatabaseReference user=firebaseDatabase.getReference("Users/"+clientId);
         user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final User user =dataSnapshot.getValue(User.class);
-                DatabaseReference client=firebaseDatabase.getReference("Client/"+clientId);
+                final DataSnapshot temp=dataSnapshot;
+                DatabaseReference client=firebaseDatabase.getReference("Clients/"+clientId);
                 client.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Client client=dataSnapshot.getValue(Client.class);
-                        client_displays.add(new Client_Display(user.getName(),user.getPhoneNo(),user.getAgencyid(),user.getStatus(),client.getRatings(),client.getImageUrl()));
+                        if(client!=null)
+                        client_displays.add(new Client_Display(user.getName(),user.getPhoneNo(),user.getAgencyid(),user.getStatus(),client.getRatings(),temp.getKey(),client.getImageUrl()));
                     }
 
                     @Override
@@ -212,26 +224,27 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
     }
-    public  void FetchEmployee()
+    public  void FetchTeam()
     {
-        final FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
 
-        DatabaseReference agid= FirebaseDatabase.getInstance().getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
+        DatabaseReference agid= firebaseDatabase.getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
         agid.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String agencyid=dataSnapshot.getValue(String.class);
-                DatabaseReference clients=firebaseDatabase.getReference("AgencyEmployeeRef/"+agencyid);
+                final DatabaseReference clients=firebaseDatabase.getReference("AgencyTeamRef/"+agencyid);
                 clients.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             if(snapshot.getValue(boolean.class))
                             {
-                                fetchEmployeeData(snapshot.getKey());
+                                fetchTeamData(snapshot.getKey());
                             }
                         }
+
                         //onDatasetnotify();
+
                     }
 
                     @Override
@@ -249,35 +262,28 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
     }
+    public void fetchTeamData(final String teamId)
+    {
+        DatabaseReference user=firebaseDatabase.getReference("Teams/"+teamId);
+        user.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Team team = dataSnapshot.getValue(Team.class);
+                teams.add(new Team_Display(team.getName(),team.getEmployeeId(),dataSnapshot.getKey()));
+                Log.d("team_id",dataSnapshot.getKey());
+            }
 
-   void  fetchEmployeeData(final String employeeId)
-   {
-       final FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
-       DatabaseReference user=firebaseDatabase.getReference("Users/"+employeeId);
-       user.addListenerForSingleValueEvent(new ValueEventListener() {
-           @Override
-           public void onDataChange(DataSnapshot dataSnapshot) {
-               final User user =dataSnapshot.getValue(User.class);
-               DatabaseReference employee=firebaseDatabase.getReference("Employee/"+employeeId);
-               employee.addListenerForSingleValueEvent(new ValueEventListener() {
-                   @Override
-                   public void onDataChange(DataSnapshot dataSnapshot) {
-                       Employee employee=dataSnapshot.getValue(Employee.class);
-                       employee_displays.add(new new(user.getName(),user.getPhoneNo(),user.getAgencyid(),user.getStatus(),client.getRatings(),client.getImageUrl()));
-                   }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-                   @Override
-                   public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
 
-                   }
-               });
+    public void addTeam(View view)
+    {
+        Intent i=new Intent(this,AddTeam.class);
+        startActivity(i);
+    }
 
-           }
-
-           @Override
-           public void onCancelled(DatabaseError databaseError) {
-
-           }
-       });
-   }
 }
