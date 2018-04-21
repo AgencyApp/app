@@ -2,6 +2,7 @@ package com.theagencyapp.world;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,10 +13,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.theagencyapp.world.ClassModel.Project;
 import com.theagencyapp.world.dummy.DummyContent;
 import com.theagencyapp.world.dummy.DummyContent.DummyItem;
 import com.theagencyapp.world.Activities.AddProject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +39,8 @@ public class ProjectFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-
+    ArrayList<Project> projects;
+    FirebaseDatabase firebaseDatabase;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -56,6 +65,9 @@ public class ProjectFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+        projects=new ArrayList<>();
+        firebaseDatabase=FirebaseDatabase.getInstance();
+
     }
 
     @Override
@@ -121,5 +133,47 @@ public class ProjectFragment extends Fragment {
         void onListFragmentInteraction(DummyItem action);
     }
 
+    void getProject()
+    {
+        SharedPreferences sharedPreferences=this.getActivity().getSharedPreferences("data",Context.MODE_PRIVATE);
+        String agencyId=sharedPreferences.getString("agency_id","h");
+        DatabaseReference projectRef=firebaseDatabase.getReference("ProjectRefTable/"+agencyId);
+        projectRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if(snapshot.getValue(boolean.class))
+                    {
+                        fetchProjectData(snapshot.getKey());
+                    }
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+
+    void fetchProjectData(String projectId)
+    {
+        DatabaseReference databaseReference=firebaseDatabase.getReference("Projects/"+projectId);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Project project=dataSnapshot.getValue(Project.class);
+                projects.add(project);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }

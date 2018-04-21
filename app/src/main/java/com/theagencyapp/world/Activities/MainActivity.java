@@ -1,6 +1,7 @@
 package com.theagencyapp.world.Activities;
 
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -26,6 +27,8 @@ import com.theagencyapp.world.R;
 import com.theagencyapp.world.Activities.AddProject;
 import com.theagencyapp.world.dummy.DummyContent;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements ProjectFragment.OnListFragmentInteractionListener {
 
     FirebaseAuth auth;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements ProjectFragment.O
     private String userId;
     private String agencyId;
     private String agencyName;
+
 
     private DrawerLayout mDrawerLayout;
 
@@ -168,4 +172,7 @@ public class MainActivity extends AppCompatActivity implements ProjectFragment.O
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }

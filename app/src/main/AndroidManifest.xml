@@ -29,7 +29,10 @@
         <activity
             android:name=".Activities.AddProject"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.AddTeam"></activity>
+        <activity android:name=".Activities.AddTeam" />
+        <activity android:name=".Activities.AddMilestone" />
+        <activity android:name=".Activities.Main3Activity" />
+        <activity android:name=".Activities.DisplayMilestone"></activity>
     </application>
 
 </manifest>

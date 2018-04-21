@@ -1,6 +1,9 @@
 package com.theagencyapp.world.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +33,7 @@ public class AddCompanyActivity extends AppCompatActivity {
     private DatabaseReference agencyRefTable;
     private FirebaseUser firebaseUser;
     int currentInsertCode;
-
+    private SharedPreferences sharedPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +121,10 @@ public class AddCompanyActivity extends AppCompatActivity {
         Intent intent =new Intent(this,MainActivity.class);
         intent.putExtra("agencyId",key);
         intent.putExtra("status","Owner");
+        sharedPref = getSharedPreferences("data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("agency_id", key);
+        editor.commit();
         startActivity(intent);
 
 

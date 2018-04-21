@@ -1,7 +1,9 @@
 package com.theagencyapp.world.Activities;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,7 @@ import com.theagencyapp.world.ClassModel.Client;
 import com.theagencyapp.world.ClassModel.Client_Display;
 import com.theagencyapp.world.ClassModel.Employee;
 import com.theagencyapp.world.ClassModel.Employee_Display;
+import com.theagencyapp.world.ClassModel.Project;
 import com.theagencyapp.world.ClassModel.Team;
 import com.theagencyapp.world.ClassModel.Team_Display;
 import com.theagencyapp.world.ClassModel.User;
@@ -52,6 +55,8 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
     String priority = null;
     int clientSelected = 0;
     FirebaseDatabase firebaseDatabase;
+    String teamId;
+    String clientId;//dummy data has been added in on creat
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +110,8 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
         FetchClient();
         FetchTeam();
 
+        teamId="LAPruTctW5uooP8KSNC";//dummy data
+        clientId="dYWGvODOIhS2scA2ZKu3lUW9Esh1";//dummy data
     }
 
     private void updateLabel() {
@@ -140,9 +147,25 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
             Snackbar snackbar = Snackbar
                     .make(findViewById(R.id.main_layout_id), "No Priority Selected!", Snackbar.LENGTH_LONG);
 
+
             snackbar.show();
             return;
         }
+        if(clientId!=null&&teamId!=null)
+        {
+            SharedPreferences sharedPreferences=getSharedPreferences("data",Context.MODE_PRIVATE);
+            String agencyId=sharedPreferences.getString("agency_id","h");
+            DatabaseReference databaseReference=firebaseDatabase.getReference("MilestoneContainer").push();
+            String mileStoneContainer=databaseReference.getKey();
+            Project project=new Project(title.getText().toString(),mileStoneContainer,clientId,teamId,priority,projectDeadline.getText().toString(),description.getText().toString());
+            databaseReference=firebaseDatabase.getReference("Projects").push();
+            String key=databaseReference.getKey();
+            firebaseDatabase.getReference("ProjectRefTable/"+agencyId).child(key).setValue(true);
+            databaseReference.setValue(project);
+            finish();
+        }
+
+
     }
 
     @Override

@@ -7,19 +7,21 @@ package com.theagencyapp.world.ClassModel;
 public class Project {
 
     String name;
-    String fieldType;
     String mileStoneContainer;
     String clientId;
     String teamId;
     String priority;
+    String deadline;
+    String description;
 
-    public Project(String name, String fieldType, String mileStoneContainer, String clientId, String teamId, String priority) {
+    public Project(String name, String mileStoneContainer, String clientId, String teamId, String priority, String deadline, String description) {
         this.name = name;
-        this.fieldType = fieldType;
         this.mileStoneContainer = mileStoneContainer;
         this.clientId = clientId;
         this.teamId = teamId;
         this.priority = priority;
+        this.deadline = deadline;
+        this.description = description;
     }
 
     public Project() {
@@ -39,14 +41,6 @@ public class Project {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getFieldType() {
-        return fieldType;
-    }
-
-    public void setFieldType(String fieldType) {
-        this.fieldType = fieldType;
     }
 
     public String getMileStoneContainer() {
@@ -71,5 +65,21 @@ public class Project {
 
     public void setTeamId(String teamId) {
         this.teamId = teamId;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
