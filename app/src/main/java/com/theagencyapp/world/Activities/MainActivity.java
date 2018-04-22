@@ -157,14 +157,21 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
 
 
     @Override
-    public void onListFragmentInteraction(String id, String action, boolean isFabClicked) {
+    public void onListFragmentInteraction(Bundle details, String action, boolean isFabClicked) {
         if (isFabClicked) {
             if (action.equals("AddProject"))
                 startActivity(new Intent(this, AddProject.class));
             else if (action.equals("AddTeam"))
                 startActivity(new Intent(this, AddTeam.class));
+        } else {
+            if (action.equals("ProjectDetails")) {
+                Intent intent = new Intent(this, ProjectDetailsActivity.class);
+                intent.putExtra("details", details);
+                startActivity(intent);
+            }
+
         }
-        Toast.makeText(this, action, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

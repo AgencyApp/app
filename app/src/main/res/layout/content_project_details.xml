@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.theagencyapp.world.Activities.ProjectDetailsActivity"
+    tools:showIn="@layout/activity_project_details">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/project_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Sample Description"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+        <TextView
+            android:id="@+id/project_deadline_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Deadline"
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/project_deadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="TextView"
+            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+
+        <TextView
+            android:id="@+id/project_priority_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Priority"
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            android:textColor="@color/colorPrimary" />
+
+        <ImageView
+            android:id="@+id/project_priority_icon"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/fire" />
+
+        <TextView
+            android:id="@+id/project_priority_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="High"
+            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/project_miletones_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
+                android:text="Milestones"
+                android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/add_milestone_button"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_add_black_24dp"
+                android:onClick="onAddMilestoneClick"
+                android:text="Add Milestone"
+                android:textColorLink="@color/add_project_colour"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/milestones_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            tools:listitem="@layout/milestone_row">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/project_team_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Team"
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            android:textColor="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/team_button"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="193dp"
+            android:layout_height="wrap_content"
+            android:onClick="onTeamViewClick"
+            android:text="View Team Members" />
+
+        <TextView
+            android:id="@+id/project_client_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Client"
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            android:textColor="@color/colorPrimary" />
+
+        <ImageView
+            android:id="@+id/project_client_icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="5dp"
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/ic_business_black_24dp" />
+
+        <TextView
+            android:id="@+id/project_client_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

@@ -132,7 +132,6 @@
     <string name="enter_description">Enter Description</string>
     <string name="team">Team</string>
     <string name="enter_title">Enter Title</string>
-    <string name="description">Description</string>
     <string name="deadline">Deadline</string>
     <string name="set_deadline">Set Deadline</string>
     <string name="title_activity_slide_navigation">slide_navigation</string>
@@ -148,5 +147,13 @@
     <string name="sample_name">John</string>
     <string name="sample_skills">HTML, CSS</string>
     <string name="sample_team_name">Web Dev Team</string>
+    <string name="title_activity_project_details">Project Detail</string>
+    <string name="no_client">No Client</string>
+    <string name="fill_fields">Please fill all the fields</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_time">End Time</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="add_milestone">Add Milestone</string>
 </resources>
 

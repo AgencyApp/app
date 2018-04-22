@@ -28,6 +28,29 @@ public class DisplayMilestone extends AppCompatActivity {
 
     }
 
+
+    void fetchMilestoneList(String milestoneContainerId) {
+
+        DatabaseReference container = firebaseDatabase.getReference("MilestoneContainer/" + milestoneContainerId);
+        container.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getValue(boolean.class)) {
+                        fetchMilestone(snapshot.getKey());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     void fetchMilestone(String milestoneId)
     {
         DatabaseReference databaseReference=firebaseDatabase.getReference("Milestones/"+milestoneId);

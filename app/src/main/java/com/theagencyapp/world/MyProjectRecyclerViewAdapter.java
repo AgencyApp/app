@@ -1,5 +1,6 @@
 package com.theagencyapp.world;
 
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,9 +29,9 @@ public class MyProjectRecyclerViewAdapter extends RecyclerView.Adapter<MyProject
         mListener = listener;
         builder = TextDrawable.builder()
                 .beginConfig()
-                .withBorder(4)
+                .withBorder(1)
                 .endConfig()
-                .round();
+                .rect();
     }
 
     @Override
@@ -72,7 +73,15 @@ public class MyProjectRecyclerViewAdapter extends RecyclerView.Adapter<MyProject
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mProject.getName(), "ProjectDetails", false);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("project_name", holder.mProject.getName());
+                    bundle.putString("milestones_container_id", holder.mProject.getMileStoneContainer());
+                    bundle.putString("team_id", holder.mProject.getTeamId());
+                    bundle.putString("client_id", holder.mProject.getClientId());
+                    bundle.putString("priority", holder.mProject.getPriority());
+                    bundle.putString("description", holder.mProject.getDescription());
+                    bundle.putString("deadline", holder.mProject.getDeadline());
+                    mListener.onListFragmentInteraction(bundle, "ProjectDetails", false);
                 }
             }
         });

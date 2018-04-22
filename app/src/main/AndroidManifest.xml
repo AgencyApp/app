@@ -22,21 +22,24 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".Activities.SignUpActivity" />
         <activity android:name=".Activities.AddCompanyActivity" />
         <activity android:name=".Activities.SubscriptonActivity" />
+        <activity android:name=".Activities.AddMilestone" />
         <activity
             android:name=".Activities.AddProject"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.AddTeam">
-
-        </activity>
+        <activity android:name=".Activities.AddTeam"></activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".Activities.ProjectDetailsActivity"
+            android:label="@string/title_activity_project_details"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

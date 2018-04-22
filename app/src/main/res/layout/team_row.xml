@@ -2,14 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:background="?android:attr/selectableItemBackground"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="15dp">
 
     <ImageView
         android:id="@+id/team_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp" />
+        android:layout_width="55dp"
+        android:layout_height="55dp" />
 
 
     <TextView
@@ -20,7 +22,6 @@
         android:layout_marginBottom="5dp"
         android:layout_marginStart="15dp"
         android:layout_weight="1"
-        android:fontFamily="sans-serif"
         android:text="@string/sample_team_name"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:textColor="@android:color/black" />

@@ -206,9 +206,5 @@ public class AddTeam extends AppCompatActivity {
         }
     }
 
-    public interface onEmployeeTapListener {
-        void tap(Employee_Display employee);
-    }
-
 
 }
