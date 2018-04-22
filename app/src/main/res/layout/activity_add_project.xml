@@ -46,6 +46,7 @@
                     android:hint="@string/enter_title"
                     android:inputType="text"
                     android:textColor="@android:color/background_light"
+                    android:textCursorDrawable="@null"
                     android:textColorHint="?android:attr/textColorHintInverse" />
 
                 <TextView
@@ -64,6 +65,7 @@
                     android:ems="10"
                     android:fontFamily="@font/montserrat"
                     android:hint="@string/enter_description"
+                    android:textCursorDrawable="@null"
                     android:inputType="textMultiLine"
                     android:textColor="@android:color/background_light"
                     android:textColorHint="?android:attr/textColorHintInverse" />
@@ -86,6 +88,7 @@
                     android:ems="10"
                     android:focusable="false"
                     android:fontFamily="@font/montserrat"
+                    android:textCursorDrawable="@null"
                     android:hint="@string/set_deadline"
                     android:inputType="datetime"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium.Inverse"

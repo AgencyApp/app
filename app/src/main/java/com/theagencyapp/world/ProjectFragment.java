@@ -15,20 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.theagencyapp.world.ClassModel.Project;
-import com.theagencyapp.world.dummy.DummyContent;
-import com.theagencyapp.world.dummy.DummyContent.DummyItem;
-import com.theagencyapp.world.Activities.AddProject;
-import com.theagencyapp.world.ClassModel.Project;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * A fragment representing a list of Items.
@@ -44,6 +40,7 @@ public class ProjectFragment extends Fragment {
     Context c;
     private ArrayList<Project> projects;
     private ProgressBar projectsLoading;
+    private MyProjectRecyclerViewAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -71,17 +68,20 @@ public class ProjectFragment extends Fragment {
         view.setLayoutParams(new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT));
 
         projects = new ArrayList<>();
-        projects.add(new Project("Web Dev", "2", "aaa", "aaa", "aaa", "high"));
-        projects.add(new Project("Photographire", "2", "aaa", "aaa", "aaa", "medium"));
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        //projects.add(new Project("Web Dev", "2", "aaa", "aaa", "aaa", "high"));
+        //projects.add(new Project("Photographire", "2", "aaa", "aaa", "aaa", "medium"));
 
         recyclerView = view.findViewById(R.id.projects_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new MyProjectRecyclerViewAdapter(projects, mListener));
+        recyclerView.setAdapter(adapter = new MyProjectRecyclerViewAdapter(projects, mListener));
+
+        getProject();
 
 
         projectsLoading = view.findViewById(R.id.progressBarProjects);
 
-        projectsLoading.setVisibility(View.GONE);
+
 
 
         FloatingActionButton myFab = view.findViewById(R.id.add_project_fab);
@@ -120,40 +120,34 @@ public class ProjectFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(DummyItem action);
-    }
+
 
     void getProject()
     {
         SharedPreferences sharedPreferences=this.getActivity().getSharedPreferences("data",Context.MODE_PRIVATE);
         String agencyId=sharedPreferences.getString("agency_id","h");
         DatabaseReference projectRef=firebaseDatabase.getReference("ProjectRefTable/"+agencyId);
-        projectRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        projectRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if(snapshot.getValue(boolean.class))
-                    {
-                        fetchProjectData(snapshot.getKey());
-                    }
-                }
-
+            public void onChildAdded(DataSnapshot snapshot, String prevChildKey) {
+                fetchProjectData(snapshot.getKey());
             }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
+
         });
 
 
@@ -168,6 +162,8 @@ public class ProjectFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Project project=dataSnapshot.getValue(Project.class);
                 projects.add(project);
+                projectsLoading.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
             }
 
             @Override

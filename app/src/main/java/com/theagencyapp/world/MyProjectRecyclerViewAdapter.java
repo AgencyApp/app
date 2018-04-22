@@ -13,6 +13,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.theagencyapp.world.ClassModel.Project;
 import com.theagencyapp.world.OnListFragmentInteractionListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,7 +23,7 @@ public class MyProjectRecyclerViewAdapter extends RecyclerView.Adapter<MyProject
     private final OnListFragmentInteractionListener mListener;
     private TextDrawable.IBuilder builder;
 
-    public MyProjectRecyclerViewAdapter(List<Project> items, OnListFragmentInteractionListener listener) {
+    public MyProjectRecyclerViewAdapter(ArrayList<Project> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
         builder = TextDrawable.builder()

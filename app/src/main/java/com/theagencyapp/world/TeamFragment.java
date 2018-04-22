@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -87,20 +88,27 @@ public class TeamFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String agencyid = dataSnapshot.getValue(String.class);
                 final DatabaseReference clients = firebaseDatabase.getReference("AgencyTeamRef/" + agencyid);
-                clients.addListenerForSingleValueEvent(new ValueEventListener() {
+                clients.addChildEventListener(new ChildEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            if (snapshot.getValue(boolean.class)) {
-                                fetchTeamData(snapshot.getKey());
-                            }
-                        }
+                    public void onChildAdded(DataSnapshot snapshot, String prevChildKey) {
+                        fetchTeamData(snapshot.getKey());
+                    }
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
+
                 });
 
 
