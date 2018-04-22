@@ -3,10 +3,8 @@ package com.theagencyapp.world.Activities;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,13 +22,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.theagencyapp.world.ClassModel.Client;
 import com.theagencyapp.world.ClassModel.Client_Display;
-import com.theagencyapp.world.ClassModel.Employee;
-import com.theagencyapp.world.ClassModel.Employee_Display;
 import com.theagencyapp.world.ClassModel.Team;
 import com.theagencyapp.world.ClassModel.Team_Display;
 import com.theagencyapp.world.ClassModel.User;
 import com.theagencyapp.world.R;
-import com.theagencyapp.world.Utility.Fetcher;
+//import com.theagencyapp.world.Utility.Fetcher;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,17 +37,17 @@ import java.util.Locale;
 public class AddProject extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private EditText projectDeadline;
-    final Calendar myCalendar = Calendar.getInstance();
-    ImageButton high;
-    ImageButton medium;
-    ImageButton low;
-    EditText description;
-    EditText title;
-    ArrayList<Client_Display> client_displays;
-    ArrayList<Team_Display>teams;
-    String priority = null;
-    int clientSelected = 0;
-    FirebaseDatabase firebaseDatabase;
+    private final Calendar myCalendar = Calendar.getInstance();
+    private ImageButton high;
+    private ImageButton medium;
+    private ImageButton low;
+    private EditText description;
+    private EditText title;
+    private ArrayList<Client_Display> client_displays;
+    private ArrayList<Team_Display> teams;
+    private String priority = null;
+    private int clientSelected = 0;
+    private FirebaseDatabase firebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +60,8 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
         medium = findViewById(R.id.priority_medium);
         low = findViewById(R.id.priority_low);
         Spinner sp = findViewById(R.id.clients_spinner);
-        description=(EditText)findViewById(R.id.add_project_description);
-        title=(EditText)findViewById(R.id.add_project_title);
+        description = findViewById(R.id.add_project_description);
+        title = findViewById(R.id.add_project_title);
         client_displays=new ArrayList<>();
         teams=new ArrayList<>();
         firebaseDatabase=FirebaseDatabase.getInstance();
@@ -155,7 +151,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
 
     }
 
-    public  void FetchClient()
+    private void FetchClient()
     {
 
         DatabaseReference agid= firebaseDatabase.getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
@@ -193,7 +189,8 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
     }
-    public void fetchClientData(final String clientId)
+
+    private void fetchClientData(final String clientId)
     {
         DatabaseReference user=firebaseDatabase.getReference("Users/"+clientId);
         user.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -224,7 +221,8 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
     }
-    public  void FetchTeam()
+
+    private void FetchTeam()
     {
 
         DatabaseReference agid= firebaseDatabase.getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
@@ -262,7 +260,8 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
     }
-    public void fetchTeamData(final String teamId)
+
+    private void fetchTeamData(final String teamId)
     {
         DatabaseReference user=firebaseDatabase.getReference("Teams/"+teamId);
         user.addListenerForSingleValueEvent(new ValueEventListener() {

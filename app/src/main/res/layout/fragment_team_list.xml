@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/project_layout"
+    android:id="@+id/coordinatorLayout2"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context="com.theagencyapp.world.ProjectFragment">
 
     <ProgressBar
-        android:id="@+id/progressBarProjects"
+        android:id="@+id/progressBarTeams"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        app:layout_anchor="@+id/projects_list"
+        app:layout_anchor="@+id/teams_list"
         app:layout_anchorGravity="top|center" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/projects_list"
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/teams_list"
         android:layout_width="360dp"
         android:layout_height="510dp"
-        tools:listitem="@layout/fragment_project" />
+        android:layout_marginLeft="10dp"
+
+
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/team_row">
+
+
+    </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_project_fab"
+        android:id="@+id/add_team_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="75dp"
@@ -33,10 +42,12 @@
         android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal"
-        app:layout_anchor="@+id/projects_list"
+        app:layout_anchor="@+id/teams_list"
         app:layout_anchorGravity="right|bottom" />
 
 </android.support.design.widget.CoordinatorLayout>
+
+
 
 
 

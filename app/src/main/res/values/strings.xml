@@ -139,5 +139,14 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="done">Done</string>
+    <string name="project_icon">Project Icon</string>
+    <string name="sample_project_name">Web Development</string>
+    <string name="project_priority">Project Priority</string>
+    <string name="team_title">Team Title</string>
+    <string name="select_team_members">Select Team Members</string>
+    <string name="sample_name">John</string>
+    <string name="sample_skills">HTML, CSS</string>
+    <string name="sample_team_name">Web Dev Team</string>
 </resources>
 

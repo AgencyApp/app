@@ -1,9 +1,7 @@
 package com.theagencyapp.world.Activities;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -16,20 +14,20 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.theagencyapp.world.ClassModel.Project;
+import com.theagencyapp.world.OnListFragmentInteractionListener;
 import com.theagencyapp.world.ProjectFragment;
 import com.theagencyapp.world.R;
 import com.theagencyapp.world.Activities.AddProject;
-import com.theagencyapp.world.dummy.DummyContent;
+import com.theagencyapp.world.TeamFragment;
 
-public class MainActivity extends AppCompatActivity implements ProjectFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
 
-    FirebaseAuth auth;
-    FirebaseAuth.AuthStateListener authListener;
+    private FirebaseAuth auth;
+    private FirebaseAuth.AuthStateListener authListener;
     private SharedPreferences sharedPref;
 
     private String userName;
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements ProjectFragment.O
                     loadProjectFragment();
                     return true;
                 case R.id.navigation_teams:
-                    //mTextMessage.setText(R.string.title_teams);
+                    loadTeamFragment();
                     return true;
                 case R.id.navigation_clients:
                     //mTextMessage.setText(R.string.title_clients);
@@ -147,16 +145,26 @@ public class MainActivity extends AppCompatActivity implements ProjectFragment.O
 
     private void loadProjectFragment() {
 
-        Fragment fragment = ProjectFragment.newInstance(0);
+        Fragment fragment = ProjectFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment).commit();
+    }
+
+    private void loadTeamFragment() {
+
+        Fragment fragment = TeamFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment).commit();
     }
 
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem action) {
-        if (action.content.equals("add_project")) {
-            startActivity(new Intent(this, AddProject.class));
+    public void onListFragmentInteraction(String id, String action, boolean isFabClicked) {
+        if (isFabClicked) {
+            if (action.equals("AddProject"))
+                startActivity(new Intent(this, AddProject.class));
+            else if (action.equals("AddTeam"))
+                startActivity(new Intent(this, AddTeam.class));
         }
+        Toast.makeText(this, action, Toast.LENGTH_SHORT).show();
     }
 
     @Override

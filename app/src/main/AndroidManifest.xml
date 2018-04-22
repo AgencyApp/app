@@ -22,6 +22,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".Activities.SignUpActivity" />
         <activity android:name=".Activities.AddCompanyActivity" />
@@ -29,7 +30,9 @@
         <activity
             android:name=".Activities.AddProject"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.AddTeam"></activity>
+        <activity android:name=".Activities.AddTeam">
+
+        </activity>
     </application>
 
 </manifest>
