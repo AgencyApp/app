@@ -16,6 +16,7 @@ public class DisplayMilestone extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     MileStone milestone;
     String milestoneId;
+    String projectId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +24,37 @@ public class DisplayMilestone extends AppCompatActivity {
         setContentView(R.layout.activity_display_mile_stone);
         firebaseDatabase=FirebaseDatabase.getInstance();
         milestoneId=getIntent().getStringExtra("milestoneId");//getting mile stone  id through intent
+        projectId=getIntent().getStringExtra("projectId");
         fetchMilestone(milestoneId);
+        fetchMilestoneList();
         //update UI using milestone variable--
 
     }
+
+    void fetchMilestoneList()
+    {
+        final DatabaseReference databaseReference=firebaseDatabase.getReference("Projects/"+projectId+"/mileStoneContainer");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String key=dataSnapshot.getValue(String.class);
+                DatabaseReference container=firebaseDatabase.getReference("MilestoneContainer/"+key);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if(snapshot.getValue(boolean.class))
+                    {
+                        fetchMilestone(snapshot.getKey());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
 
     void fetchMilestone(String milestoneId)
     {
@@ -35,6 +63,7 @@ public class DisplayMilestone extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 milestone=dataSnapshot.getValue(MileStone.class);
+                //fill Array
             }
 
             @Override
