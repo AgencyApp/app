@@ -1,6 +1,9 @@
 package com.theagencyapp.world.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +29,7 @@ public class SubscriptonActivity extends AppCompatActivity
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
     DatabaseReference agencyRefTable;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +106,10 @@ public class SubscriptonActivity extends AppCompatActivity
                             FirebaseDatabase.getInstance().getReference("Clients/"+firebaseUser.getUid()).setValue(new Client(5.0f,"google.com"));
                             intent.putExtra("status","Client");
                         }
+                        sharedPref = getSharedPreferences("data", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("agency_id", agencyid);
+                        editor.commit();
                         startActivity(intent);
                         finish();
                     }

@@ -361,11 +361,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     intent.putExtra("agencyId", user.getAgencyid());
                     intent.putExtra("status", user.getStatus());
 
-                    sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+                    sharedPref = getSharedPreferences("data",Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("agency_id", agencyId);
-                    editor.putString("user_id", uid);
-                    editor.putString("user_name", uid);
                     editor.commit();
 
                     startActivity(intent);

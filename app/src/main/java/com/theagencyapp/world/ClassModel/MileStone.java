@@ -8,13 +8,13 @@ public class MileStone {
 
     String startTime;
     String endtime;
-    String name;
+    String title ;
     String descriptions;
 
-    public MileStone(String startTime, String endtime, String name, String descriptions) {
+    public MileStone(String startTime, String endtime, String title, String descriptions) {
         this.startTime = startTime;
         this.endtime = endtime;
-        this.name = name;
+        this.title = title;
         this.descriptions = descriptions;
     }
 
@@ -38,11 +38,11 @@ public class MileStone {
     }
 
     public String getName() {
-        return name;
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String title) {
+        this.title = title;
     }
 
     public String getDescriptions() {
