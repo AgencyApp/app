@@ -1,6 +1,7 @@
 package com.theagencyapp.world;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -82,43 +83,34 @@ public class TeamFragment extends Fragment {
 
     private void FetchTeams() {
 
-        DatabaseReference agid = firebaseDatabase.getReference("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/agencyid");
-        agid.addListenerForSingleValueEvent(new ValueEventListener() {
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String agencyid = sharedPreferences.getString("agency_id", "h");
+        final DatabaseReference clients = firebaseDatabase.getReference("AgencyTeamRef/" + agencyid);
+        clients.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String agencyid = dataSnapshot.getValue(String.class);
-                final DatabaseReference clients = firebaseDatabase.getReference("AgencyTeamRef/" + agencyid);
-                clients.addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot snapshot, String prevChildKey) {
-                        fetchTeamData(snapshot.getKey());
-                    }
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-                    }
+            public void onChildAdded(DataSnapshot snapshot, String prevChildKey) {
+                fetchTeamData(snapshot.getKey());
+            }
 
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+            }
 
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
-                    }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-
-                });
-
-
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
+
         });
+
+
     }
 
     private void fetchTeamData(final String teamId) {

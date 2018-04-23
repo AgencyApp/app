@@ -1,5 +1,7 @@
 package com.theagencyapp.world.Activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,6 +62,8 @@ public class AddTeam extends AppCompatActivity {
         adapter = new AddEmployeesRecyclerViewAdapter(employee_displays);
         recyclerView.setAdapter(adapter);
 
+        setTitle(getString(R.string.new_team));
+
         //selectedEmployees.add("DFKH9cun7iTotgIUzJCvsBS0cIt2");
         //selectedEmployees.add("49CJyarycKX36r4VVSBMJG7ARbd2");
     }
@@ -97,31 +101,18 @@ public class AddTeam extends AppCompatActivity {
     {
         final FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
 
-        DatabaseReference agid= FirebaseDatabase.getInstance().getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
-        agid.addListenerForSingleValueEvent(new ValueEventListener() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences("data", Context.MODE_PRIVATE);
+        String agencyid = sharedPreferences.getString("agency_id", "h");
+
+        DatabaseReference clients = firebaseDatabase.getReference("AgencyEmpRef/" + agencyid);
+        clients.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String agencyid=dataSnapshot.getValue(String.class);
-                DatabaseReference clients=firebaseDatabase.getReference("AgencyEmpRef/"+agencyid);
-                clients.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            if(snapshot.getValue(boolean.class))
-                            {
-                                fetchEmployeeData(snapshot.getKey());
-                            }
-                        }
-
-
-
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getValue(boolean.class)) {
+                        fetchEmployeeData(snapshot.getKey());
                     }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                }
 
 
             }
@@ -131,6 +122,8 @@ public class AddTeam extends AppCompatActivity {
 
             }
         });
+
+
     }
 
 

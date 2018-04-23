@@ -56,7 +56,7 @@ public class TeamRecyclerViewAdapter extends RecyclerView.Adapter<TeamRecyclerVi
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     Bundle bundle = new Bundle();
-                    bundle.putString("project_name", holder.mTeam.getTeamId());
+                    bundle.putString("team_id", holder.mTeam.getTeamId());
                     mListener.onListFragmentInteraction(bundle, "TeamDetails", false);
                 }
             }

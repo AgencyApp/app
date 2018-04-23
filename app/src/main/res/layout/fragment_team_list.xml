@@ -22,11 +22,8 @@
         android:id="@+id/teams_list"
         android:layout_width="360dp"
         android:layout_height="510dp"
-        android:layout_marginLeft="10dp"
 
 
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
         app:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/team_row">
 
