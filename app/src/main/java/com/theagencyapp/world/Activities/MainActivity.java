@@ -1,6 +1,5 @@
 package com.theagencyapp.world.Activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -15,16 +14,14 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.theagencyapp.world.ClientFragment;
-import com.theagencyapp.world.OnListFragmentInteractionListener;
-import com.theagencyapp.world.ProjectFragment;
+import com.theagencyapp.world.Fragments.ClientFragment;
+import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
+import com.theagencyapp.world.Fragments.ProjectFragment;
 import com.theagencyapp.world.R;
-import com.theagencyapp.world.Activities.AddProject;
-import com.theagencyapp.world.TeamFragment;
+import com.theagencyapp.world.Fragments.TeamFragment;
 
 public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
 

@@ -1,9 +1,10 @@
-package com.theagencyapp.world;
+package com.theagencyapp.world.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,37 +19,40 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.theagencyapp.world.ClassModel.Client;
-import com.theagencyapp.world.ClassModel.Client_Display;
+import com.theagencyapp.world.Adapters.MyProjectRecyclerViewAdapter;
 import com.theagencyapp.world.ClassModel.Project;
-import com.theagencyapp.world.ClassModel.User;
-import com.theagencyapp.world.Utility.Logger;
+import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
+import com.theagencyapp.world.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by abdul on 4/23/2018.
- */
 
-public class ClientFragment extends Fragment {
+/**
+ * A fragment representing a list of Items.
+ * <p/>
+ * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * interface.
+ */
+public class ProjectFragment extends Fragment {
+
     private OnListFragmentInteractionListener mListener;
     FirebaseDatabase firebaseDatabase;
     private RecyclerView recyclerView;
     Context c;
-    private ArrayList<Client_Display> clients;
-    private ProgressBar clientsLoading;
-    private ClientsRecyclerViewAdapter adapter;
+    private ArrayList<Project> projects;
+    private ProgressBar projectsLoading;
+    private MyProjectRecyclerViewAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ClientFragment() {
+    public ProjectFragment() {
     }
 
 
-    public static ClientFragment newInstance() {
-        return new ClientFragment();
+    public static ProjectFragment newInstance() {
+        return new ProjectFragment();
     }
 
     @Override
@@ -60,19 +64,40 @@ public class ClientFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_client_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_project_list, container, false);
         view.setLayoutParams(new CoordinatorLayout.LayoutParams(CoordinatorLayout.LayoutParams.MATCH_PARENT, CoordinatorLayout.LayoutParams.MATCH_PARENT));
 
-        clients = new ArrayList<>();
+        projects = new ArrayList<>();
         firebaseDatabase = FirebaseDatabase.getInstance();
+        //projects.add(new Project("Web Dev", "2", "aaa", "aaa", "aaa", "high"));
+        //projects.add(new Project("Photographire", "2", "aaa", "aaa", "aaa", "medium"));
 
-        recyclerView = view.findViewById(R.id.clients_list);
+        recyclerView = view.findViewById(R.id.projects_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter = new ClientsRecyclerViewAdapter(clients));
+        recyclerView.setAdapter(adapter = new MyProjectRecyclerViewAdapter(projects, mListener));
 
-        getClients();
+        getProject();
 
-        clientsLoading = view.findViewById(R.id.progressBarClients);
+
+        projectsLoading = view.findViewById(R.id.progressBarProjects);
+
+
+
+
+        FloatingActionButton myFab = view.findViewById(R.id.add_project_fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mListener.onListFragmentInteraction(null, "AddProject", true);
+            }
+        });
+
+
+
+       /* View mRootView = (ViewGroup) inflater.inflate(R.layout.fragment_project_list, null);
+        FrameLayout fl = (FrameLayout) mRootView.findViewById(R.id.project_layout);
+        fl.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        return mRootView;*/
+
 
         return view;
     }
@@ -96,18 +121,17 @@ public class ClientFragment extends Fragment {
     }
 
 
-    void getClients() {
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
-        String agencyId = sharedPreferences.getString("agency_id", "h");
-        DatabaseReference clientRef = firebaseDatabase.getReference("AgencyClientRef/" + agencyId);
-        clientRef.addChildEventListener(new ChildEventListener() {
+
+    void getProject()
+    {
+        SharedPreferences sharedPreferences=this.getActivity().getSharedPreferences("data",Context.MODE_PRIVATE);
+        String agencyId=sharedPreferences.getString("agency_id","h");
+        DatabaseReference projectRef=firebaseDatabase.getReference("ProjectRefTable/"+agencyId);
+        projectRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot snapshot, String prevChildKey) {
-                if (snapshot.getValue(boolean.class)) {
-                    fetchClientData(snapshot.getKey());
-                }
+                fetchProjectData(snapshot.getKey());
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
             }
@@ -127,39 +151,24 @@ public class ClientFragment extends Fragment {
         });
 
 
+
     }
 
-
-    private void fetchClientData(final String clientId) {
-        DatabaseReference user = firebaseDatabase.getReference("Users/" + clientId);
-        user.addListenerForSingleValueEvent(new ValueEventListener() {
+    void fetchProjectData(String projectId)
+    {
+        DatabaseReference databaseReference=firebaseDatabase.getReference("Projects/"+projectId);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final User user = dataSnapshot.getValue(User.class);
-                final DataSnapshot temp = dataSnapshot;
-                DatabaseReference client = firebaseDatabase.getReference("Clients/" + clientId);
-                client.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Client client = dataSnapshot.getValue(Client.class);
-                        if (client != null) {
-                            clients.add(new Client_Display(user.getName(), user.getPhoneNo(), user.getAgencyid(), user.getStatus(), client.getRatings(), temp.getKey(), client.getImageUrl()));
-                            clientsLoading.setVisibility(View.GONE);
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
+                Project project=dataSnapshot.getValue(Project.class);
+                projects.add(project);
+                projectsLoading.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Logger.logError("Client Fragment", null, "Error fetching client data");
+
             }
         });
     }

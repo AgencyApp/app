@@ -1,4 +1,4 @@
-package com.theagencyapp.world;
+package com.theagencyapp.world.Adapters;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -12,7 +12,8 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.theagencyapp.world.ClassModel.Project;
-import com.theagencyapp.world.OnListFragmentInteractionListener;
+import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
+import com.theagencyapp.world.R;
 
 import java.util.ArrayList;
 import java.util.List;

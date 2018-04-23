@@ -1,4 +1,4 @@
-package com.theagencyapp.world;
+package com.theagencyapp.world.Adapters;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.theagencyapp.world.ClassModel.MileStone;
+import com.theagencyapp.world.R;
 
 
 import java.util.List;

@@ -1,19 +1,16 @@
-package com.theagencyapp.world;
+package com.theagencyapp.world.Adapters;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bignerdranch.android.multiselector.MultiSelector;
 import com.bignerdranch.android.multiselector.SwappingHolder;
 import com.theagencyapp.world.ClassModel.Employee_Display;
+import com.theagencyapp.world.R;
 
 
 import java.util.ArrayList;

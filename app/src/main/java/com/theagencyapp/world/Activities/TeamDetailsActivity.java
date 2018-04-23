@@ -1,8 +1,6 @@
 package com.theagencyapp.world.Activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +18,7 @@ import com.theagencyapp.world.ClassModel.Employee_Display;
 import com.theagencyapp.world.ClassModel.Team;
 import com.theagencyapp.world.ClassModel.User;
 import com.theagencyapp.world.R;
-import com.theagencyapp.world.TeamMembersRecyclerViewAdapter;
+import com.theagencyapp.world.Adapters.TeamMembersRecyclerViewAdapter;
 
 import java.util.ArrayList;
 

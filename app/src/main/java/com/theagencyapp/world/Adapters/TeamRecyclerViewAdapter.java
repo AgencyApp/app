@@ -1,4 +1,4 @@
-package com.theagencyapp.world;
+package com.theagencyapp.world.Adapters;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.theagencyapp.world.ClassModel.Team_Display;
+import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
+import com.theagencyapp.world.R;
 
 import java.util.List;
 

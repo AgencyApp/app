@@ -1,17 +1,14 @@
 package com.theagencyapp.world.Activities;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,15 +19,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.theagencyapp.world.ClassModel.Client;
-import com.theagencyapp.world.ClassModel.Client_Display;
 import com.theagencyapp.world.ClassModel.MileStone;
 import com.theagencyapp.world.ClassModel.User;
-import com.theagencyapp.world.MilestonesRecyclerViewAdapter;
+import com.theagencyapp.world.Adapters.MilestonesRecyclerViewAdapter;
 import com.theagencyapp.world.R;
-import com.theagencyapp.world.TeamRecyclerViewAdapter;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class ProjectDetailsActivity extends AppCompatActivity {
 

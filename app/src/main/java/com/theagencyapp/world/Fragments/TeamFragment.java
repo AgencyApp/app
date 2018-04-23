@@ -1,4 +1,4 @@
-package com.theagencyapp.world;
+package com.theagencyapp.world.Fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,15 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.theagencyapp.world.Adapters.TeamRecyclerViewAdapter;
 import com.theagencyapp.world.ClassModel.Team;
 import com.theagencyapp.world.ClassModel.Team_Display;
+import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
+import com.theagencyapp.world.R;
 
 import java.util.ArrayList;
 

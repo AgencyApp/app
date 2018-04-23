@@ -7,7 +7,7 @@
     android:id="@+id/project_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.theagencyapp.world.ProjectFragment">
+    tools:context="com.theagencyapp.world.Fragments.ProjectFragment">
 
     <ProgressBar
         android:id="@+id/progressBarClients"
