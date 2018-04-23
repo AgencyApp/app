@@ -16,13 +16,7 @@
         <activity android:name=".Activities.LoginActivity" />
         <activity
             android:name=".Activities.MainActivity"
-            android:theme="@style/splashScreenTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/splashScreenTheme"></activity>
         <activity android:name=".Activities.SignUpActivity" />
         <activity android:name=".Activities.AddCompanyActivity" />
         <activity android:name=".Activities.SubscriptonActivity" />
@@ -31,8 +25,15 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".Activities.AddTeam" />
         <activity android:name=".Activities.AddMilestone" />
-        <activity android:name=".Activities.Main3Activity" />
-        <activity android:name=".Activities.DisplayMilestone"></activity>
+        <activity android:name=".Activities.DisplayMilestone" />
+        <activity android:name=".Activities.Tweet">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activities.TwitterAuthenticationActivity"></activity>
     </application>
 
 </manifest>
