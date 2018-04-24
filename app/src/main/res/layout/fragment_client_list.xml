@@ -10,31 +10,19 @@
     tools:context="com.theagencyapp.world.Fragments.ProjectFragment">
 
     <ProgressBar
-        android:id="@+id/progressBarProjects"
+        android:id="@+id/progressBarClients"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        app:layout_anchor="@+id/projects_list"
+        app:layout_anchor="@+id/clients_list"
         app:layout_anchorGravity="top|center" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/projects_list"
+        android:id="@+id/clients_list"
         android:layout_width="360dp"
         android:layout_height="510dp"
-        tools:listitem="@layout/fragment_project" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_project_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="75dp"
-        android:layout_marginEnd="24dp"
-        android:src="@drawable/ic_add_black_24dp"
-        app:backgroundTint="@color/colorPrimary"
-        app:fabSize="normal"
-        app:layout_anchor="@+id/projects_list"
-        app:layout_anchorGravity="right|bottom" />
+        tools:listitem="@layout/client_row" />
 
 </android.support.design.widget.CoordinatorLayout>
 

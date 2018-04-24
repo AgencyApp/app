@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class Logger {
 
-    static void  logError(String Tag,String Uid, String Error)
+    public static void logError(String Tag, String Uid, String Error)
     {
         Log.e(Tag+Uid,Error);
     }

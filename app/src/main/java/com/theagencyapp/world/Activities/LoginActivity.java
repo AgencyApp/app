@@ -352,6 +352,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 User user = dataSnapshot.getValue(User.class);
                 String agencyId = user.getAgencyid();
                 String name = user.getName();
+
                 if (agencyId != null && agencyId.equals("")) {
                     Intent intent = new Intent(LoginActivity.this, SubscriptonActivity.class);
                     startActivity(intent);
@@ -364,6 +365,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     sharedPref = getSharedPreferences("data",Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("agency_id", agencyId);
+                    editor.putString("name", agencyId);
                     editor.commit();
 
                     startActivity(intent);

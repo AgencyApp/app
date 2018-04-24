@@ -39,4 +39,9 @@ public class Client_Display extends User {
     public void setImageUrl(String imageUrl) {
         ImageUrl = imageUrl;
     }
+
+    @Override
+    public String toString() {
+        return super.name;
+    }
 }

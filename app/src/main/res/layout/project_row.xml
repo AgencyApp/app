@@ -7,7 +7,8 @@
     android:layout_marginRight="10dp"
     android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:paddingBottom="15dp">
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
 
     <ImageView
         android:id="@+id/project_icon"
@@ -19,19 +20,19 @@
 
     <TextView
         android:id="@+id/project_name"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="15dp"
         android:layout_weight="1"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/montserrat"
         android:text="@string/sample_project_name"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:textColor="@android:color/black" />
 
     <ImageView
         android:id="@+id/project_priority"
-        android:layout_width="20dp"
+        android:layout_width="10dp"
         android:layout_height="30dp"
         android:layout_gravity="center_vertical|center"
         android:layout_weight="1"

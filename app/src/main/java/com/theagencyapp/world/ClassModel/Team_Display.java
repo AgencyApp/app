@@ -21,4 +21,9 @@ public class Team_Display extends Team {
     public void setTeamId(String teamId) {
         this.teamId = teamId;
     }
+
+    @Override
+    public String toString() {
+        return super.name;
+    }
 }

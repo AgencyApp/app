@@ -46,7 +46,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 
-public class AddProject extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class AddProject extends AppCompatActivity {
 
     private EditText projectDeadline;
     final Calendar myCalendar = Calendar.getInstance();
@@ -59,9 +59,13 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
     ArrayList<Team_Display>teams;
     String priority = null;
     int clientSelected = 0;
+    int teamSelected = 0;
     FirebaseDatabase firebaseDatabase;
     String teamId;
-    String clientId;//dummy data has been added in on creat
+    String clientId;//dummy data has been added in on create
+    ArrayAdapter<Client_Display> clientSpinnerAdapter;
+    ArrayAdapter<Team_Display> teamSpinnerAdapter;
+    String agencyid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,21 +77,50 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
         high = findViewById(R.id.priority_high);
         medium = findViewById(R.id.priority_medium);
         low = findViewById(R.id.priority_low);
-        Spinner sp = findViewById(R.id.clients_spinner);
+        Spinner clientSpinner = findViewById(R.id.clients_spinner);
+        Spinner teamSpinner = findViewById(R.id.teams_spinner);
         description = findViewById(R.id.add_project_description);
         title = findViewById(R.id.add_project_title);
         client_displays=new ArrayList<>();
         teams=new ArrayList<>();
         firebaseDatabase=FirebaseDatabase.getInstance();
-        ArrayList<String> data = new ArrayList<>();
-        data.add("No Client");
-        data.add("Textra Software Solutions");
-        data.add("Netsoft Solutions");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, data);
-        sp.setAdapter(adapter);
+        client_displays.add(new Client_Display("No Client", null, null, null, 0, null, null));
+        teams.add(new Team_Display("No Team", null, null));
 
-        sp.setOnItemSelectedListener(this);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("data", Context.MODE_PRIVATE);
+        agencyid = sharedPreferences.getString("agency_id", "h");
+
+        clientSpinnerAdapter = new ArrayAdapter<Client_Display>(this, android.R.layout.simple_spinner_dropdown_item, client_displays);
+        clientSpinner.setAdapter(clientSpinnerAdapter);
+
+        teamSpinnerAdapter = new ArrayAdapter<Team_Display>(this, android.R.layout.simple_spinner_dropdown_item, teams);
+        teamSpinner.setAdapter(teamSpinnerAdapter);
+
+        teamSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                teamSelected = i;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        clientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                clientSelected = i;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -115,8 +148,8 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
         FetchClient();
         FetchTeam();
 
-        teamId="LAPruTctW5uooP8KSNC";//dummy data
-        clientId="dYWGvODOIhS2scA2ZKu3lUW9Esh1";//dummy data
+        //teamId="LAPruTctW5uooP8KSNC";//dummy data
+        //clientId="dYWGvODOIhS2scA2ZKu3lUW9Esh1";//dummy data
     }
 
     private void updateLabel() {
@@ -149,45 +182,21 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        this.clientSelected = i;
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 
     private void FetchClient()
     {
 
-        DatabaseReference agid= firebaseDatabase.getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
-        agid.addListenerForSingleValueEvent(new ValueEventListener() {
+        final DatabaseReference clients = firebaseDatabase.getReference("AgencyClientRef/" + agencyid);
+        clients.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String agencyid=dataSnapshot.getValue(String.class);
-                final DatabaseReference clients=firebaseDatabase.getReference("AgencyClientRef/"+agencyid);
-                clients.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            if(snapshot.getValue(boolean.class))
-                            {
-                                fetchClientData(snapshot.getKey());
-                            }
-                        }
-
-                        //onDatasetnotify();
-
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getValue(boolean.class)) {
+                        fetchClientData(snapshot.getKey());
                     }
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
+                //onDatasetnotify();
 
             }
 
@@ -196,6 +205,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
 
             }
         });
+
     }
 
     private void fetchClientData(final String clientId)
@@ -213,6 +223,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
                         Client client=dataSnapshot.getValue(Client.class);
                         if(client!=null)
                         client_displays.add(new Client_Display(user.getName(),user.getPhoneNo(),user.getAgencyid(),user.getStatus(),client.getRatings(),temp.getKey(),client.getImageUrl()));
+                        clientSpinnerAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -233,33 +244,15 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
     private void FetchTeam()
     {
 
-        DatabaseReference agid= firebaseDatabase.getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
-        agid.addListenerForSingleValueEvent(new ValueEventListener() {
+        final DatabaseReference clients = firebaseDatabase.getReference("AgencyTeamRef/" + agencyid);
+        clients.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String agencyid=dataSnapshot.getValue(String.class);
-                final DatabaseReference clients=firebaseDatabase.getReference("AgencyTeamRef/"+agencyid);
-                clients.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            if(snapshot.getValue(boolean.class))
-                            {
-                                fetchTeamData(snapshot.getKey());
-                            }
-                        }
-
-                        //onDatasetnotify();
-
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getValue(boolean.class)) {
+                        fetchTeamData(snapshot.getKey());
                     }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-
+                }
             }
 
             @Override
@@ -267,6 +260,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
 
             }
         });
+
     }
 
     private void fetchTeamData(final String teamId)
@@ -277,6 +271,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Team team = dataSnapshot.getValue(Team.class);
                 teams.add(new Team_Display(team.getName(),team.getEmployeeId(),dataSnapshot.getKey()));
+                teamSpinnerAdapter.notifyDataSetChanged();
                 Log.d("team_id",dataSnapshot.getKey());
             }
 
@@ -317,7 +312,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     private void OnDone() {
-        if (priority == null || clientId == null || teamId == null) {
+        if (priority == null) {
             Snackbar snackbar = Snackbar
                     .make(findViewById(R.id.main_layout_id), "Fill all the fields", Snackbar.LENGTH_LONG);
 
@@ -325,6 +320,9 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
             snackbar.show();
             return;
         }
+        clientId = client_displays.get(clientSelected).getClient_id();
+        teamId = teams.get(teamSelected).getTeamId();
+
         SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
         String agencyId = sharedPreferences.getString("agency_id", "h");
         DatabaseReference databaseReference = firebaseDatabase.getReference("MilestoneContainer").push();
@@ -334,6 +332,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
         String key = databaseReference.getKey();
         firebaseDatabase.getReference("ProjectRefTable/" + agencyId).child(key).setValue(true);
         databaseReference.setValue(project);
+        Toast.makeText(this, "Adding Project", Toast.LENGTH_SHORT).show();
         finish();
 
 

@@ -14,15 +14,14 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.theagencyapp.world.OnListFragmentInteractionListener;
-import com.theagencyapp.world.ProjectFragment;
+import com.theagencyapp.world.Fragments.ClientFragment;
+import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
+import com.theagencyapp.world.Fragments.ProjectFragment;
 import com.theagencyapp.world.R;
-import com.theagencyapp.world.Activities.AddProject;
-import com.theagencyapp.world.TeamFragment;
+import com.theagencyapp.world.Fragments.TeamFragment;
 
 public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
 
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
                     loadTeamFragment();
                     return true;
                 case R.id.navigation_clients:
-                    //mTextMessage.setText(R.string.title_clients);
+                    loadClientFragment();
                     return true;
             }
             return false;
@@ -88,10 +87,9 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
             }
         };
         loadProjectFragment();
-        //sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        //agencyId = sharedPref.getString("agency_id", "");
-        //userName = sharedPref.getString("user_name", "");
-        //userId = sharedPref.getString("user_id", "");
+
+        //SharedPreferences sharedPreferences=this.getSharedPreferences("data", Context.MODE_PRIVATE);
+        //String name=sharedPreferences.getString("name","h");
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -155,6 +153,12 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment).commit();
     }
 
+    private void loadClientFragment() {
+
+        Fragment fragment = ClientFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment).commit();
+    }
+
 
     @Override
     public void onListFragmentInteraction(Bundle details, String action, boolean isFabClicked) {
@@ -166,6 +170,10 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         } else {
             if (action.equals("ProjectDetails")) {
                 Intent intent = new Intent(this, ProjectDetailsActivity.class);
+                intent.putExtra("details", details);
+                startActivity(intent);
+            } else if (action.equals("TeamDetails")) {
+                Intent intent = new Intent(this, TeamDetailsActivity.class);
                 intent.putExtra("details", details);
                 startActivity(intent);
             }

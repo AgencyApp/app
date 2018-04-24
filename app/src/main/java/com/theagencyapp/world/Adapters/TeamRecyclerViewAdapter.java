@@ -1,4 +1,4 @@
-package com.theagencyapp.world;
+package com.theagencyapp.world.Adapters;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.theagencyapp.world.ClassModel.Team_Display;
+import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
+import com.theagencyapp.world.R;
 
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class TeamRecyclerViewAdapter extends RecyclerView.Adapter<TeamRecyclerVi
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     Bundle bundle = new Bundle();
-                    bundle.putString("project_name", holder.mTeam.getTeamId());
+                    bundle.putString("team_id", holder.mTeam.getTeamId());
                     mListener.onListFragmentInteraction(bundle, "TeamDetails", false);
                 }
             }
