@@ -155,5 +155,6 @@
     <string name="name">Name</string>
     <string name="description">Description</string>
     <string name="add_milestone">Add Milestone</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
 
