@@ -18,10 +18,11 @@
         android:id="@+id/onDone_Maps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="48dp"
+        android:layout_marginEnd="8dp"
         android:clickable="true"
         android:src="@drawable/ic_done_black_24dp"
         map:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="312dp" />
+        map:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
