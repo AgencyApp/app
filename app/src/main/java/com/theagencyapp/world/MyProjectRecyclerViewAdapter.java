@@ -1,43 +1,71 @@
 package com.theagencyapp.world;
 
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.theagencyapp.world.ProjectFragment.OnListFragmentInteractionListener;
-import com.theagencyapp.world.dummy.DummyContent.DummyItem;
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.theagencyapp.world.ClassModel.Project;
+import com.theagencyapp.world.OnListFragmentInteractionListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
+
 public class MyProjectRecyclerViewAdapter extends RecyclerView.Adapter<MyProjectRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Project> mValues;
     private final OnListFragmentInteractionListener mListener;
+    private TextDrawable.IBuilder builder;
 
-    public MyProjectRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyProjectRecyclerViewAdapter(ArrayList<Project> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+        builder = TextDrawable.builder()
+                .beginConfig()
+                .withBorder(1)
+                .endConfig()
+                .rect();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_project, parent, false);
+                .inflate(R.layout.project_row, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mProject = mValues.get(position);
+        holder.mProjectName.setText(mValues.get(position).getName());
+
+        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+        int color = generator.getColor(mValues.get(position).getName());
+        TextDrawable ic1 = builder.build(mValues.get(position).getName().toUpperCase().substring(0, 1), color);
+        holder.mProjectIcon.setImageDrawable(ic1);
+
+        String priority = mValues.get(position).getPriority();
+        int id = R.drawable.fire;
+        switch (priority) {
+            case "high":
+                id = R.drawable.fire;
+                break;
+            case "medium":
+                id = R.drawable.drop;
+                break;
+            case "low":
+                id = R.drawable.leaf;
+                break;
+
+        }
+        holder.mProjectPriority.setImageDrawable(ContextCompat.getDrawable(holder.mProjectIcon.getContext(), id));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +73,15 @@ public class MyProjectRecyclerViewAdapter extends RecyclerView.Adapter<MyProject
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("project_name", holder.mProject.getName());
+                    bundle.putString("milestones_container_id", holder.mProject.getMileStoneContainer());
+                    bundle.putString("team_id", holder.mProject.getTeamId());
+                    bundle.putString("client_id", holder.mProject.getClientId());
+                    bundle.putString("priority", holder.mProject.getPriority());
+                    bundle.putString("description", holder.mProject.getDescription());
+                    bundle.putString("deadline", holder.mProject.getDeadline());
+                    mListener.onListFragmentInteraction(bundle, "ProjectDetails", false);
                 }
             }
         });
@@ -58,20 +94,23 @@ public class MyProjectRecyclerViewAdapter extends RecyclerView.Adapter<MyProject
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final ImageView mProjectIcon;
+        public final TextView mProjectName;
+        public final ImageView mProjectPriority;
+        public Project mProject;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mProjectIcon = view.findViewById(R.id.project_icon);
+            mProjectName = view.findViewById(R.id.project_name);
+            mProjectPriority = view.findViewById(R.id.project_priority);
         }
+
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mProjectName.getText() + "'";
         }
     }
 }

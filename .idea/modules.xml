@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/app.iml" filepath="$PROJECT_DIR$/.idea/app.iml" />
       <module fileurl="file://C:\Users\abdul\AndroidStudioProjects\app\app\app.iml" filepath="C:\Users\abdul\AndroidStudioProjects\app\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app-app.iml" filepath="$PROJECT_DIR$/app/app-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/recyclerview-multiselect-0.2/recyclerview-multiselect-0.2.iml" filepath="$PROJECT_DIR$/recyclerview-multiselect-0.2/recyclerview-multiselect-0.2.iml" />
     </modules>
   </component>
 </project>

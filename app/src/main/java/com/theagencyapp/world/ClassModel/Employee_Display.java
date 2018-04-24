@@ -7,9 +7,9 @@ import java.util.ArrayList;
  */
 
 public class Employee_Display extends User {
-    ArrayList<String> skills;
-    String ImageUrl;
-    String employee_id;
+    private ArrayList<String> skills;
+    private String ImageUrl;
+    private String employee_id;
 
     public Employee_Display(String name, String phoneNo, String agencyid, String status, ArrayList<String> skills, String imageUrl, String employee_id) {
         super(name, phoneNo, agencyid, status);
@@ -31,6 +31,16 @@ public class Employee_Display extends User {
 
     public ArrayList<String> getSkills() {
         return skills;
+    }
+
+    public String getSkillString() {
+        StringBuilder skillString = new StringBuilder();
+
+        for (String skill : skills) {
+            skillString.append(skill).append(", ");
+        }
+
+        return skillString.toString();
     }
 
     public void setSkills(ArrayList<String> skills) {

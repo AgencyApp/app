@@ -9,7 +9,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +20,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +38,7 @@ import com.theagencyapp.world.ClassModel.Team;
 import com.theagencyapp.world.ClassModel.Team_Display;
 import com.theagencyapp.world.ClassModel.User;
 import com.theagencyapp.world.R;
-import com.theagencyapp.world.Utility.Fetcher;
+//import com.theagencyapp.world.Utility.Fetcher;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,8 +74,8 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
         medium = findViewById(R.id.priority_medium);
         low = findViewById(R.id.priority_low);
         Spinner sp = findViewById(R.id.clients_spinner);
-        description=(EditText)findViewById(R.id.add_project_description);
-        title=(EditText)findViewById(R.id.add_project_title);
+        description = findViewById(R.id.add_project_description);
+        title = findViewById(R.id.add_project_title);
         client_displays=new ArrayList<>();
         teams=new ArrayList<>();
         firebaseDatabase=FirebaseDatabase.getInstance();
@@ -142,31 +147,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
         priority = "low";
     }
 
-    public void onDoneClick(View view) {
-        if (priority == null) {
-            Snackbar snackbar = Snackbar
-                    .make(findViewById(R.id.main_layout_id), "No Priority Selected!", Snackbar.LENGTH_LONG);
 
-
-            snackbar.show();
-            return;
-        }
-        if(clientId!=null&&teamId!=null)
-        {
-            SharedPreferences sharedPreferences=getSharedPreferences("data",Context.MODE_PRIVATE);
-            String agencyId=sharedPreferences.getString("agency_id","h");
-            DatabaseReference databaseReference=firebaseDatabase.getReference("MilestoneContainer").push();
-            String mileStoneContainer=databaseReference.getKey();
-            Project project=new Project(title.getText().toString(),mileStoneContainer,clientId,teamId,priority,projectDeadline.getText().toString(),description.getText().toString());
-            databaseReference=firebaseDatabase.getReference("Projects").push();
-            String key=databaseReference.getKey();
-            firebaseDatabase.getReference("ProjectRefTable/"+agencyId).child(key).setValue(true);
-            databaseReference.setValue(project);
-            finish();
-        }
-
-
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -178,7 +159,7 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
 
     }
 
-    public  void FetchClient()
+    private void FetchClient()
     {
 
         DatabaseReference agid= firebaseDatabase.getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
@@ -216,7 +197,8 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
     }
-    public void fetchClientData(final String clientId)
+
+    private void fetchClientData(final String clientId)
     {
         DatabaseReference user=firebaseDatabase.getReference("Users/"+clientId);
         user.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -247,7 +229,8 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
     }
-    public  void FetchTeam()
+
+    private void FetchTeam()
     {
 
         DatabaseReference agid= firebaseDatabase.getReference("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
@@ -285,7 +268,8 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
     }
-    public void fetchTeamData(final String teamId)
+
+    private void fetchTeamData(final String teamId)
     {
         DatabaseReference user=firebaseDatabase.getReference("Teams/"+teamId);
         user.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -308,5 +292,53 @@ public class AddProject extends AppCompatActivity implements AdapterView.OnItemS
         Intent i=new Intent(this,AddTeam.class);
         startActivity(i);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.done_action, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.done_icon:
+                OnDone();
+                return true;
+
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    private void OnDone() {
+        if (priority == null || clientId == null || teamId == null) {
+            Snackbar snackbar = Snackbar
+                    .make(findViewById(R.id.main_layout_id), "Fill all the fields", Snackbar.LENGTH_LONG);
+
+
+            snackbar.show();
+            return;
+        }
+        SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
+        String agencyId = sharedPreferences.getString("agency_id", "h");
+        DatabaseReference databaseReference = firebaseDatabase.getReference("MilestoneContainer").push();
+        String mileStoneContainer = databaseReference.getKey();
+        Project project = new Project(title.getText().toString(), mileStoneContainer, clientId, teamId, priority, projectDeadline.getText().toString(), description.getText().toString());
+        databaseReference = firebaseDatabase.getReference("Projects").push();
+        String key = databaseReference.getKey();
+        firebaseDatabase.getReference("ProjectRefTable/" + agencyId).child(key).setValue(true);
+        databaseReference.setValue(project);
+        finish();
+
+
+    }
+
+
 
 }

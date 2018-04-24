@@ -15,47 +15,41 @@ public class DisplayMilestone extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
     MileStone milestone;
-    String milestoneContainerId;
-    String projectId;
+    String milestoneId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_mile_stone);
         firebaseDatabase=FirebaseDatabase.getInstance();
-        milestoneContainerId=getIntent().getStringExtra("milestoneContainerId");//getting mile stone  id through intent
-        //projectId=getIntent().getStringExtra("projectId");
-        //fetchMilestone(milestoneId);
-        fetchMilestoneList();
+        milestoneId=getIntent().getStringExtra("milestoneId");//getting mile stone  id through intent
+        fetchMilestone(milestoneId);
         //update UI using milestone variable--
 
     }
 
-    void fetchMilestoneList()
-    {
 
-            DatabaseReference container=firebaseDatabase.getReference("MilestoneContainer/"+milestoneContainerId);
-            container.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        if(snapshot.getValue(boolean.class))
-                        {
-                            fetchMilestone(snapshot.getKey());
-                        }
+    void fetchMilestoneList(String milestoneContainerId) {
+
+        DatabaseReference container = firebaseDatabase.getReference("MilestoneContainer/" + milestoneContainerId);
+        container.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getValue(boolean.class)) {
+                        fetchMilestone(snapshot.getKey());
                     }
-
                 }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+            }
 
-                }
-            });
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
-
-
 
     void fetchMilestone(String milestoneId)
     {
@@ -64,7 +58,6 @@ public class DisplayMilestone extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 milestone=dataSnapshot.getValue(MileStone.class);
-                //fill Array
             }
 
             @Override
