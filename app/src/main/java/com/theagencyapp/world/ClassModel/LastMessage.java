@@ -10,13 +10,15 @@ public class LastMessage {
     String timeStamp;
     String reciverName;
     String chatContainer;
+    String status;
     boolean isMap;
 
-    public LastMessage(String lastMessage, String timeStamp, String reciverName, String chatContainer, boolean isMap) {
+    public LastMessage(String lastMessage, String timeStamp, String reciverName, String chatContainer, String status, boolean isMap) {
         this.lastMessage = lastMessage;
         this.timeStamp = timeStamp;
         this.reciverName = reciverName;
         this.chatContainer = chatContainer;
+        this.status = status;
         this.isMap = isMap;
     }
 
@@ -26,6 +28,14 @@ public class LastMessage {
     }
 
     public LastMessage() {
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getLastMessage() {

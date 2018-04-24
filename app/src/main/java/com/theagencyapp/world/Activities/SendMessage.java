@@ -26,6 +26,7 @@ public class SendMessage extends AppCompatActivity {
     String senderUid;
     String reciverName;
     String senderName;
+    String status;
     EditText msg;
     ArrayList<Message>messages;
     boolean isMap;
@@ -38,6 +39,7 @@ public class SendMessage extends AppCompatActivity {
         reciverUid=i.getStringExtra("reciverUid");
         reciverName=i.getStringExtra("reciverName");
         senderName=i.getStringExtra("senderName");
+        status=i.getStringExtra("status");
         firebaseDatabase=FirebaseDatabase.getInstance();
         senderUid= FirebaseAuth.getInstance().getCurrentUser().getUid();
         messages=new ArrayList<>();
@@ -131,14 +133,14 @@ public class SendMessage extends AppCompatActivity {
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         if(!isMap) {
-             tempLastMsgSender = new LastMessage(message, ts, reciverName, lastMessage.getChatContainer(), false);
-             tempLastMsgReciver = new LastMessage(message, ts, senderName, lastMessage.getChatContainer(), false);
+             tempLastMsgSender = new LastMessage(message, ts, reciverName, lastMessage.getChatContainer(),status, false);
+             tempLastMsgReciver = new LastMessage(message, ts, senderName, lastMessage.getChatContainer(),status, false);
              tempMsg = new Message(message, ts, false);
         }
         else
         {
-            tempLastMsgSender=new LastMessage(coordinates, ts, reciverName, lastMessage.getChatContainer(), true);
-            tempLastMsgReciver = new LastMessage(coordinates, ts,senderName , lastMessage.getChatContainer(), true);
+            tempLastMsgSender=new LastMessage(coordinates, ts, reciverName, lastMessage.getChatContainer(),status, true);
+            tempLastMsgReciver = new LastMessage(coordinates, ts,senderName , lastMessage.getChatContainer(),status, true);
             tempMsg = new Message(coordinates, ts, true);
         }
 
