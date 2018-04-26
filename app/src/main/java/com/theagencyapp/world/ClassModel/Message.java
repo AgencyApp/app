@@ -7,11 +7,15 @@ package com.theagencyapp.world.ClassModel;
 public class Message {
     String message;
     String timeStamp;
+    String senderUid;
+    String reciverUid;
     boolean isMap;
 
-    public Message(String message, String timeStamp, boolean isMap) {
+    public Message(String message, String timeStamp, String senderUid, String reciverUid, boolean isMap) {
         this.message = message;
         this.timeStamp = timeStamp;
+        this.senderUid = senderUid;
+        this.reciverUid = reciverUid;
         this.isMap = isMap;
     }
 
@@ -40,5 +44,21 @@ public class Message {
 
     public void setMap(boolean map) {
         isMap = map;
+    }
+
+    public String getSenderUid() {
+        return senderUid;
+    }
+
+    public void setSenderUid(String senderUid) {
+        this.senderUid = senderUid;
+    }
+
+    public String getReciverUid() {
+        return reciverUid;
+    }
+
+    public void setReciverUid(String reciverUid) {
+        this.reciverUid = reciverUid;
     }
 }

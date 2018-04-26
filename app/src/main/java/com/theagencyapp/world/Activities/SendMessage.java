@@ -135,13 +135,13 @@ public class SendMessage extends AppCompatActivity {
         if(!isMap) {
              tempLastMsgSender = new LastMessage(message, ts, reciverName, lastMessage.getChatContainer(),status, false);
              tempLastMsgReciver = new LastMessage(message, ts, senderName, lastMessage.getChatContainer(),status, false);
-             tempMsg = new Message(message, ts, false);
+             tempMsg = new Message(message, ts,senderUid,reciverUid, false);
         }
         else
         {
             tempLastMsgSender=new LastMessage(coordinates, ts, reciverName, lastMessage.getChatContainer(),status, true);
             tempLastMsgReciver = new LastMessage(coordinates, ts,senderName , lastMessage.getChatContainer(),status, true);
-            tempMsg = new Message(coordinates, ts, true);
+            tempMsg = new Message(coordinates, ts,senderUid,reciverUid, true);
         }
 
         DatabaseReference senderRef=firebaseDatabase.getReference("CurrentChat/"+senderUid+"/"+reciverUid);
@@ -150,6 +150,12 @@ public class SendMessage extends AppCompatActivity {
         reciverRef.setValue(tempLastMsgReciver);
         DatabaseReference msgRef=firebaseDatabase.getReference("ChatConatiner").push();
         msgRef.setValue(tempMsg);
+        DatabaseReference notificationRef=firebaseDatabase.getReference("Notifications/Message").push();
+        notificationRef.setValue(tempMsg);
+        DatabaseReference chatref=firebaseDatabase.getReference("ChatRef/"+senderUid+"/"+reciverUid);
+        chatref.setValue(true);
+        DatabaseReference chatref1=firebaseDatabase.getReference("ChatRef/"+reciverUid+"/"+senderUid);
+        chatref.setValue(true);
 
 
 
