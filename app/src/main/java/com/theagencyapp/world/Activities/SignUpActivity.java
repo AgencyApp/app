@@ -12,13 +12,19 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.theagencyapp.world.R;
 import com.theagencyapp.world.ClassModel.*;
+
+import java.util.concurrent.TimeUnit;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -26,6 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Button btnSignUp;
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
+    private PhoneAuthProvider phoneAuthProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
         PhoneNo=(EditText)findViewById(R.id.signUpPhoneNo);
         auth=FirebaseAuth.getInstance();
         databaseReference= FirebaseDatabase.getInstance().getReference();
+        phoneAuthProvider=PhoneAuthProvider.getInstance();
     }
 
     public void onSignupClick(View view)
@@ -107,6 +115,8 @@ public class SignUpActivity extends AppCompatActivity {
                             User user=new User(Name.getText().toString(),PhoneNo.getText().toString(),"","");
                             FirebaseUser firebaseUser=auth.getCurrentUser();
                             databaseReference.child("Users").child(firebaseUser.getUid()).setValue(user);
+                            DatabaseReference dR = FirebaseDatabase.getInstance().getReference("FCM_InstanceID").child(firebaseUser.getUid());
+                            dR.setValue(FirebaseInstanceId.getInstance().getToken());
 
                             startActivity(new Intent(SignUpActivity.this, SubscriptonActivity.class));
                             finish();
@@ -116,5 +126,26 @@ public class SignUpActivity extends AppCompatActivity {
 
 
 
+    }
+
+    void verifyPhoneNumber()
+    {
+        phoneAuthProvider.verifyPhoneNumber(PhoneNo.getText().toString(), 10, TimeUnit.SECONDS, SignUpActivity.this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+
+            }
+
+            @Override
+            public void onVerificationFailed(FirebaseException e) {
+
+            }
+
+            @Override
+            public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+               // super.onCodeSent(s, forceResendingToken);
+                System.out.println(s);
+            }
+        });
     }
 }
