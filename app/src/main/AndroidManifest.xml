@@ -15,6 +15,7 @@
     -->
     <application
         android:allowBackup="true"
+        android:name=".Activities.mApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -24,12 +25,18 @@
         <activity
             android:name=".Activities.MainActivity"
             android:theme="@style/splashScreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity android:name=".Activities.SignUpActivity" />
         <activity android:name=".Activities.AddCompanyActivity" />
         <activity android:name=".Activities.SubscriptonActivity" />
         <activity android:name=".Activities.AddMilestone" />
+        <activity android:name=".Activities.AllUsersForChat" />
         <activity
             android:name=".Activities.AddProject"
             android:theme="@style/AppTheme" />
@@ -62,11 +69,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.theagencyapp.world.Activities.SendMessage" />
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.TeamDetailsActivity"></activity>

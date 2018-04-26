@@ -1,44 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_user_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:background="?android:attr/selectableItemBackground"
-    android:orientation="horizontal"
+    android:layout_margin="@dimen/simple_padding_small"
+    android:foreground="?attr/selectableItemBackground"
     android:paddingBottom="5dp"
     android:paddingTop="5dp">
 
-    <ImageView
-        android:id="@+id/project_icon"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_gravity="center"
-        android:contentDescription="@string/project_icon" />
-
-
-    <TextView
-        android:id="@+id/project_name"
-        android:layout_width="150dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="15dp"
-        android:layout_weight="1"
-        android:fontFamily="@font/montserrat"
-        android:text="@string/sample_project_name"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
-        android:textColor="@android:color/black" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
 
-    <ImageView
-        android:id="@+id/project_priority"
-        android:layout_width="10dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center_vertical|center"
-        android:layout_weight="1"
-        android:contentDescription="@string/project_priority"
-        android:foregroundGravity="center"
-        app:srcCompat="@drawable/fire" />
+        <ImageView
+            android:id="@+id/project_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/project_icon" />
 
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/project_name"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/sample_project_name"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:textColor="@android:color/black" />
+
+        <ImageView
+            android:id="@+id/project_priority"
+            android:layout_width="10dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical|center"
+            android:layout_weight="1"
+            android:contentDescription="@string/project_priority"
+            android:foregroundGravity="center"
+            app:srcCompat="@drawable/fire" />
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

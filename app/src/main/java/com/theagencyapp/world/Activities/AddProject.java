@@ -163,21 +163,21 @@ public class AddProject extends AppCompatActivity {
         high.setImageResource(R.drawable.fire_checked);
         medium.setImageResource(R.drawable.drop);
         low.setImageResource(R.drawable.leaf);
-        priority = "high";
+        priority = getString(R.string.priority_high);
     }
 
     public void onMediumPriorityClick(View view) {
         high.setImageResource(R.drawable.fire);
         medium.setImageResource(R.drawable.drop_checked);
         low.setImageResource(R.drawable.leaf);
-        priority = "medium";
+        priority = getString(R.string.priority_medium);
     }
 
     public void onLowPriorityClick(View view) {
         high.setImageResource(R.drawable.fire);
         medium.setImageResource(R.drawable.drop);
         low.setImageResource(R.drawable.leaf_checked);
-        priority = "low";
+        priority = getString(R.string.priority_low);
     }
 
 
@@ -312,9 +312,12 @@ public class AddProject extends AppCompatActivity {
     }
 
     private void OnDone() {
-        if (priority == null) {
+        String pTitle = title.getText().toString();
+        String pDescription = description.getText().toString();
+        String pDeadline = projectDeadline.getText().toString();
+        if (priority == null || TextUtils.isEmpty(pTitle) || TextUtils.isEmpty(pDescription) || TextUtils.isEmpty(pDeadline)) {
             Snackbar snackbar = Snackbar
-                    .make(findViewById(R.id.main_layout_id), "Fill all the fields", Snackbar.LENGTH_LONG);
+                    .make(findViewById(R.id.main_layout_id), R.string.fill_fields, Snackbar.LENGTH_LONG);
 
 
             snackbar.show();
@@ -327,12 +330,12 @@ public class AddProject extends AppCompatActivity {
         String agencyId = sharedPreferences.getString("agency_id", "h");
         DatabaseReference databaseReference = firebaseDatabase.getReference("MilestoneContainer").push();
         String mileStoneContainer = databaseReference.getKey();
-        Project project = new Project(title.getText().toString(), mileStoneContainer, clientId, teamId, priority, projectDeadline.getText().toString(), description.getText().toString());
+        Project project = new Project(pTitle, mileStoneContainer, clientId, teamId, priority, pDeadline, pDescription);
         databaseReference = firebaseDatabase.getReference("Projects").push();
         String key = databaseReference.getKey();
         firebaseDatabase.getReference("ProjectRefTable/" + agencyId).child(key).setValue(true);
         databaseReference.setValue(project);
-        Toast.makeText(this, "Adding Project", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.adding_project, Toast.LENGTH_SHORT).show();
         finish();
 
 

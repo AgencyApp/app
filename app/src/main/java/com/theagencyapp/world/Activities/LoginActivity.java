@@ -2,6 +2,7 @@ package com.theagencyapp.world.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -86,11 +87,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private GoogleSignInClient mGoogleSignInClient;
     private SharedPreferences sharedPref;
 
+
+    @SuppressLint("RestrictedApi")
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         auth = FirebaseAuth.getInstance();
+
 
         if (auth.getCurrentUser() != null) {
             checkSubscription();
@@ -103,13 +107,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener()
-        {
+        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent)
-            {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL)
-                {
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
                     attemptLogin();
                     return true;
                 }
@@ -118,8 +119,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener()
-        {
+        mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void onGoogle_Signin(View view)
     {
         //return;
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        @SuppressLint("RestrictedApi") Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
     @Override
@@ -148,7 +148,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            @SuppressLint("RestrictedApi") Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -365,7 +365,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     sharedPref = getSharedPreferences("data",Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("agency_id", agencyId);
-                    editor.putString("name", agencyId);
+                    editor.putString("name", name);
                     editor.commit();
 
                     startActivity(intent);

@@ -21,19 +21,19 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/projects_list"
         android:layout_width="360dp"
-        android:layout_height="510dp"
+        android:layout_height="wrap_content"
         tools:listitem="@layout/fragment_project" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_project_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="75dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="50dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/ic_add_black_24dp"
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal"
-        app:layout_anchor="@+id/projects_list"
         app:layout_anchorGravity="right|bottom" />
 
 </android.support.design.widget.CoordinatorLayout>
