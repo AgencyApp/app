@@ -51,6 +51,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.theagencyapp.world.ClassModel.User;
 import com.theagencyapp.world.R;
 
@@ -344,6 +345,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     {
 
         final String uid = auth.getCurrentUser().getUid();
+        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("FCM_InstanceID").child(uid);
+        dR.setValue(FirebaseInstanceId.getInstance().getToken());
         DatabaseReference agid = FirebaseDatabase.getInstance().getReference("Users/" + uid);
         final Context context = this;
         agid.addListenerForSingleValueEvent(new ValueEventListener() {
