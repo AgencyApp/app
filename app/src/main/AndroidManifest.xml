@@ -25,11 +25,7 @@
         <activity
             android:name=".Activities.MainActivity"
             android:theme="@style/splashScreenTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity android:name=".Activities.SignUpActivity" />
@@ -70,10 +66,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.theagencyapp.world.Activities.SendMessage" />
 
+
+
+
         </activity>
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.TeamDetailsActivity"></activity>
+        <activity
+            android:name=".Activities.Tweet">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <service
             android:name=".Services.IstanceIdGenerator">
             <intent-filter>
