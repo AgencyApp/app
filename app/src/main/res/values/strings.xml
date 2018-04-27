@@ -29,7 +29,6 @@
     <string name="status_employee">Employee</string>
     <string name="status_Client">Client</string>
     <string name="action_create_company">Create Company</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -45,19 +44,19 @@
     <string name="enter_title">Enter Title</string>
     <string name="deadline">Deadline</string>
     <string name="set_deadline">Set Deadline</string>
-    <string name="title_activity_slide_navigation">slide_navigation</string>
+    <string name="title_activity_slide_navigation" translatable="false">slide_navigation</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="done">Done</string>
-    <string name="project_icon">Project Icon</string>
-    <string name="sample_project_name">Web Development</string>
+    <string name="project_icon" translatable="false">Project Icon</string>
+    <string name="sample_project_name" translatable="false">Web Development</string>
     <string name="project_priority">Project Priority</string>
     <string name="team_title">Team Title</string>
     <string name="select_team_members">Select Team Members</string>
-    <string name="sample_name">John</string>
-    <string name="sample_skills">HTML, CSS</string>
-    <string name="sample_team_name">Web Dev Team</string>
+    <string name="sample_name" translatable="false">John</string>
+    <string name="sample_skills" translatable="false">HTML, CSS</string>
+    <string name="sample_team_name" translatable="false">Web Dev Team</string>
     <string name="title_activity_project_details">Project Detail</string>
     <string name="no_client">No Client</string>
     <string name="fill_fields">Please fill all the fields</string>
@@ -72,17 +71,37 @@
     <string name="priority_medium">medium</string>
     <string name="priority_low">low</string>
 
-    <string name="error_google_sign_in">Can\'t sign in using Google</string>
-    <string name="placeholder">Placeholder</string>
-    <string name="empty_view_home">Oh oh! Looks like you\'re all alone</string>
-    <string name="button_invite">Invite</string>
-    <string name="hint_message">Type your message..</string>
-    <string name="error_loading_user">Couldn\'t load user</string>
-    <string name="today">Today</string>
-    <string name="yesterday">Yesterday</string>
-    <string name="empty_view_thread">Send the first message!</string>
-    <string name="error_sending_messages">Couldn\'t send message, please retry</string>
-    <string name="message_message_copied">Copied to clipboard</string>
-    <string name="clipboard_title_copied_message">Copied message</string>
+    <string name="error_google_sign_in" translatable="false">Can\'t sign in using Google</string>
+    <string name="placeholder" translatable="false">Placeholder</string>
+    <string name="empty_view_home" translatable="false">Oh oh! Looks like you\'re all alone</string>
+    <string name="button_invite" translatable="false">Invite</string>
+    <string name="hint_message" translatable="false">Type your message..</string>
+    <string name="error_loading_user" translatable="false">Couldn\'t load user</string>
+    <string name="today" translatable="false">Today</string>
+    <string name="yesterday" translatable="false">Yesterday</string>
+    <string name="empty_view_thread" translatable="false">Send the first message!</string>
+    <string name="error_sending_messages" translatable="false">Couldn\'t send message, please retry</string>
+    <string name="message_message_copied" translatable="false">Copied to clipboard</string>
+    <string name="clipboard_title_copied_message" translatable="false">Copied message</string>
+    <string name="facebook_app_id" translatable="false">1991467977783739</string>
+    <string name="share" translatable="false">share</string>
+    <string name="title_activity_add_mobs">AddMobsActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <!-- -
+        This is an ad unit ID for a banner test ad. Replace with your own banner ad unit id.
+        For more information, see https://support.google.com/admob/answer/3052638
+    <!- -->
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="title_activity_ad_mobs">ActivityAdMobs</string>
+
+    <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
+    <string name="start_level">Level 1</string>
+    <string name="next_level">Next Level</string>
+    <!-- -
+        This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
+        For more information, see https://support.google.com/admob/answer/3052638
+    <!- -->
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
 </resources>
 
