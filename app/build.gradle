@@ -40,5 +40,8 @@ dependencies {
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile project(':recyclerview-multiselect-0.2')
     compile "com.google.android.gms:play-services-location:15.0.0"
+    compile 'com.github.jrvansuita:PickImage:+'
+    compile 'com.google.firebase:firebase-storage:15.0.0'
+
 }
 apply plugin: 'com.google.gms.google-services'

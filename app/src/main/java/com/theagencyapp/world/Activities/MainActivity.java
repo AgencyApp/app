@@ -2,6 +2,7 @@ package com.theagencyapp.world.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -18,6 +19,7 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.theagencyapp.world.ClassModel.Employee;
 import com.theagencyapp.world.Fragments.ClientFragment;
 import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
 import com.theagencyapp.world.Fragments.ProjectFragment;
@@ -106,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
                         //TODO
                         if (id == R.id.nav_camera) {
                             // Handle the camera action
+                            Intent intent=new Intent(MainActivity.this, EmployeeProfile.class);
+                            startActivity(intent);
                         } else if (id == R.id.nav_gallery) {
 
                         } else if (id == R.id.nav_slideshow) {
@@ -202,6 +206,8 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         getMenuInflater().inflate(R.menu.chat, menu);
         return true;
     }
+
+
 
 
 }

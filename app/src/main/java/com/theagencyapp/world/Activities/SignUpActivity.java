@@ -23,10 +23,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.theagencyapp.world.R;
 import com.theagencyapp.world.ClassModel.*;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.util.concurrent.TimeUnit;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity  {
 
     private EditText inputEmail, inputPassword, confirmInputPassword, Name, PhoneNo;
     private Button btnSignUp;
@@ -148,4 +152,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 }
