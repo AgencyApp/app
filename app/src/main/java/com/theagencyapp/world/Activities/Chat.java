@@ -52,7 +52,7 @@ public class Chat extends AppCompatActivity {
                 startActivity(new Intent(Chat.this, AllUsersForChat.class));
             }
         });
-
+        getCurrentUserData();
         //updateUI();
         //start loading bar
     }
@@ -60,16 +60,16 @@ public class Chat extends AppCompatActivity {
     void updateUI()
     {
         DatabaseReference databaseReference=firebaseDatabase.getReference("CurrentChat/"+currentUid);
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        databaseReference.orderByChild("timeStamp").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        LastMessage lastMessage=snapshot.getValue(LastMessage.class);
-                        lastMessages.add(lastMessage);
+
+                        LastMessage lastMessage=dataSnapshot.getValue(LastMessage.class);
+                        lastMessages.add(0,lastMessage);
                     adapter.notifyDataSetChanged();
-                }
-                getCurrentUserData();
+
+
             }
 
             @Override
@@ -100,6 +100,7 @@ public class Chat extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentUser=dataSnapshot.getValue(User.class);
+                updateUI();
             }
 
             @Override

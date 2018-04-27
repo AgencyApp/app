@@ -24,6 +24,8 @@ import com.theagencyapp.world.ClassModel.LastMessage;
 import com.theagencyapp.world.ClassModel.Message;
 import com.theagencyapp.world.R;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class SendMessage extends AppCompatActivity {
@@ -72,7 +74,8 @@ public class SendMessage extends AppCompatActivity {
                 onSend();
             }
         });
-
+        //String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Timestamp(1524836223));
+        //System.out.println(timeStamp);
         UpdateUI();
 
     }
@@ -116,15 +119,14 @@ public class SendMessage extends AppCompatActivity {
 
     void updateMessages() {
         DatabaseReference databaseReference = firebaseDatabase.getReference("ChatContainer/" + lastMessage.getChatContainer());
-        databaseReference.addChildEventListener(new ChildEventListener() {
+       databaseReference.orderByChild("timeStamp").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Message message = snapshot.getValue(Message.class);
+                    Message message = dataSnapshot.getValue(Message.class);
                     messages.add(message);
                     activityThreadProgress.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
-                }
+
             }
 
             @Override
@@ -147,6 +149,23 @@ public class SendMessage extends AppCompatActivity {
 
             }
         });
+
+      /* databaseReference.addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+               for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                   Message message = snapshot.getValue(Message.class);
+                   messages.add(message);
+               }
+               activityThreadProgress.setVisibility(View.GONE);
+               adapter.notifyDataSetChanged();
+           }
+
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+
+           }
+       });*/
     }
 
     public void onSend() {
@@ -156,8 +175,8 @@ public class SendMessage extends AppCompatActivity {
         Message tempMsg;
 
         String message = msg.getText().toString();
-        Long tsLong = System.currentTimeMillis() / 1000;
-        String ts = tsLong.toString();
+        Long ts = System.currentTimeMillis() / 1000;
+
         if (!isMap) {
             tempLastMsgSender = new LastMessage(message, ts, reciverName, lastMessage.getChatContainer(), status, false);
             tempLastMsgReciver = new LastMessage(message, ts, senderName, lastMessage.getChatContainer(), status, false);
@@ -176,10 +195,11 @@ public class SendMessage extends AppCompatActivity {
         senderRef.setValue(tempLastMsgSender);
         DatabaseReference reciverRef = firebaseDatabase.getReference("CurrentChat/" + reciverUid + "/" + senderUid);
         reciverRef.setValue(tempLastMsgReciver);
-        DatabaseReference msgRef = firebaseDatabase.getReference("ChatContainer").push();
+        DatabaseReference msgRef = firebaseDatabase.getReference("ChatContainer/"+lastMessage.getChatContainer()).push();
         msgRef.setValue(tempMsg);
         DatabaseReference notificationRef = firebaseDatabase.getReference("Notifications/Message").push();
         notificationRef.setValue(tempMsg);
+
 
 
     }
