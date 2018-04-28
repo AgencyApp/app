@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.speech.tts.TextToSpeech;
 
 import com.facebook.CallbackManager;
 import com.facebook.share.model.ShareLinkContent;
@@ -40,9 +42,11 @@ import com.theagencyapp.world.ClassModel.MileStone;
 import com.theagencyapp.world.ClassModel.User;
 import com.theagencyapp.world.Adapters.MilestonesRecyclerViewAdapter;
 import com.theagencyapp.world.R;
+import com.theagencyapp.world.Utility.ProfilePicture;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -61,6 +65,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     String milestonesContainer;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
+    TextToSpeech textToSpeech;
     private static final String TOAST_TEXT = "Test ads are being shown. "
             + "To show live ads, replace the ad unit ID in res/values/strings.xml with your own ad unit ID.";
 
@@ -70,6 +75,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     List<Status> tweets;
     String projectName;
     String description;
+    String teamId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +91,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         Bundle details = intent.getBundleExtra("details");
         projectName = details.getString("project_name");
         milestonesContainer = details.getString("milestones_container_id");
-        String teamId = details.getString("team_id");
+        teamId = details.getString("team_id");
         String clientId = details.getString("client_id");
         description = details.getString("description");
         String deadline = details.getString("deadline");
@@ -154,7 +160,34 @@ public class ProjectDetailsActivity extends AppCompatActivity {
             }
         });
 
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int result = textToSpeech.setLanguage(Locale.ENGLISH);
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Toast.makeText(ProjectDetailsActivity.this, "language not Supported", Toast.LENGTH_LONG).show();
+                    } else {
+                        textToSpeech.setPitch(0.6f);
+                        textToSpeech.setSpeechRate(1.0f);
 
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    void startSpeaking(String data) {
+        textToSpeech.speak(data, TextToSpeech.QUEUE_FLUSH, null, null);
+    }
+
+    @Override
+    protected void onDestroy() {
+        textToSpeech.stop();
+        textToSpeech.shutdown();
+        super.onDestroy();
     }
 
     public void shareToFacebook() {
@@ -198,7 +231,9 @@ public class ProjectDetailsActivity extends AppCompatActivity {
 
                 return true;
 
-
+            case R.id.speaker_icon:
+                startSpeaking(description);
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -237,22 +272,6 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         }
     }
 
-
-    public class GetTweets extends AsyncTask<Void, Void, Void> {
-
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            try {
-                tweets = mtwitter.getHomeTimeline();
-                //notify data set change.
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
 
 
     @Override
@@ -308,6 +327,15 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     }
 
     public void onTeamViewClick(View view) {
+        if (teamId == null || teamId.isEmpty())
+            Toast.makeText(this, "No Team Added", Toast.LENGTH_SHORT).show();
+        else {
+            Intent intent = new Intent(this, TeamDetailsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("team_id", teamId);
+            intent.putExtra("details", bundle);
+            startActivity(intent);
+        }
 
     }
 
@@ -329,11 +357,13 @@ public class ProjectDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Client client = dataSnapshot.getValue(Client.class);
-                        //TODO: Set Client Image
-                        //if(client!=null)
-                        //client.getImageUrl();
-                        //clientIcon.setImage(url)
-                        //clientName.setText(name)
+                        if (client != null) {
+                            ProfilePicture.setProfilePicture(clientId, clientIcon);
+                            clientName.setText(user.getName());
+                        } else {
+                            clientIcon.setVisibility(View.GONE);
+                        }
+
                     }
 
                     @Override

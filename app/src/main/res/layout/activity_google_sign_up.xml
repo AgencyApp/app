@@ -64,7 +64,6 @@
                     android:hint="Phone" />
 
 
-
                 <Button
                     android:id="@+id/google_SignUp"
                     style="?android:textAppearanceSmall"
