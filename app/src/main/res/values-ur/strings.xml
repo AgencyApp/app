@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">AgencyApp</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">ای میل</string>
+    <string name="prompt_password">پاس ورڈ</string>
+    <string name="action_sign_in">سائن ان</string>
+    <string name="action_sign_up">سائن اپ</string>
+    <string name="action_sign_in_google">سائن اپ کریں گوگل کے ساتھ</string>
+    <string name="action_sign_in_short">سائن ان</string>
+    <string name="error_invalid_email">یہ ای میل پتہ غلط ہے</string>
+    <string name="error_invalid_password">یہ پاس ورڈ بہت مختصر ہے</string>
+    <string name="error_incorrect_password">یہ پاس ورڈ غلط ہے</string>
+    <string name="error_field_required">اس کو پر کرنا ضروری ہے</string>
+    <string name="permission_rationale">ای میل فراہم کرنے کے لئے رابطہ کی اجازت کی ضرورت ہے
+        تکمیل.
+    </string>
+    <string name="welcome_to_agency">ایجنسی میں آپ کا استقبال</string>
+    <string name="catchy_title"> 21ویں صدی میں آپ کی کمپنی</string>
+    <string name="sign_up_here">. یہاں سائن اپ کریں</string>
+    <string name="or">یا</string>
+    <string name="todo">ایسا کرنے کے لئے</string>
+    <string name="error_unequal_password">پاس ورڈ میچ نہیں کرتا</string>
+    <string name="join_the_company"> کمپنی میں شمولیت</string>
+    <string name="enter_company_code">کمپنی کوڈ</string>
+    <string name="join_company">کمپنی میں شمولیت</string>
+    <string name="action_add_company">کمپنی کو شامل کریں</string>
+    <string name="invalid_code">غلط ایجنسی کوڈ</string>
+    <string name="status_employee">ملازم</string>
+    <string name="status_Client">کلائنٹ</string>
+    <string name="action_create_company">کمپنی بنائیں</string>
+    <string name="title_dashboard">ڈیش بورڈ</string>
+    <string name="title_notifications">اطلاعات</string>
+    <string name="title_projects">پروجیکٹس</string>
+    <string name="title_teams">ٹیمیں</string>
+    <string name="title_clients">کلائنٹ</string>
+    <string name="title_activity_add_project">پروجیکٹ شامل کریں</string>
+    <string name="action_settings">سیٹنگز</string>
+    <string name="project_title">پروجکٹ کا عنوان</string>
+    <string name="enter_description">تفصیل درج کریں</string>
+    <string name="team">ٹیم</string>
+    <string name="enter_title">عنوان</string>
+    <string name="deadline">"مقررہ وقت "</string>
+    <string name="set_deadline">مقررہ وقت مقرر کریں</string>
+
+    <string name="navigation_drawer_open">کھولیں نیویگیشن</string>
+    <string name="navigation_drawer_close">بند کریں نیویگیشن</string>
+    <string name="done">ہو گیا</string>
+    <string name="project_priority">پراجیکٹ کی ترجیح</string>
+    <string name="team_title">ٹیم کا عنوان</string>
+    <string name="select_team_members">ٹیم کے رکن منتخب کریں</string>
+    <string name="title_activity_project_details">پراجیکٹ تفصیل</string>
+    <string name="no_client">کلائنٹ نہیں</string>
+    <string name="fill_fields">براہ مہربانی تمام شعبوں کو بھریں</string>
+    <string name="start_time">وقت آغاز</string>
+    <string name="end_time">آخر وقت</string>
+    <string name="name">نام</string>
+    <string name="description">تفصیل</string>
+    <string name="add_milestone">میلسٹون شامل کریں</string>
+    <string name="new_team">نئی ٹیم</string>
+    <string name="adding_project">پروجیکٹ شامل کرنا</string>
+    <string name="priority_high">اعلی</string>
+    <string name="priority_medium">درمیانی</string>
+    <string name="priority_low">کم</string>
+
+    <string name="title_home">ھوم</string>
+    <string name="title_chat">رابطہ</string>
+</resources>
+

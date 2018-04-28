@@ -22,7 +22,8 @@
         android:id="@+id/projects_list"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/fragment_project" />
+        app:layout_anchorGravity="fill"
+        tools:listitem="@layout/project_row" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_project_fab"
