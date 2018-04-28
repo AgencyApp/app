@@ -12,15 +12,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/activity_thread_empty_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/activity_thread_editor_parent"
-            android:layout_marginEnd="@dimen/simple_padding_huge"
-            android:layout_marginStart="@dimen/simple_padding_huge"
-            android:gravity="center"
-            android:text="@string/empty_view_thread" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/messages_recycler"

@@ -1,8 +1,9 @@
 package com.theagencyapp.world.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -10,23 +11,32 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
 import com.facebook.FacebookSdk;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.theagencyapp.world.ClassModel.Employee;
 import com.theagencyapp.world.Fragments.ClientFragment;
 import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
 import com.theagencyapp.world.Fragments.ProjectFragment;
 import com.theagencyapp.world.R;
 import com.theagencyapp.world.Fragments.TeamFragment;
+
+import java.util.List;
+
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
 
@@ -40,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
     private String agencyName;
 
     private DrawerLayout mDrawerLayout;
+
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -109,13 +120,10 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
                         int id = menuItem.getItemId();
                         //TODO
                         if (id == R.id.nav_camera) {
-                            // Handle the camera action
-                            Intent intent=new Intent(MainActivity.this, EmployeeProfile.class);
-                            startActivity(intent);
-                        } else if (id == R.id.nav_gallery) {
-
-                        } else if (id == R.id.nav_slideshow) {
-
+                            startActivity(new Intent(MainActivity.this, EmployeeProfile.class));
+                        } else if (id == R.id.nav_tweets) {
+                            GetTweets getTweets = new GetTweets();
+                            getTweets.execute();
                         } else if (id == R.id.nav_log_out) {
                             auth.signOut();
                         }
@@ -166,6 +174,57 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment).commit();
     }
 
+    public class GetTweets extends AsyncTask<Void, Void, Void> {
+        private Twitter mtwitter;
+        List<twitter4j.Status> tweets;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try {
+                ConfigurationBuilder cb = new ConfigurationBuilder();
+                cb.setDebugEnabled(true)
+                        .setOAuthConsumerKey("81hnFl5b4VM3hUqaApWlZt9eU")
+                        .setOAuthConsumerSecret("MqWwpdEbryt3gyf4AbQGVlGJ4U8SGNXJJ5X7nYYBTaCNRbPQnB")
+                        .setOAuthAccessToken("988011971223216128-RlnnJWjgqVzYXo0NA9T2kCR29AEo7oQ")
+                        .setOAuthAccessTokenSecret("Ob28nHSnq3lA2zSD7tIWmrmiGAGSAEzHMK3VBVh6GhuQ8");
+                TwitterFactory tf = new TwitterFactory(cb.build());
+                mtwitter = tf.getInstance();
+                tweets = mtwitter.getHomeTimeline();
+                publishProgress();
+                //notify data set change.
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            AlertDialog.Builder builderSingle = new AlertDialog.Builder(MainActivity.this);
+            builderSingle.setTitle("Tweets");
+
+            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
+            for (twitter4j.Status tweet : tweets) {
+                arrayAdapter.add(tweet.getText());
+            }
+
+            builderSingle.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builderSingle.show();
+        }
+    }
 
     @Override
     public void onListFragmentInteraction(Bundle details, String action, boolean isFabClicked) {
@@ -208,8 +267,6 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         getMenuInflater().inflate(R.menu.chat, menu);
         return true;
     }
-
-
 
 
 }

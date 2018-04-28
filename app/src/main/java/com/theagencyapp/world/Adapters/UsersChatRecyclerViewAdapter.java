@@ -1,6 +1,7 @@
 package com.theagencyapp.world.Adapters;
 
 
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +12,26 @@ import android.widget.TextView;
 
 import com.theagencyapp.world.ClassModel.LastMessage;
 import com.theagencyapp.world.ClassModel.LastMessage;
+import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
 import com.theagencyapp.world.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class UsersChatRecyclerViewAdapter extends RecyclerView.Adapter<UsersChatRecyclerViewAdapter.ViewHolder> {
 
     private final List<LastMessage> mValues;
+    private final List<String> mIds;
+    OnListFragmentInteractionListener mListener;
 
 
-    public UsersChatRecyclerViewAdapter(List<LastMessage> items) {
+    public UsersChatRecyclerViewAdapter(List<LastMessage> items, List<String> ids, OnListFragmentInteractionListener mListener) {
         mValues = items;
-
+        this.mListener = mListener;
+        mIds = ids;
     }
 
     @Override
@@ -35,11 +43,25 @@ public class UsersChatRecyclerViewAdapter extends RecyclerView.Adapter<UsersChat
 
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
         holder.mName.setText(mValues.get(position).getReciverName());
         holder.mLastMessage.setText(mValues.get(position).getLastMessage());
-        holder.mTimeStamp.setText(String.valueOf(mValues.get(position).getTimeStamp()));
+        Date date = new Date(mValues.get(position).getTimeStamp() * 1000);
+
+        String myFormat = "dd/MM/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        holder.mTimeStamp.setText(sdf.format(date));
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("receiverUid", mIds.get(position));
+                bundle.putString("receiverName", holder.mItem.getReciverName());
+                mListener.onListFragmentInteraction(bundle, "chatMessage", true);
+            }
+        });
 
 
         //TODO: Set Bitmap for User

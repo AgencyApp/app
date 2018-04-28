@@ -33,7 +33,7 @@ public class Tweet extends AppCompatActivity {
     AccessToken mAcesstoken;
     String pin;
     Twitter mtwitter;
-   // Twitter mTwitterWithAuth;
+    // Twitter mTwitterWithAuth;
     SharedPreferences sharedPreferences;
     String mTwitterVerifier = null;
     String oAuth_token;
@@ -64,7 +64,7 @@ public class Tweet extends AppCompatActivity {
         {
            loadTwitter();
         }*/
-        GetTweets getTweets=new GetTweets();
+        GetTweets getTweets = new GetTweets();
         getTweets.execute();
 
 
@@ -111,7 +111,7 @@ public class Tweet extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try {
                 mtwitter.updateStatus(strings[0]);
-              //  Toast.makeText(Tweet.this,"Tweet Published",Toast.LENGTH_LONG).show();
+                //  Toast.makeText(Tweet.this,"Tweet Published",Toast.LENGTH_LONG).show();
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
@@ -120,15 +120,15 @@ public class Tweet extends AppCompatActivity {
     }
 
 
-    public class GetTweets extends AsyncTask<Void,Void,Void>
-    {
+    public class GetTweets extends AsyncTask<Void, Void, Void> {
 
 
         @Override
         protected Void doInBackground(Void... voids) {
 
             try {
-                tweets=mtwitter.getHomeTimeline();
+                tweets = mtwitter.getHomeTimeline();
+
                 //notify data set change.
             } catch (TwitterException e) {
                 e.printStackTrace();
@@ -205,9 +205,6 @@ public class Tweet extends AppCompatActivity {
         PublishTweet publishTweet=new PublishTweet();
         publishTweet.execute(tweetText.getText().toString());
     }
-
-
-
 
 
 }

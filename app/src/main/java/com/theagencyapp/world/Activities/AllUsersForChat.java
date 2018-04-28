@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +45,8 @@ public class AllUsersForChat extends AppCompatActivity implements OnListFragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_users_for_chat);
 
+        setTitle("Select Contact");
+
         users = new ArrayList<>();
         firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -68,7 +71,7 @@ public class AllUsersForChat extends AppCompatActivity implements OnListFragment
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (snapshot.getValue(boolean.class)) {
+                    if (snapshot.getValue(boolean.class) && !(snapshot.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))) {
                         fetchEmployeeData(snapshot.getKey());
                     }
                 }
@@ -97,7 +100,7 @@ public class AllUsersForChat extends AppCompatActivity implements OnListFragment
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (snapshot.getValue(boolean.class)) {
+                    if (snapshot.getValue(boolean.class) && !(snapshot.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))) {
                         fetchClientData(snapshot.getKey());
                     }
                 }
@@ -191,5 +194,6 @@ public class AllUsersForChat extends AppCompatActivity implements OnListFragment
         intent.putExtra("receiverUid", details.getString("receiverUid"));
         intent.putExtra("receiverName", details.getString("receiverName"));
         startActivity(intent);
+        finish();
     }
 }

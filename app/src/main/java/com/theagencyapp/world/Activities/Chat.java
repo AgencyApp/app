@@ -20,31 +20,36 @@ import com.theagencyapp.world.Adapters.ClientsRecyclerViewAdapter;
 import com.theagencyapp.world.Adapters.UsersChatRecyclerViewAdapter;
 import com.theagencyapp.world.ClassModel.LastMessage;
 import com.theagencyapp.world.ClassModel.User;
+import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
 import com.theagencyapp.world.R;
 
 import java.util.ArrayList;
 
 import static android.view.View.GONE;
 
-public class Chat extends AppCompatActivity {
+public class Chat extends AppCompatActivity implements OnListFragmentInteractionListener {
 
     ArrayList<LastMessage>lastMessages;
+    ArrayList<String> lastMessagesReceiverIds;
     FirebaseDatabase firebaseDatabase;
     String currentUid;
     User currentUser;
     private RecyclerView recyclerView;
     private UsersChatRecyclerViewAdapter adapter;
+    OnListFragmentInteractionListener mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         lastMessages=new ArrayList<>();
+        lastMessagesReceiverIds = new ArrayList<>();
         firebaseDatabase=FirebaseDatabase.getInstance();
         currentUid= FirebaseAuth.getInstance().getCurrentUser().getUid();
         recyclerView = findViewById(R.id.users_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter = new UsersChatRecyclerViewAdapter(lastMessages));
+
+        recyclerView.setAdapter(adapter = new UsersChatRecyclerViewAdapter(lastMessages, lastMessagesReceiverIds, mListener = this));
 
         FloatingActionButton myFab = findViewById(R.id.newChat);
         myFab.setOnClickListener(new View.OnClickListener() {
@@ -65,11 +70,10 @@ public class Chat extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                        LastMessage lastMessage=dataSnapshot.getValue(LastMessage.class);
-                        lastMessages.add(0,lastMessage);
-                        adapter.notifyDataSetChanged();
-
-
+                LastMessage lastMessage = dataSnapshot.getValue(LastMessage.class);
+                lastMessages.add(0, lastMessage);
+                lastMessagesReceiverIds.add(0, dataSnapshot.getKey());
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -111,4 +115,12 @@ public class Chat extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onListFragmentInteraction(Bundle details, String action, boolean isFabClicked) {
+        Intent intent = new Intent(this, SendMessage.class);
+        intent.putExtra("receiverUid", details.getString("receiverUid"));
+        intent.putExtra("receiverName", details.getString("receiverName"));
+
+        startActivity(intent);
+    }
 }
