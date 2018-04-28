@@ -1,10 +1,15 @@
 package com.theagencyapp.world.Activities;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +42,13 @@ import com.theagencyapp.world.Adapters.MilestonesRecyclerViewAdapter;
 import com.theagencyapp.world.R;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 public class ProjectDetailsActivity extends AppCompatActivity {
 
@@ -53,7 +66,10 @@ public class ProjectDetailsActivity extends AppCompatActivity {
 
     private InterstitialAd mInterstitialAd;
     private TextView mLevelTextView;
-
+    Twitter mtwitter;
+    List<Status> tweets;
+    String projectName;
+    String description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +83,11 @@ public class ProjectDetailsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle details = intent.getBundleExtra("details");
-        String projectName = details.getString("project_name");
+        projectName = details.getString("project_name");
         milestonesContainer = details.getString("milestones_container_id");
         String teamId = details.getString("team_id");
         String clientId = details.getString("client_id");
-        String description = details.getString("description");
+        description = details.getString("description");
         String deadline = details.getString("deadline");
         String priority = details.getString("priority");
 
@@ -119,6 +135,15 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter = new MilestonesRecyclerViewAdapter(milestones));
 
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+                .setOAuthConsumerKey("81hnFl5b4VM3hUqaApWlZt9eU")
+                .setOAuthConsumerSecret("MqWwpdEbryt3gyf4AbQGVlGJ4U8SGNXJJ5X7nYYBTaCNRbPQnB")
+                .setOAuthAccessToken("988011971223216128-RlnnJWjgqVzYXo0NA9T2kCR29AEo7oQ")
+                .setOAuthAccessTokenSecret("Ob28nHSnq3lA2zSD7tIWmrmiGAGSAEzHMK3VBVh6GhuQ8");
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        mtwitter = tf.getInstance();
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +177,25 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.share_icon:
-                shareToFacebook();
+                CharSequence platforms[] = new CharSequence[]{"Facebook", "Twitter"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Share Project Details To");
+                builder.setItems(platforms, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0)
+                            shareToFacebook();
+                        else if (which == 1) {
+                            PublishTweet publishTweet = new PublishTweet(ProjectDetailsActivity.this);
+                            publishTweet.execute("I am working on this exciting project. " + projectName + ": " + description);
+                        }
+
+
+                    }
+                });
+                builder.show();
+
                 return true;
 
 
@@ -163,6 +206,54 @@ public class ProjectDetailsActivity extends AppCompatActivity {
 
         }
     }
+
+    public class PublishTweet extends AsyncTask<String, Boolean, String> {
+        Context c;
+
+        public PublishTweet(Context c) {
+            this.c = c;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                mtwitter.updateStatus(strings[0]);
+                publishProgress(true);
+            } catch (TwitterException e) {
+                e.printStackTrace();
+                publishProgress(false);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Boolean... values) {
+            super.onProgressUpdate(values);
+            if (values[0])
+                Toast.makeText(c, "Tweet Published!", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(c, "Unable to tweet!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    public class GetTweets extends AsyncTask<Void, Void, Void> {
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try {
+                tweets = mtwitter.getHomeTimeline();
+                //notify data set change.
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
