@@ -42,7 +42,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -88,8 +87,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private CoordinatorLayout coordinatorLayout;
     private GoogleSignInClient mGoogleSignInClient;
     private SharedPreferences sharedPref;
-    private FirebaseAnalytics mFirebaseAnalytics;
-
+    private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase firebaseDatabase;
 
 
     @SuppressLint("RestrictedApi")
@@ -98,52 +97,58 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         auth = FirebaseAuth.getInstance();
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
         if (auth.getCurrentUser() != null) {
             checkSubscription();
+            setTheme(R.style.AppTheme_NoActionBar);
         }
-        setContentView(R.layout.activity_login);
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        //populateAutoComplete();
+        else {
+
+            setTheme(R.style.AppTheme_NoActionBar);
+            setContentView(R.layout.activity_login);
+            // Set up the login form.
+            mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+            //populateAutoComplete();
 
 
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
+            coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+            mPasswordView = (EditText) findViewById(R.id.password);
+            mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                    if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
+                        attemptLogin();
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
+            firebaseAuth = FirebaseAuth.getInstance();
+            firebaseDatabase = FirebaseDatabase.getInstance();
 
-        });
+            Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+            mEmailSignInButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    attemptLogin();
+                }
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+            });
+
+            mLoginFormView = findViewById(R.id.login_form);
+            mProgressView = findViewById(R.id.login_progress);
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        }
     }
 
     public void onGoogle_Signin(View view)
     {
-        //return;
         @SuppressLint("RestrictedApi") Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -178,18 +183,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            checkUser();
 
                         } else {
                             // If sign in fails, display a message to the user.
-
+                            showProgress(false);
                             Snackbar.make(coordinatorLayout, "Authentication Failed.", Snackbar.LENGTH_LONG).show();
+
                         }
 
                         // [START_EXCLUDE]
-                        showProgress(false);
+
                         // [END_EXCLUDE]
                     }
                 });
@@ -365,10 +369,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     startActivity(intent);
                     finish();
                 } else {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FirebaseAnalytics.Param.METHOD, "DefaultMethod");
-                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
-
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("agencyId", user.getAgencyid());
                     intent.putExtra("status", user.getStatus());
@@ -512,6 +512,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
     }
+
+    void checkUser()
+    {
+        DatabaseReference userRef=firebaseDatabase.getReference("Users/"+firebaseAuth.getCurrentUser().getUid());
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User currentUser;
+                currentUser=dataSnapshot.getValue(User.class);
+                if(currentUser==null||dataSnapshot.getValue()==null)
+                {
+                    Intent intent = new Intent(LoginActivity.this, GoogleSignUp.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    checkSubscription();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 
     /**
      * Represents an asynchronous login/registration task used to authenticate

@@ -61,6 +61,7 @@ public class SignUpActivity extends AppCompatActivity  {
         String password = inputPassword.getText().toString().trim();
         String confirm_password = inputPassword.getText().toString().trim();
         String name = Name.getText().toString().trim();
+        String phone=PhoneNo.getText().toString().trim();
 
         boolean cancel = false;
         View focusView = null;
@@ -94,6 +95,11 @@ public class SignUpActivity extends AppCompatActivity  {
         {
             confirmInputPassword.setError(getString(R.string.error_unequal_password));
             focusView = confirmInputPassword;
+            cancel = true;
+        }
+        if (TextUtils.isEmpty(phone)) {
+            PhoneNo.setError(getString(R.string.error_field_required));
+            focusView = PhoneNo;
             cancel = true;
         }
 

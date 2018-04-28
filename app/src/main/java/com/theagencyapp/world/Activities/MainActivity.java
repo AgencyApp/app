@@ -1,6 +1,5 @@
 package com.theagencyapp.world.Activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -140,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
                         int id = menuItem.getItemId();
                         //TODO
                         if (id == R.id.nav_camera) {
-                            startActivityForResult(new Intent(MainActivity.this, EmployeeProfile.class), 1);
+                            startActivity(new Intent(MainActivity.this, EmployeeProfile.class));
                         } else if (id == R.id.nav_tweets) {
                             GetTweets getTweets = new GetTweets();
                             getTweets.execute();
