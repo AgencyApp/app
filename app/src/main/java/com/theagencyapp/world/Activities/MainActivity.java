@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 
@@ -26,11 +27,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.sinch.android.rtc.Sinch;
 import com.sinch.android.rtc.SinchClient;
+import com.sinch.android.rtc.SinchError;
 import com.theagencyapp.world.Fragments.ClientFragment;
 import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
 import com.theagencyapp.world.Fragments.ProjectFragment;
 import com.theagencyapp.world.R;
 import com.theagencyapp.world.Fragments.TeamFragment;
+import com.theagencyapp.world.Services.SinchService;
 
 import java.util.List;
 
@@ -40,7 +43,7 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements OnListFragmentInteractionListener , SinchService.StartFailedListener {
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
@@ -130,6 +133,10 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
                         } else if (id == R.id.nav_log_out) {
                             auth.signOut();
                         }
+                        else if(id==R.id.nav_gallery)
+                        {
+                            callClicked();
+                        }
 
 
                         return true;
@@ -175,6 +182,17 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
 
         Fragment fragment = ClientFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment).commit();
+    }
+
+    @Override
+    public void onStartFailed(SinchError error) {
+        Toast.makeText(this,"ServiceFalied",Toast.LENGTH_LONG);
+    }
+
+
+    @Override
+    public void onStarted() {
+        openPlaceCallActivity();
     }
 
     public class GetTweets extends AsyncTask<Void, Void, Void> {
@@ -271,11 +289,35 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         return true;
     }
 
-    void initSinch()
-    {
-
-
+    @Override
+    protected void onServiceConnected() {
+        getSinchServiceInterface().setStartListener(MainActivity.this);
     }
+    private void callClicked() {
+        String userName = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        if (userName.isEmpty()) {
+            Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (!userName.equals(getSinchServiceInterface().getUserName())) {
+            getSinchServiceInterface().stopClient();
+        }
+
+        if (!getSinchServiceInterface().isStarted()) {
+            getSinchServiceInterface().startClient(userName);
+           // showSpinner();
+        } else {
+            openPlaceCallActivity();
+        }
+    }
+
+    private void openPlaceCallActivity() {
+        Intent mainActivity = new Intent(this, PlaceCallActivity.class);
+        startActivity(mainActivity);
+    }
+
 
 
 }

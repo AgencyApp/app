@@ -14,4 +14,7 @@
     <color name="colorPink">#de7172</color>
     <color name="colorShadow">#41000000</color>
     <color name="colorBackground">#cfd8dc</color>
+    <color name="sinch_purple">#ff63029d</color>
+    <color name="off_white">#fffafafa</color>
+    <color name="greyish">#fff2f1f2</color>
 </resources>

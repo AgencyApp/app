@@ -41,7 +41,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MainActivity"></activity>
+        <activity android:name=".Activities.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Activities.SignUpActivity" />
         <activity android:name=".Activities.AddCompanyActivity" />
         <activity android:name=".Activities.SubscriptonActivity" />
@@ -88,6 +89,8 @@
             </intent-filter>
         </service>
 
+        <service android:name=".Services.SinchService"></service>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.com.vansuita.pickimage.provider"
@@ -128,7 +131,13 @@
             android:name=".Activities.ActivityAdMobs"
             android:label="@string/title_activity_ad_mobs" />
         <activity android:name=".Activities.GoogleSignUp" />
-        <activity android:name=".Activities.MakeCall"></activity>
+        <activity android:name=".Activities.MakeCall" />
+        <activity android:name=".Activities.PlaceCallActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.CallScreenActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.IncomingCallScreenActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
