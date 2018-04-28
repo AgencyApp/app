@@ -91,7 +91,14 @@ public class SendMessage extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             lastMessage=dataSnapshot.getValue(LastMessage.class);
-                            updateMessages();
+                            if(lastMessage==null) {
+                                DatabaseReference dR = firebaseDatabase.getReference("ChatContainer").push();
+                                String key=dR.getKey();
+                                lastMessage=new LastMessage(reciverName,key);
+                            }
+
+                                updateMessages();
+
 
                         }
 

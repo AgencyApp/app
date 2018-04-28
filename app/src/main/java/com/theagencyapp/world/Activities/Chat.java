@@ -67,7 +67,7 @@ public class Chat extends AppCompatActivity {
 
                         LastMessage lastMessage=dataSnapshot.getValue(LastMessage.class);
                         lastMessages.add(0,lastMessage);
-                    adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
 
 
             }
