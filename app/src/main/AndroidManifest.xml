@@ -25,9 +25,7 @@
         <activity android:name=".Activities.LoginActivity" />
         <activity
             android:name=".Activities.MainActivity"
-            android:theme="@style/splashScreenTheme">
-
-        </activity>
+            android:theme="@style/splashScreenTheme"></activity>
         <activity android:name=".Activities.SignUpActivity" />
         <activity android:name=".Activities.AddCompanyActivity" />
         <activity android:name=".Activities.SubscriptonActivity" />
@@ -67,7 +65,7 @@
         </activity>
         android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.TeamDetailsActivity" />
-        <activity android:name=".Activities.Tweet"></activity>
+        <activity android:name=".Activities.Tweet" />
 
         <service android:name=".Services.IstanceIdGenerator">
             <intent-filter>
@@ -87,8 +85,11 @@
         </provider>
 
         <activity android:name=".Activities.UpdateClient" />
-        <activity android:name=".Activities.EmployeeProfile"></activity>
+        <activity android:name=".Activities.EmployeeProfile" />
         <activity android:name=".Activities.SpeechToText">
+
+        </activity>
+        <activity android:name=".Activities.myTextToSpeech">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
