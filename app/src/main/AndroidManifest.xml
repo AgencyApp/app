@@ -26,11 +26,7 @@
         <activity
             android:name=".Activities.MainActivity"
             android:theme="@style/splashScreenTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Activities.SignUpActivity" />
         <activity android:name=".Activities.AddCompanyActivity" />
@@ -92,7 +88,13 @@
 
         <activity android:name=".Activities.UpdateClient" />
         <activity android:name=".Activities.EmployeeProfile"></activity>
-        <activity android:name=".Activities.SpeechToText"></activity>
+        <activity android:name=".Activities.SpeechToText">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
