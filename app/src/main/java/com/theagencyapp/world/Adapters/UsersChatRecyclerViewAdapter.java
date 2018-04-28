@@ -14,6 +14,7 @@ import com.theagencyapp.world.ClassModel.LastMessage;
 import com.theagencyapp.world.ClassModel.LastMessage;
 import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
 import com.theagencyapp.world.R;
+import com.theagencyapp.world.Utility.ProfilePicture;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,7 +65,7 @@ public class UsersChatRecyclerViewAdapter extends RecyclerView.Adapter<UsersChat
         });
 
 
-        //TODO: Set Bitmap for User
+        ProfilePicture.setProfilePicture(mIds.get(position), holder.mPicture);
 
 
     }

@@ -18,6 +18,7 @@ import com.theagencyapp.world.ClassModel.User;
 import com.theagencyapp.world.ClassModel.User_Display;
 import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
 import com.theagencyapp.world.R;
+import com.theagencyapp.world.Utility.ProfilePicture;
 
 import java.util.ArrayList;
 
@@ -57,7 +58,7 @@ public class AllUsersChatRecyclerViewAdapter extends RecyclerView.Adapter<AllUse
             }
         });
 
-        //TODO: Set Bitmap for User
+        ProfilePicture.setProfilePicture(mValues.get(position).getUserId(), holder.mPicture);
 
 
     }

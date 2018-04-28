@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 
 import com.facebook.FacebookSdk;
 
@@ -29,6 +30,7 @@ import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
 import com.theagencyapp.world.Fragments.ProjectFragment;
 import com.theagencyapp.world.R;
 import com.theagencyapp.world.Fragments.TeamFragment;
+import com.theagencyapp.world.Utility.ProfilePicture;
 
 import java.util.List;
 
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
+
         auth=FirebaseAuth.getInstance();
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -108,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         //String name=sharedPreferences.getString("name","h");
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        ImageView dp = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        ProfilePicture.setProfilePicture(FirebaseAuth.getInstance().getCurrentUser().getUid(), dp);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override

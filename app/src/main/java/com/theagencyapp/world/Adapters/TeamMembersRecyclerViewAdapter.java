@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.theagencyapp.world.ClassModel.Employee_Display;
 import com.theagencyapp.world.R;
+import com.theagencyapp.world.Utility.ProfilePicture;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class TeamMembersRecyclerViewAdapter extends RecyclerView.Adapter<TeamMem
         holder.mName.setText(mValues.get(position).getName());
         holder.mSkills.setText(mValues.get(position).getSkillString());
 
-        //TODO: Set Bitmap for Employee
+        ProfilePicture.setProfilePicture(mValues.get(position).getEmployee_id(), holder.mPicture);
 
 
     }
