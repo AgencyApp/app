@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView android:layout_height="match_parent"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -18,39 +19,54 @@
 
         <EditText
             android:id="@+id/add_milestone_start_time"
-            android:layout_width="wrap_content"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/start_time"
             android:clickable="true"
+            android:ems="10"
             android:focusable="false"
+            android:hint="@string/start_time"
             android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/add_milestone_endtime"
-            android:layout_width="wrap_content"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/end_time"
             android:clickable="true"
+            android:ems="10"
             android:focusable="false"
+            android:hint="@string/end_time"
             android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/add_milestone_name"
-            android:layout_width="wrap_content"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/name"
             android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/add_milestone_Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/description"
-            android:inputType="textPersonName" />
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/add_milestone_Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/description"
+                android:inputType="textPersonName" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onMicClick"
+                app:srcCompat="@drawable/ic_mic_black_24dp" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/button3"

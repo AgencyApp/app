@@ -6,6 +6,8 @@ package com.theagencyapp.world.Adapters;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.theagencyapp.world.Activities.SendMessage;
+import com.theagencyapp.world.Activities.ShowMap;
 import com.theagencyapp.world.ClassModel.Message;
 import com.theagencyapp.world.ClassModel.User_Display;
 import com.theagencyapp.world.R;
@@ -41,7 +45,24 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
     @Override
     public void onBindViewHolder(final MessagesAdapter.MessageViewHolder holder, int position) {
         holder.mItem = messages.get(position);
-        holder.mText.setText(messages.get(position).getMessage());
+        if (!messages.get(position).isMap())
+            holder.mText.setText(messages.get(position).getMessage());
+        else {
+            holder.mText.setText("Tap to View Location");
+            holder.mText.setTextColor(Color.YELLOW);
+            String message = messages.get(position).getMessage();
+            final String[] coords = message.split(",");
+            holder.mText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ShowMap.class);
+                    intent.putExtra("lat", Double.parseDouble(coords[0]));
+                    intent.putExtra("lng", Double.parseDouble(coords[1]));
+                    context.startActivity(intent);
+                }
+            });
+        }
+
     }
 
     @Override

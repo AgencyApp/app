@@ -42,7 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-       // mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        // mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mapFragment.getMapAsync(this);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         getPermission();
@@ -140,20 +140,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(location==null) {
             // Add a marker in Sydney and move the camera
             LatLng sydney = new LatLng(-34, 151);
-                            mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            location = new Location("");
+            location.setLatitude(sydney.latitude);
+            location.setLongitude(sydney.longitude);
+
 
 
         }
         else
         {
             Double lat = location.getLatitude();
-                            Double lng = location.getLongitude();
+            Double lng = location.getLongitude();
 
 
-                            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("Your location"));
+            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("Your location"));
 
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 16));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 16));
         }
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
@@ -164,6 +168,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .title("You are here")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+                location = new Location("");
+                location.setLatitude(latLng.latitude);
+                location.setLongitude(latLng.longitude);
+
             }
         });
     }

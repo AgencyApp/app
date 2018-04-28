@@ -58,6 +58,8 @@ public class Chat extends AppCompatActivity implements OnListFragmentInteraction
             }
         });
         getCurrentUserData();
+
+        setTitle("Chat");
         //updateUI();
         //start loading bar
     }

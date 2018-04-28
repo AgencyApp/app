@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -176,6 +178,40 @@ public class SendMessage extends AppCompatActivity {
        });*/
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.map, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.map_icon:
+                startActivityForResult(new Intent(this, MapsActivity.class), 1);
+                return true;
+
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                coordinates = Double.toString(data.getDoubleExtra("lat", 0)) + "," + Double.toString(data.getDoubleExtra("lng", 0));
+                isMap = true;
+                onSend();
+            }
+        }
+    }
+
     public void onSend() {
         activityThreadProgress.setVisibility(View.VISIBLE);
         LastMessage tempLastMsgReciver;
@@ -194,6 +230,8 @@ public class SendMessage extends AppCompatActivity {
             tempLastMsgReciver = new LastMessage(coordinates, ts, senderName, lastMessage.getChatContainer(), status, true);
             tempMsg = new Message(coordinates, ts, senderUid, reciverUid, true);
         }
+
+        isMap = false;
 
         DatabaseReference chatRef = firebaseDatabase.getReference("ChatRef/" + senderUid + "/" + reciverUid);
         chatRef.setValue(true);

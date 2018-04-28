@@ -74,7 +74,8 @@ public class EmployeeProfile extends AppCompatActivity implements IPickResult {
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
+                Toast.makeText(EmployeeProfile.this, "Failed To Upload Profile Pic", Toast.LENGTH_SHORT).show();
+
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -85,6 +86,7 @@ public class EmployeeProfile extends AppCompatActivity implements IPickResult {
                 temp.add(skills.getText().toString());
                 Employee employee=new Employee(temp,downloadUrl.toString());
                 empRef.setValue(employee);*/
+                setResult(1);
                 finish();
             }
         });

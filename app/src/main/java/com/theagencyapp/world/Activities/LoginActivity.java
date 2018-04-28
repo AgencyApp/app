@@ -42,6 +42,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,6 +88,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private CoordinatorLayout coordinatorLayout;
     private GoogleSignInClient mGoogleSignInClient;
     private SharedPreferences sharedPref;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
 
     @SuppressLint("RestrictedApi")
@@ -95,6 +98,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         auth = FirebaseAuth.getInstance();
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
         if (auth.getCurrentUser() != null) {
@@ -361,6 +365,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     startActivity(intent);
                     finish();
                 } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.METHOD, "DefaultMethod");
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("agencyId", user.getAgencyid());
                     intent.putExtra("status", user.getStatus());
