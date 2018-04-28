@@ -56,6 +56,7 @@ public class SendMessage extends AppCompatActivity {
         messages = new ArrayList<>();
         msg = findViewById(R.id.chat_input);
 
+        setTitle(reciverName);
         activityThreadProgress = findViewById(R.id.activity_thread_progress);
         activityThreadProgress.setVisibility(View.INVISIBLE);
 
@@ -65,7 +66,7 @@ public class SendMessage extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("data", Context.MODE_PRIVATE);
-        senderName = sharedPreferences.getString("agency_id", "h");
+        senderName = sharedPreferences.getString("name", "h");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.activity_thread_send_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -89,15 +90,15 @@ public class SendMessage extends AppCompatActivity {
                     DatabaseReference dR=firebaseDatabase.getReference("CurrentChat/"+senderUid+"/"+reciverUid);
                     dR.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            lastMessage=dataSnapshot.getValue(LastMessage.class);
-                            if(lastMessage==null) {
+                        public void onDataChange(DataSnapshot dataSnapshota) {
+                            if (dataSnapshota.getValue() != null && dataSnapshota.getValue(LastMessage.class) != null) {
+                                lastMessage = dataSnapshota.getValue(LastMessage.class);
+                            } else {
                                 DatabaseReference dR = firebaseDatabase.getReference("ChatContainer").push();
-                                String key=dR.getKey();
-                                lastMessage=new LastMessage(reciverName,key);
+                                String key = dR.getKey();
+                                lastMessage = new LastMessage(reciverName, key);
                             }
-
-                                updateMessages();
+                            updateMessages();
 
 
                         }
@@ -126,10 +127,10 @@ public class SendMessage extends AppCompatActivity {
 
     void updateMessages() {
         DatabaseReference databaseReference = firebaseDatabase.getReference("ChatContainer/" + lastMessage.getChatContainer());
-       databaseReference.orderByChild("timeStamp").addChildEventListener(new ChildEventListener() {
+        databaseReference.orderByChild("timeStamp").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Message message = dataSnapshot.getValue(Message.class);
+                Message message = dataSnapshot.getValue(Message.class);
                     messages.add(message);
                     activityThreadProgress.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
@@ -202,12 +203,14 @@ public class SendMessage extends AppCompatActivity {
         senderRef.setValue(tempLastMsgSender);
         DatabaseReference reciverRef = firebaseDatabase.getReference("CurrentChat/" + reciverUid + "/" + senderUid);
         reciverRef.setValue(tempLastMsgReciver);
-        DatabaseReference msgRef = firebaseDatabase.getReference("ChatContainer/"+lastMessage.getChatContainer()).push();
+        DatabaseReference msgRef = firebaseDatabase.getReference("ChatContainer/" + lastMessage.getChatContainer()).push();
         msgRef.setValue(tempMsg);
         DatabaseReference notificationRef = firebaseDatabase.getReference("Notifications/Message").push();
         notificationRef.setValue(tempMsg);
 
-
+        if (messages.size() == 0) {
+            updateMessages();
+        }
 
 
     }

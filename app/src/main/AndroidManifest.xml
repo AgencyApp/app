@@ -17,6 +17,7 @@
     <application
         android:allowBackup="true"
         android:name=".Activities.mApplication"
+
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -75,11 +76,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.theagencyapp.world.Activities.SendMessage" />
 
-
-
-
         </activity>
-        android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.TeamDetailsActivity" />
         <activity android:name=".Activities.Tweet"></activity>
 
@@ -102,7 +99,7 @@
 
         <activity android:name=".Activities.UpdateClient" />
         <activity android:name=".Activities.EmployeeProfile"></activity>
-        <activity android:name=".Activities.SpeechToText">
+        <activity android:name=".Activities.SpeechToText" />
 
 
         <service
