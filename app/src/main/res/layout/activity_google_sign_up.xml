@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/coordinatorLayout"
+    android:layout_height="match_parent"
+    tools:context="com.theagencyapp.world.Activities.GoogleSignUp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ScrollView
+            android:id="@+id/google_signup_form"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/email_google_signup_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="102dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/todo"
+                    app:srcCompat="@drawable/agency_logo" />
+
+                <TextView
+                    android:id="@+id/google_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center_horizontal"
+                    android:text="@string/action_sign_up"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorPrimary" />
+
+                <EditText
+                    android:id="@+id/google_signUpName"
+                    android:layout_width="257dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="84dp"
+                    android:layout_marginStart="85dp"
+                    android:ems="10"
+                    android:hint="Name" />
+
+
+                <EditText
+                    android:id="@+id/google_signUpPhoneNo"
+                    android:layout_width="257dp"
+                    android:layout_height="43dp"
+                    android:layout_marginEnd="84dp"
+                    android:layout_marginStart="85dp"
+                    android:ems="10"
+                    android:hint="Phone" />
+
+
+
+                <Button
+                    android:id="@+id/google_SignUp"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="238dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/button_rounded_corners"
+                    android:onClick="onSignupClick"
+                    android:text="@string/action_sign_up"
+                    android:textColor="@android:color/background_light"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
+

@@ -24,6 +24,8 @@ import com.facebook.FacebookSdk;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.sinch.android.rtc.Sinch;
+import com.sinch.android.rtc.SinchClient;
 import com.theagencyapp.world.Fragments.ClientFragment;
 import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
 import com.theagencyapp.world.Fragments.ProjectFragment;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
     private String userId;
     private String agencyId;
     private String agencyName;
+
 
     private DrawerLayout mDrawerLayout;
 
@@ -266,6 +269,12 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.chat, menu);
         return true;
+    }
+
+    void initSinch()
+    {
+
+
     }
 
 

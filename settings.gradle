@@ -1,1 +1,1 @@
-include ':app', ':recyclerview-multiselect-0.2'
+include ':app', ':recyclerview-multiselect-0.2', ':sinch-android-rtc-3.12.4'

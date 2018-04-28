@@ -142,6 +142,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng sydney = new LatLng(-34, 151);
                             mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+             location=new Location("");
+             location.setLatitude(sydney.latitude);
+             location.setLongitude(sydney.longitude);
+
 
 
         }
@@ -164,6 +168,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .title("You are here")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+                location=new Location("");
+                location.setLatitude(latLng.latitude);
+                location.setLongitude(latLng.longitude);
+
             }
         });
     }
