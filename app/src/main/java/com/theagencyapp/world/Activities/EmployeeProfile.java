@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class EmployeeProfile extends AppCompatActivity implements IPickResult {
     ImageView profilePic;
-    EditText skills;
+   // EditText skills;
     FirebaseStorage storage;
     String uId;
     DatabaseReference empRef;
@@ -42,7 +42,7 @@ public class EmployeeProfile extends AppCompatActivity implements IPickResult {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_profile);
         profilePic=(ImageView)findViewById(R.id.Employee_Profile_Pic);
-        skills=(EditText)findViewById(R.id.Employee_Profile_Skills);
+       // skills=(EditText)findViewById(R.id.Employee_Profile_Skills);
         storage=FirebaseStorage.getInstance();
         uId= FirebaseAuth.getInstance().getCurrentUser().getUid();
         firebaseDatabase=FirebaseDatabase.getInstance();
@@ -80,11 +80,11 @@ public class EmployeeProfile extends AppCompatActivity implements IPickResult {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+               /* Uri downloadUrl = taskSnapshot.getDownloadUrl();
                 ArrayList<String> temp=new ArrayList<>();
                 temp.add(skills.getText().toString());
                 Employee employee=new Employee(temp,downloadUrl.toString());
-                empRef.setValue(employee);
+                empRef.setValue(employee);*/
                 finish();
             }
         });
