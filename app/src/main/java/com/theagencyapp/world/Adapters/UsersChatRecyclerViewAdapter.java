@@ -39,7 +39,7 @@ public class UsersChatRecyclerViewAdapter extends RecyclerView.Adapter<UsersChat
         holder.mItem = mValues.get(position);
         holder.mName.setText(mValues.get(position).getReciverName());
         holder.mLastMessage.setText(mValues.get(position).getLastMessage());
-        holder.mTimeStamp.setText(mValues.get(position).getTimeStamp());
+        holder.mTimeStamp.setText(String.valueOf(mValues.get(position).getTimeStamp()));
 
 
         //TODO: Set Bitmap for User

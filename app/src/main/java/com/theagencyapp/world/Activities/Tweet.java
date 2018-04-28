@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -30,12 +33,13 @@ public class Tweet extends AppCompatActivity {
     AccessToken mAcesstoken;
     String pin;
     Twitter mtwitter;
-    Twitter mTwitterWithAuth;
+   // Twitter mTwitterWithAuth;
     SharedPreferences sharedPreferences;
     String mTwitterVerifier = null;
     String oAuth_token;
     String oAuth_tokenSecret;
     EditText tweetText;
+    List<Status> tweets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +48,13 @@ public class Tweet extends AppCompatActivity {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey("81hnFl5b4VM3hUqaApWlZt9eU")
-                .setOAuthConsumerSecret("MqWwpdEbryt3gyf4AbQGVlGJ4U8SGNXJJ5X7nYYBTaCNRbPQnB");
+                .setOAuthConsumerSecret("MqWwpdEbryt3gyf4AbQGVlGJ4U8SGNXJJ5X7nYYBTaCNRbPQnB")
+                .setOAuthAccessToken("988011971223216128-RlnnJWjgqVzYXo0NA9T2kCR29AEo7oQ")
+                .setOAuthAccessTokenSecret("Ob28nHSnq3lA2zSD7tIWmrmiGAGSAEzHMK3VBVh6GhuQ8");
         TwitterFactory tf = new TwitterFactory(cb.build());
         mtwitter = tf.getInstance();
         tweetText=(EditText)findViewById(R.id.twitter_tweetText);
-        sharedPreferences=getSharedPreferences("twitter", Context.MODE_PRIVATE);
+        /*sharedPreferences=getSharedPreferences("twitter", Context.MODE_PRIVATE);
         if(!checkAuthentication())
         {
             StartAuthentication sA=new StartAuthentication();
@@ -57,11 +63,14 @@ public class Tweet extends AppCompatActivity {
         else
         {
            loadTwitter();
-        }
+        }*/
+        GetTweets getTweets=new GetTweets();
+        getTweets.execute();
+
 
     }
 
-    void loadTwitter()
+   /* void loadTwitter()
     {
         oAuth_token=sharedPreferences.getString("oAuth_token",null);
         oAuth_tokenSecret=sharedPreferences.getString("oAuth_tokenSecret",null);
@@ -76,23 +85,23 @@ public class Tweet extends AppCompatActivity {
         PublishTweet publishTweet=new PublishTweet();
         publishTweet.execute("Hi");
 
-    }
+    }*/
 
 
-    boolean checkAuthentication()
+    /*boolean checkAuthentication()
     {
         return sharedPreferences.getBoolean("Authenticated",false);
-    }
+    }*/
 
 
-    @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null)
             pin=data.getStringExtra("pin");
         Acessotkenkk atg=new Acessotkenkk();
             atg.execute();
-    }
+    }*/
 
 
     public class PublishTweet extends AsyncTask<String,Void,String>
@@ -101,8 +110,8 @@ public class Tweet extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             try {
-                mTwitterWithAuth.updateStatus(strings[0]);
-                Toast.makeText(Tweet.this,"Tweet Published",Toast.LENGTH_LONG).show();
+                mtwitter.updateStatus(strings[0]);
+              //  Toast.makeText(Tweet.this,"Tweet Published",Toast.LENGTH_LONG).show();
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
@@ -111,7 +120,25 @@ public class Tweet extends AppCompatActivity {
     }
 
 
-    public class StartAuthentication extends AsyncTask<Void,Void,Void>
+    public class GetTweets extends AsyncTask<Void,Void,Void>
+    {
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try {
+                tweets=mtwitter.getHomeTimeline();
+                //notify data set change.
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+
+   /* public class StartAuthentication extends AsyncTask<Void,Void,Void>
     {
 
         @Override
@@ -123,7 +150,7 @@ public class Tweet extends AppCompatActivity {
                    // .setOAuthAccessToken("988011971223216128-RlnnJWjgqVzYXo0NA9T2kCR29AEo7oQ")
                     //.setOAuthAccessTokenSecret("Ob28nHSnq3lA2zSD7tIWmrmiGAGSAEzHMK3VBVh6GhuQ8");
             TwitterFactory tf = new TwitterFactory(cb.build());
-            Twitter twitter = tf.getInstance();*/
+            Twitter twitter = tf.getInstance();
             try {
                 mRequestToken = mtwitter.getOAuthRequestToken(mCallbackUrl);
 
@@ -145,9 +172,9 @@ public class Tweet extends AppCompatActivity {
 
 
         }
-    }
+    }*/
 
-    public class Acessotkenkk extends AsyncTask<Void,Void,Void>
+   /* public class Acessotkenkk extends AsyncTask<Void,Void,Void>
     {
 
         @Override
@@ -171,13 +198,16 @@ public class Tweet extends AppCompatActivity {
             editor.commit();
             loadTwitter();
         }
-    }
+    }*/
 
     public void onTweetClick(View view)
     {
         PublishTweet publishTweet=new PublishTweet();
         publishTweet.execute(tweetText.getText().toString());
     }
+
+
+
 
 
 }

@@ -7,13 +7,13 @@ package com.theagencyapp.world.ClassModel;
 public class LastMessage {
 
     String lastMessage;
-    String timeStamp;
+    Long timeStamp;
     String reciverName;
     String chatContainer;
     String status;
     boolean isMap;
 
-    public LastMessage(String lastMessage, String timeStamp, String reciverName, String chatContainer, String status, boolean isMap) {
+    public LastMessage(String lastMessage, Long timeStamp, String reciverName, String chatContainer, String status, boolean isMap) {
         this.lastMessage = lastMessage;
         this.timeStamp = timeStamp;
         this.reciverName = reciverName;
@@ -46,11 +46,11 @@ public class LastMessage {
         this.lastMessage = lastMessage;
     }
 
-    public String getTimeStamp() {
+    public Long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(Long timeStamp) {
         this.timeStamp = timeStamp;
     }
 
@@ -77,4 +77,6 @@ public class LastMessage {
     public void setMap(boolean map) {
         isMap = map;
     }
+
+
 }

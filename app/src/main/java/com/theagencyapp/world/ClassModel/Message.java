@@ -6,12 +6,12 @@ package com.theagencyapp.world.ClassModel;
 
 public class Message {
     String message;
-    String timeStamp;
+    Long timeStamp;
     String senderUid;
     String reciverUid;
     boolean isMap;
 
-    public Message(String message, String timeStamp, String senderUid, String reciverUid, boolean isMap) {
+    public Message(String message, Long timeStamp, String senderUid, String reciverUid, boolean isMap) {
         this.message = message;
         this.timeStamp = timeStamp;
         this.senderUid = senderUid;
@@ -30,11 +30,11 @@ public class Message {
         this.message = message;
     }
 
-    public String getTimeStamp() {
+    public Long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(Long timeStamp) {
         this.timeStamp = timeStamp;
     }
 
