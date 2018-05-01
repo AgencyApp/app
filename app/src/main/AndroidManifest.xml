@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.theagencyapp.world">
-
+    uses-feature
+    android:name="android.hardware.microphone"
+    android:required="false"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -28,9 +30,8 @@
          location permissions for the 'MyLocation' functionality.
     -->
     <application
-        android:allowBackup="true"
         android:name=".Activities.mApplication"
-
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -40,17 +41,17 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".Activities.LoginActivity" />
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".Activities.LoginActivity"
             android:theme="@style/splashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <activity android:name=".Activities.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Activities.SignUpActivity" />
         <activity android:name=".Activities.AddCompanyActivity" />
         <activity android:name=".Activities.SubscriptonActivity" />
@@ -59,7 +60,7 @@
         <activity
             android:name=".Activities.AddProject"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activities.AddTeam"></activity>
+        <activity android:name=".Activities.AddTeam" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -87,17 +88,17 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.theagencyapp.world.Activities.SendMessage" />
-
         </activity>
         <activity android:name=".Activities.TeamDetailsActivity" />
-        <activity android:name=".Activities.Tweet"></activity>
-        <activity android:name=".Activities.ShowMap"></activity>
+        <activity android:name=".Activities.Tweet" />
 
         <service android:name=".Services.IstanceIdGenerator">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <service android:name=".Services.SinchService"></service>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -111,9 +112,8 @@
         </provider>
 
         <activity android:name=".Activities.UpdateClient" />
-        <activity android:name=".Activities.EmployeeProfile"></activity>
+        <activity android:name=".Activities.EmployeeProfile" />
         <activity android:name=".Activities.SpeechToText" />
-
 
         <service android:name=".Services.IstanceIdGenerator">
             <intent-filter>
@@ -138,7 +138,15 @@
             android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".Activities.ActivityAdMobs"
-            android:label="@string/title_activity_ad_mobs"></activity>
+            android:label="@string/title_activity_ad_mobs" />
+        <activity android:name=".Activities.GoogleSignUp" />
+        <activity android:name=".Activities.MakeCall" />
+        <activity android:name=".Activities.PlaceCallActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.CallScreenActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.IncomingCallScreenActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
