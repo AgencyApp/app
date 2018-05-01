@@ -57,8 +57,11 @@ public class TeamDetailsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final Team team = dataSnapshot.getValue(Team.class);
-                for (String emp : team.getEmployeeId())
-                    fetchEmployeeData(emp);
+                if (team != null) {
+                    for (String emp : team.getEmployeeId())
+                        fetchEmployeeData(emp);
+                }
+
 
             }
 

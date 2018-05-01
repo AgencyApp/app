@@ -26,24 +26,24 @@ public class GoogleSignUp extends AppCompatActivity {
     private Button btnSignUp;
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_sign_up);
-        btnSignUp=(Button)findViewById(R.id.SignUp);
-        Name=(EditText)findViewById(R.id.signUpName);
-        PhoneNo=(EditText)findViewById(R.id.signUpPhoneNo);
-        auth=FirebaseAuth.getInstance();
-        databaseReference= FirebaseDatabase.getInstance().getReference();
+        btnSignUp = (Button) findViewById(R.id.SignUp);
+        Name = (EditText) findViewById(R.id.signUpName);
+        PhoneNo = (EditText) findViewById(R.id.signUpPhoneNo);
+        auth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     public void onSignupClick(View view) {
         String name = Name.getText().toString().trim();
-        String phone=PhoneNo.getText().toString().trim();
+        String phone = PhoneNo.getText().toString().trim();
 
         boolean cancel = false;
         View focusView = null;
-
 
 
         if (TextUtils.isEmpty(name)) {
@@ -56,7 +56,6 @@ public class GoogleSignUp extends AppCompatActivity {
             focusView = PhoneNo;
             cancel = true;
         }
-
 
 
         if (cancel) {
@@ -76,7 +75,6 @@ public class GoogleSignUp extends AppCompatActivity {
 
 
     }
-
 
 
 }

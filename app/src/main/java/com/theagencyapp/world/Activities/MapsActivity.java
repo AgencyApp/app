@@ -174,11 +174,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(location==null) {
             // Add a marker in Sydney and move the camera
             LatLng sydney = new LatLng(-34, 151);
-                            mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-             location=new Location("");
-             location.setLatitude(sydney.latitude);
-             location.setLongitude(sydney.longitude);
+            mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            location = new Location("");
+            location.setLatitude(sydney.latitude);
+            location.setLongitude(sydney.longitude);
 
 
 
@@ -186,12 +186,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else
         {
             Double lat = location.getLatitude();
-                            Double lng = location.getLongitude();
+            Double lng = location.getLongitude();
 
 
-                            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("Your location"));
+            mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("Your location"));
 
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 16));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 16));
         }
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
@@ -202,7 +202,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .title("You are here")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
-                location=new Location("");
+                location = new Location("");
                 location.setLatitude(latLng.latitude);
                 location.setLongitude(latLng.longitude);
 

@@ -1,5 +1,6 @@
 package com.theagencyapp.world.Activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.sinch.android.rtc.Sinch;
@@ -43,7 +45,7 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class MainActivity extends BaseActivity implements OnListFragmentInteractionListener , SinchService.StartFailedListener {
+public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
@@ -54,6 +56,9 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
     private String agencyId;
     private String agencyName;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+    ImageView dp;
 
     private DrawerLayout mDrawerLayout;
 
@@ -85,6 +90,7 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide_navigation);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -94,6 +100,8 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
+
+
 
         auth=FirebaseAuth.getInstance();
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -114,6 +122,14 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
         //String name=sharedPreferences.getString("name","h");
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences("data", Context.MODE_PRIVATE);
+        String name = sharedPreferences.getString("name", "h");
+
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.person_name)).setText(name);
+
+        dp = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        ProfilePicture.setProfilePicture(FirebaseAuth.getInstance().getCurrentUser().getUid(), dp);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -256,10 +272,20 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
                 startActivity(new Intent(this, AddTeam.class));
         } else {
             if (action.equals("ProjectDetails")) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Project");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, bundle.getString("project_name"));
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                 Intent intent = new Intent(this, ProjectDetailsActivity.class);
                 intent.putExtra("details", details);
                 startActivity(intent);
             } else if (action.equals("TeamDetails")) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Team");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, bundle.getString("team_id"));
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                 Intent intent = new Intent(this, TeamDetailsActivity.class);
                 intent.putExtra("details", details);
                 startActivity(intent);
@@ -267,6 +293,14 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
 
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == 1)
+                ProfilePicture.setProfilePicture(FirebaseAuth.getInstance().getCurrentUser().getUid(), dp);
+        }
     }
 
     @Override

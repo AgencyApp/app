@@ -102,8 +102,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (auth.getCurrentUser() != null) {
             checkSubscription();
             setTheme(R.style.AppTheme_NoActionBar);
-        }
-        else {
+        } else {
 
             setTheme(R.style.AppTheme_NoActionBar);
             setContentView(R.layout.activity_login);
@@ -513,22 +512,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    void checkUser()
-    {
-        DatabaseReference userRef=firebaseDatabase.getReference("Users/"+firebaseAuth.getCurrentUser().getUid());
+    void checkUser() {
+        DatabaseReference userRef = firebaseDatabase.getReference("Users/" + firebaseAuth.getCurrentUser().getUid());
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User currentUser;
-                currentUser=dataSnapshot.getValue(User.class);
-                if(currentUser==null||dataSnapshot.getValue()==null)
-                {
+                currentUser = dataSnapshot.getValue(User.class);
+                if (currentUser == null || dataSnapshot.getValue() == null) {
                     Intent intent = new Intent(LoginActivity.this, GoogleSignUp.class);
                     startActivity(intent);
                     finish();
-                }
-                else
-                {
+                } else {
                     checkSubscription();
                 }
             }

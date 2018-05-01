@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.theagencyapp.world.ClassModel.Client_Display;
 import com.theagencyapp.world.R;
+import com.theagencyapp.world.Utility.ProfilePicture;
 
 import java.util.List;
 
@@ -37,9 +38,7 @@ public class ClientsRecyclerViewAdapter extends RecyclerView.Adapter<ClientsRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mName.setText(mValues.get(position).getName());
-
-
-        //TODO: Set Bitmap for Employee
+        ProfilePicture.setProfilePicture(mValues.get(position).getClient_id(), holder.mPicture);
 
 
     }

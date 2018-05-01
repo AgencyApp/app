@@ -61,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity  {
         String password = inputPassword.getText().toString().trim();
         String confirm_password = inputPassword.getText().toString().trim();
         String name = Name.getText().toString().trim();
-        String phone=PhoneNo.getText().toString().trim();
+        String phone = PhoneNo.getText().toString().trim();
 
         boolean cancel = false;
         View focusView = null;
