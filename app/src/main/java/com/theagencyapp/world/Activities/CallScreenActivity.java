@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,6 +36,7 @@ public class CallScreenActivity extends BaseActivity {
     private TextView mCallDuration;
     private TextView mCallState;
     private TextView mCallerName;
+    private String receiverName;
 
     private class UpdateCallDurationTask extends TimerTask {
 
@@ -67,6 +69,7 @@ public class CallScreenActivity extends BaseActivity {
             }
         });
         mCallId = getIntent().getStringExtra(SinchService.CALL_ID);
+        receiverName=getIntent().getStringExtra("receiverName");
     }
 
     @Override
@@ -74,7 +77,7 @@ public class CallScreenActivity extends BaseActivity {
         Call call = getSinchServiceInterface().getCall(mCallId);
         if (call != null) {
             call.addCallListener(new SinchCallListener());
-            mCallerName.setText(call.getRemoteUserId());
+            mCallerName.setText(receiverName);
             mCallState.setText(call.getState().toString());
         } else {
             Log.e(TAG, "Started with invalid callId, aborting.");
