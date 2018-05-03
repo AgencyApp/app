@@ -3,11 +3,11 @@
     <item
         android:id="@+id/chat_icon"
         android:icon="@drawable/ic_chat_black_24dp"
-        android:title="@string/done"
+        android:title="Chat"
         app:showAsAction="always" />
     <item
         android:id="@+id/Call_icon"
-        android:icon="@drawable/ic_call_white_24dp"
+        android:icon="@drawable/ic_call_black_24dp"
         android:title="Call"
         app:showAsAction="always" />
     <item

@@ -64,6 +64,17 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_size_secondary" />
 
+            <ImageButton
+                android:id="@+id/micButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/chat_input"
+                android:layout_alignRight="@+id/chat_input"
+                android:layout_alignTop="@+id/chat_input"
+                android:onClick="onMicClick"
+                android:padding="5dp"
+                android:src="@drawable/ic_mic_black_24dp" />
+
         </RelativeLayout>
 
         <View

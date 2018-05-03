@@ -23,9 +23,9 @@ import com.theagencyapp.world.R;
 
 import java.util.ArrayList;
 
-public class AttendanceLog extends AppCompatActivity  {
+public class AttendanceLog extends AppCompatActivity {
 
-    ArrayList<AttendanceDisplay>data;
+    ArrayList<AttendanceDisplay> data;
     String agencyId;
     FirebaseDatabase firebaseDatabase;
     RecyclerView recyclerView;
@@ -39,22 +39,21 @@ public class AttendanceLog extends AppCompatActivity  {
         setContentView(R.layout.activity_attendance_log);
         SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
         agencyId = sharedPreferences.getString("agency_id", "h");
-        data=new ArrayList<>();
-        firebaseDatabase =FirebaseDatabase.getInstance();
-        recyclerView=findViewById(R.id.Attendance_log_rc);
+        data = new ArrayList<>();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        recyclerView = findViewById(R.id.Attendance_log_rc);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerView.setAdapter(adapter = new AttendanceLogRC(data));
         fetchAttendance();
     }
 
-    void fetchAttendance()
-    {
-        DatabaseReference databaseReference=firebaseDatabase.getReference("Attendance/"+agencyId);
+    void fetchAttendance() {
+        DatabaseReference databaseReference = firebaseDatabase.getReference("Attendance/" + agencyId);
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Attendance attendance=dataSnapshot.getValue(Attendance.class);
+                Attendance attendance = dataSnapshot.getValue(Attendance.class);
                 fetchAttendanceDisplay(attendance);
             }
 
@@ -82,14 +81,13 @@ public class AttendanceLog extends AppCompatActivity  {
 
     }
 
-    void fetchAttendanceDisplay(final Attendance attendance)
-    {
-        DatabaseReference userRef=firebaseDatabase.getReference("Users/"+attendance.getEmployeeId());
+    void fetchAttendanceDisplay(final Attendance attendance) {
+        DatabaseReference userRef = firebaseDatabase.getReference("Users/" + attendance.getEmployeeId());
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User currentUser=dataSnapshot.getValue(User.class);
-                data.add(new AttendanceDisplay(attendance.getTimeStamp(),attendance.getEmployeeId(),currentUser.getName()));
+                User currentUser = dataSnapshot.getValue(User.class);
+                data.add(new AttendanceDisplay(attendance.getTimeStamp(), attendance.getEmployeeId(), currentUser.getName()));
                 adapter.notifyDataSetChanged();
             }
 

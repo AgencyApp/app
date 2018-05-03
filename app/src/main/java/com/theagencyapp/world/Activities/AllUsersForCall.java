@@ -181,13 +181,12 @@ public class AllUsersForCall extends AppCompatActivity implements OnListFragment
         });
     }
 
-    void getCurrentUserData()
-    {
-        DatabaseReference userRef=firebaseDatabase.getReference("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid());
+    void getCurrentUserData() {
+        DatabaseReference userRef = firebaseDatabase.getReference("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                currentUser=dataSnapshot.getValue(User.class);
+                currentUser = dataSnapshot.getValue(User.class);
             }
 
             @Override
@@ -204,7 +203,7 @@ public class AllUsersForCall extends AppCompatActivity implements OnListFragment
         Intent intent = new Intent(this, PlaceCallActivity.class);
         intent.putExtra("receiverId", details.getString("receiverUid"));
         intent.putExtra("receiverName", details.getString("receiverName"));
-        intent.putExtra("callerName",currentUser.getName());
+        intent.putExtra("callerName", currentUser.getName());
         startActivity(intent);
         finish();
     }

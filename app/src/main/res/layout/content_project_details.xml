@@ -147,8 +147,10 @@
             android:id="@+id/project_client_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
             android:layout_marginTop="5dp"
-            android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+            android:textAppearance="@android:style/TextAppearance.Material.Body1"
+            android:visibility="visible" />
 
     </LinearLayout>
 

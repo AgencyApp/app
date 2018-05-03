@@ -69,7 +69,7 @@ public class CallScreenActivity extends BaseActivity {
             }
         });
         mCallId = getIntent().getStringExtra(SinchService.CALL_ID);
-        receiverName=getIntent().getStringExtra("receiverName");
+        receiverName = getIntent().getStringExtra("receiverName");
     }
 
     @Override

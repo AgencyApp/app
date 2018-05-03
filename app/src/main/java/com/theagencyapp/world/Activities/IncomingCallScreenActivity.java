@@ -50,7 +50,7 @@ public class IncomingCallScreenActivity extends BaseActivity {
         if (call != null) {
             call.addCallListener(new SinchCallListener());
             TextView remoteUser = (TextView) findViewById(R.id.remoteUser);
-            Map<String,String> name=call.getHeaders();
+            Map<String, String> name = call.getHeaders();
             remoteUser.setText(name.get("name"));
         } else {
             Log.e(TAG, "Started with invalid callId, aborting");

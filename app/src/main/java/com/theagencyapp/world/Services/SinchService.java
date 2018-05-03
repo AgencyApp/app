@@ -99,13 +99,13 @@ public class SinchService extends Service {
             return mSinchClient.getCallClient().callPhoneNumber(phoneNumber);
         }
 
-        public Call callUser(String userId,String Name) {
+        public Call callUser(String userId, String Name) {
             if (mSinchClient == null) {
                 return null;
             }
-            Map<String,String> name=new HashMap<>();
-            name.put("name",Name);
-            return mSinchClient.getCallClient().callUser(userId,name);
+            Map<String, String> name = new HashMap<>();
+            name.put("name", Name);
+            return mSinchClient.getCallClient().callUser(userId, name);
         }
 
         public String getUserName() {

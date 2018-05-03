@@ -360,6 +360,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
                         if (client != null) {
                             ProfilePicture.setProfilePicture(clientId, clientIcon);
                             clientName.setText(user.getName());
+
                         } else {
                             clientIcon.setVisibility(View.GONE);
                         }

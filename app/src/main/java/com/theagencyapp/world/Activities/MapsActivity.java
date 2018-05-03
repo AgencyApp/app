@@ -30,7 +30,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationManager locationManager;
     String provider;
     Location location;
-    boolean isMapstarted,location_fetch;
+    boolean isMapstarted, location_fetch;
 
     FloatingActionButton fab;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -65,7 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onLocationChanged(Location l) {
                         location = l;
-                        if(mMap!=null) {
+                        if (mMap != null) {
                             mMap.clear();
                             mMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(), l.getLongitude())).title("Your location"));
 

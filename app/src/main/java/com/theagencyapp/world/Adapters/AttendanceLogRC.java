@@ -28,7 +28,6 @@ public class AttendanceLogRC extends RecyclerView.Adapter<AttendanceLogRC.ViewHo
     private final List<AttendanceDisplay> mValues;
 
 
-
     public AttendanceLogRC(List<AttendanceDisplay> items) {
         mValues = items;
 
@@ -44,7 +43,7 @@ public class AttendanceLogRC extends RecyclerView.Adapter<AttendanceLogRC.ViewHo
 
     @Override
     public void onBindViewHolder(final AttendanceLogRC.ViewHolder holder, final int position) {
-        holder.mItem=mValues.get(position);
+        holder.mItem = mValues.get(position);
         holder.mName.setText(mValues.get(position).getEmployeeName());
         Date date = new Date(mValues.get(position).getTimeStamp() * 1000);
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 
+import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,7 +53,7 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class MainActivity extends BaseActivity implements OnListFragmentInteractionListener,SinchService.StartFailedListener  {
+public class MainActivity extends BaseActivity implements OnListFragmentInteractionListener, SinchService.StartFailedListener {
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
@@ -100,7 +102,7 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
         SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
         agencyId = sharedPreferences.getString("agency_id", "h");
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        callClicked=false;
+        callClicked = false;
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -133,7 +135,7 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
 
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-      //  SharedPreferences sharedPreferences = this.getSharedPreferences("data", Context.MODE_PRIVATE);
+        //  SharedPreferences sharedPreferences = this.getSharedPreferences("data", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("name", "h");
 
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.person_name)).setText(name);
@@ -150,7 +152,7 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
                         mDrawerLayout.closeDrawers();
 
                         int id = menuItem.getItemId();
-                        //TODO
+
                         if (id == R.id.nav_camera) {
                             startActivity(new Intent(MainActivity.this, EmployeeProfile.class));
                         } else if (id == R.id.nav_tweets) {
@@ -158,17 +160,15 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
                             getTweets.execute();
                         } else if (id == R.id.nav_log_out) {
                             auth.signOut();
-                        }
-                        else if(id==R.id.nav_gallery)
-                        {
+                        } else if (id == R.id.nav_attendance) {
 
                             startActivity(new Intent(MainActivity.this, AttendanceLog.class));
-                        }
-                        else if(id==R.id.nav_agencyLocation)
-                        {
-                            Intent intent=new Intent(MainActivity.this,MapsActivity.class);
-                            startActivityForResult(intent,415);
+                        } else if (id == R.id.nav_agencyLocation) {
+                            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                            startActivityForResult(intent, 415);
 
+                        } else if (id == R.id.nav_firebase) {
+                            onInviteClick();
                         }
 
 
@@ -219,15 +219,15 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
 
     @Override
     public void onStartFailed(SinchError error) {
-        Toast.makeText(this,"ServiceFalied",Toast.LENGTH_LONG);
+        Toast.makeText(this, "ServiceFalied", Toast.LENGTH_LONG);
     }
 
 
     @Override
-    public void onStarted()
-    {   if(callClicked) {
-        callClicked=false;
-        openPlaceCallActivity();
+    public void onStarted() {
+        if (callClicked) {
+            callClicked = false;
+            openPlaceCallActivity();
         }
     }
 
@@ -283,6 +283,16 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
         }
     }
 
+    public void onInviteClick() {
+        Intent intent = new AppInviteInvitation.IntentBuilder("Agency")
+                .setMessage("Download my app!")
+                .setDeepLink(Uri.parse("https://agency.com"))
+                .setCallToActionText("Send")
+                .build();
+        startActivityForResult(intent, 2);
+    }
+
+
     @Override
     public void onListFragmentInteraction(Bundle details, String action, boolean isFabClicked) {
         if (isFabClicked) {
@@ -320,10 +330,8 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
         if (requestCode == 1) {
             if (resultCode == 1)
                 ProfilePicture.setProfilePicture(FirebaseAuth.getInstance().getCurrentUser().getUid(), dp);
-        }
-        else if(requestCode==415&&data!=null)
-        {
-            MyLocation myLocation=new MyLocation(data.getDoubleExtra("lng",0),data.getDoubleExtra("lat",0));
+        } else if (requestCode == 415 && data != null) {
+            MyLocation myLocation = new MyLocation(data.getDoubleExtra("lng", 0), data.getDoubleExtra("lat", 0));
             FirebaseDatabase.getInstance().getReference("AgencyLocation").child(agencyId).setValue(myLocation);
         }
     }
@@ -362,7 +370,7 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
     }
     private void callClicked() {
         String userName = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        callClicked=true;
+        callClicked = true;
 
         if (userName.isEmpty()) {
             Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
@@ -375,7 +383,7 @@ public class MainActivity extends BaseActivity implements OnListFragmentInteract
 
         if (!getSinchServiceInterface().isStarted()) {
             getSinchServiceInterface().startClient(userName);
-           // showSpinner();
+            // showSpinner();
         } else {
             openPlaceCallActivity();
         }

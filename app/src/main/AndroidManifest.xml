@@ -113,6 +113,7 @@
         <activity android:name=".Activities.UpdateClient" />
         <activity android:name=".Activities.EmployeeProfile" />
         <activity android:name=".Activities.SpeechToText" />
+        <activity android:name=".Activities.ShowMap" />
 
         <service android:name=".Services.IstanceIdGenerator">
             <intent-filter>

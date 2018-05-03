@@ -1,8 +1,10 @@
 package com.theagencyapp.world.Activities;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -29,6 +32,7 @@ import com.theagencyapp.world.R;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SendMessage extends AppCompatActivity {
     String reciverUid;
@@ -63,9 +67,12 @@ public class SendMessage extends AppCompatActivity {
         activityThreadProgress.setVisibility(View.INVISIBLE);
 
         RecyclerView recyclerView = findViewById(R.id.messages_recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new MessagesAdapter(this, senderUid, messages);
         recyclerView.setAdapter(adapter);
+
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("data", Context.MODE_PRIVATE);
         senderName = sharedPreferences.getString("name", "h");
@@ -82,6 +89,18 @@ public class SendMessage extends AppCompatActivity {
         UpdateUI();
 
     }
+
+    public void onMicClick(View view) {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+        try {
+            startActivityForResult(intent, 200);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(), "Intent problem", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     void UpdateUI() {
         DatabaseReference databaseReference = firebaseDatabase.getReference("ChatRef/" + senderUid + "/" + reciverUid);
@@ -208,6 +227,11 @@ public class SendMessage extends AppCompatActivity {
                 coordinates = Double.toString(data.getDoubleExtra("lat", 0)) + "," + Double.toString(data.getDoubleExtra("lng", 0));
                 isMap = true;
                 onSend();
+            }
+        } else if (requestCode == 200) {
+            if (resultCode == RESULT_OK && data != null) {
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                msg.setText(result.get(0));
             }
         }
     }

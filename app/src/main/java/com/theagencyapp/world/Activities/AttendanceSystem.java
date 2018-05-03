@@ -45,13 +45,13 @@ public class AttendanceSystem extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendence_system);
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        markAttendanceButton=(Button)findViewById(R.id.MarkAttendence);
+        markAttendanceButton = (Button) findViewById(R.id.MarkAttendence);
         SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
         agencyId = sharedPreferences.getString("agency_id", "h");
         markAttendanceButton.setEnabled(false);
-        error=findViewById(R.id.Attendence_Not_Ready);
-        firebaseDatabase=FirebaseDatabase.getInstance();
-        coordinatorLayout=findViewById(R.id.Attendence_coordinatorLayout);
+        error = findViewById(R.id.Attendence_Not_Ready);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        coordinatorLayout = findViewById(R.id.Attendence_coordinatorLayout);
         getOfficeLocation();
         getPermission();
 
@@ -69,7 +69,7 @@ public class AttendanceSystem extends AppCompatActivity {
                 0, new LocationListener() {
                     @Override
                     public void onLocationChanged(Location l) {
-                        location=l;
+                        location = l;
                         error.setText("Go Ahead Mark Your Attendance!");
                         error.setTextColor(Color.parseColor("#55AA55"));
 
@@ -92,9 +92,8 @@ public class AttendanceSystem extends AppCompatActivity {
                 });
     }
 
-    void getPermission()
-    {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+    void getPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -116,8 +115,7 @@ public class AttendanceSystem extends AppCompatActivity {
             }
 
         }
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_COARSE_LOCATION)) {
 
@@ -138,14 +136,14 @@ public class AttendanceSystem extends AppCompatActivity {
             }
         }
     }
-    void getOfficeLocation()
-    {
 
-        DatabaseReference databaseReference=firebaseDatabase.getReference("AgencyLocation").child(agencyId);
+    void getOfficeLocation() {
+
+        DatabaseReference databaseReference = firebaseDatabase.getReference("AgencyLocation").child(agencyId);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                officeLocation=dataSnapshot.getValue(MyLocation.class);
+                officeLocation = dataSnapshot.getValue(MyLocation.class);
                 markAttendanceButton.setEnabled(true);
             }
 
@@ -156,9 +154,9 @@ public class AttendanceSystem extends AppCompatActivity {
         });
 
     }
-    public void onMarkAttendance(View view)
-    {
-        if(officeLocation!=null&&location!=null) {
+
+    public void onMarkAttendance(View view) {
+        if (officeLocation != null && location != null) {
             float[] result = new float[3];
             Location.distanceBetween(officeLocation.getLatitude(), officeLocation.getLongitude(), location.getLatitude(), location.getLongitude(), result);
             if (Math.abs(result[0]) < 5) {
@@ -183,14 +181,11 @@ public class AttendanceSystem extends AppCompatActivity {
 
 
                         .show();
-            }
-            else
-            {
+            } else {
                 Snackbar.make(coordinatorLayout, "Your are not in Office!", Snackbar.LENGTH_LONG).show();
             }
 
-        }
-        else{
+        } else {
             Snackbar.make(coordinatorLayout, "Your are not in Office!", Snackbar.LENGTH_LONG).show();
         }
 

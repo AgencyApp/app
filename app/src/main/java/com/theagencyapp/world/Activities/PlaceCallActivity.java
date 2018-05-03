@@ -27,15 +27,15 @@ public class PlaceCallActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_call);
-        receiverNameTextView =findViewById(R.id.call_reciver_name);
+        receiverNameTextView = findViewById(R.id.call_reciver_name);
         mCallButton = (Button) findViewById(R.id.callButton);
         mCallButton.setEnabled(false);
         mCallButton.setOnClickListener(buttonClickListener);
-        Intent i=getIntent();
+        Intent i = getIntent();
         receiverNameTextView.setText(i.getStringExtra("receiverName"));
-        userName=i.getStringExtra("receiverId");
-        callerName=i.getStringExtra("callerName");
-        reciverName=i.getStringExtra("receiverName");
+        userName = i.getStringExtra("receiverId");
+        callerName = i.getStringExtra("callerName");
+        reciverName = i.getStringExtra("receiverName");
 
         //Button stopButton = (Button) findViewById(R.id.stopButton);
         //stopButton.setOnClickListener(buttonClickListener);
@@ -43,8 +43,8 @@ public class PlaceCallActivity extends BaseActivity {
 
     @Override
     protected void onServiceConnected() {
-      //  TextView userName = (TextView) findViewById(R.id.loggedInName);
-       // userName.setText(getSinchServiceInterface().getUserName());
+        //  TextView userName = (TextView) findViewById(R.id.loggedInName);
+        // userName.setText(getSinchServiceInterface().getUserName());
         mCallButton.setEnabled(true);
     }
 
@@ -63,7 +63,7 @@ public class PlaceCallActivity extends BaseActivity {
         }
 
         try {
-            Call call = getSinchServiceInterface().callUser(userName,callerName);
+            Call call = getSinchServiceInterface().callUser(userName, callerName);
             if (call == null) {
                 // Service failed for some reason, show a Toast and abort
                 Toast.makeText(this, "Service is not started. Try stopping the service and starting it again before "
@@ -73,7 +73,7 @@ public class PlaceCallActivity extends BaseActivity {
             String callId = call.getCallId();
             Intent callScreen = new Intent(this, CallScreenActivity.class);
             callScreen.putExtra(SinchService.CALL_ID, callId);
-            callScreen.putExtra("receiverName",reciverName);
+            callScreen.putExtra("receiverName", reciverName);
             startActivity(callScreen);
         } catch (MissingPermissionException e) {
             ActivityCompat.requestPermissions(this, new String[]{e.getRequiredPermission()}, 0);
