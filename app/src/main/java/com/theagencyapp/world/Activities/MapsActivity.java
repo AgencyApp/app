@@ -30,6 +30,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationManager locationManager;
     String provider;
     Location location;
+    boolean isMapstarted,location_fetch;
+
     FloatingActionButton fab;
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -58,11 +60,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000,
-                25, new LocationListener() {
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
+                1000, new LocationListener() {
                     @Override
                     public void onLocationChanged(Location l) {
                         location = l;
+                        if(mMap!=null) {
+                            mMap.clear();
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(), l.getLongitude())).title("Your location"));
+
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(l.getLatitude(), l.getLongitude()), 16));
+                        }
 
                     }
 

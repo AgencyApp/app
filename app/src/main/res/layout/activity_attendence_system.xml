@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/Attendence_coordinatorLayout"
+    tools:context="com.theagencyapp.world.Activities.AttendanceSystem">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <Button
+            android:id="@+id/MarkAttendence"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="45dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="87dp"
+            android:onClick="onMarkAttendance"
+            android:text="Mark Attendence"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Attendence_Not_Ready" />
+
+        <TextView
+            android:id="@+id/Attendence_Not_Ready"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="27dp"
+            android:layout_marginStart="27dp"
+            android:layout_marginTop="160dp"
+            android:text="Please Wait While We Get Your Location"
+            android:textColor="@color/colorRed"
+            android:textColorLink="@color/colorAccent"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

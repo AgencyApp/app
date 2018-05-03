@@ -5,4 +5,13 @@
         android:icon="@drawable/ic_chat_black_24dp"
         android:title="@string/done"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/Call_icon"
+        android:icon="@drawable/ic_call_white_24dp"
+        android:title="Call"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/markAttendence"
+        android:title="Mark Attendence"
+        app:showAsAction="never" />
 </menu>

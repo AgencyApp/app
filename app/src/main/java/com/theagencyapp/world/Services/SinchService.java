@@ -19,6 +19,9 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SinchService extends Service {
 
     private static final String APP_KEY = "90374a65-63c2-43c6-a21a-6b6610521f31";
@@ -96,11 +99,13 @@ public class SinchService extends Service {
             return mSinchClient.getCallClient().callPhoneNumber(phoneNumber);
         }
 
-        public Call callUser(String userId) {
+        public Call callUser(String userId,String Name) {
             if (mSinchClient == null) {
                 return null;
             }
-            return mSinchClient.getCallClient().callUser(userId);
+            Map<String,String> name=new HashMap<>();
+            name.put("name",Name);
+            return mSinchClient.getCallClient().callUser(userId,name);
         }
 
         public String getUserName() {

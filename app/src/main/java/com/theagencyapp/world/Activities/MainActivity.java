@@ -20,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
@@ -27,15 +29,19 @@ import com.facebook.FacebookSdk;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sinch.android.rtc.Sinch;
 import com.sinch.android.rtc.SinchClient;
 import com.sinch.android.rtc.SinchError;
+import com.theagencyapp.world.ClassModel.MyLocation;
 import com.theagencyapp.world.Fragments.ClientFragment;
 import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
 import com.theagencyapp.world.Fragments.ProjectFragment;
 import com.theagencyapp.world.R;
 import com.theagencyapp.world.Fragments.TeamFragment;
 import com.theagencyapp.world.Services.SinchService;
+import com.theagencyapp.world.Utility.ProfilePicture;
 
 import java.util.List;
 
@@ -45,7 +51,7 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements OnListFragmentInteractionListener,SinchService.StartFailedListener  {
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
@@ -55,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
     private String userId;
     private String agencyId;
     private String agencyName;
+    private boolean callClicked;
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -90,7 +97,10 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide_navigation);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
+        agencyId = sharedPreferences.getString("agency_id", "h");
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        callClicked=false;
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -123,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
 
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences("data", Context.MODE_PRIVATE);
+      //  SharedPreferences sharedPreferences = this.getSharedPreferences("data", Context.MODE_PRIVATE);
         String name = sharedPreferences.getString("name", "h");
 
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.person_name)).setText(name);
@@ -151,7 +161,14 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
                         }
                         else if(id==R.id.nav_gallery)
                         {
-                            callClicked();
+
+                            startActivity(new Intent(MainActivity.this, AttendanceLog.class));
+                        }
+                        else if(id==R.id.nav_agencyLocation)
+                        {
+                            Intent intent=new Intent(MainActivity.this,MapsActivity.class);
+                            startActivityForResult(intent,415);
+
                         }
 
 
@@ -207,8 +224,11 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
 
 
     @Override
-    public void onStarted() {
+    public void onStarted()
+    {   if(callClicked) {
+        callClicked=false;
         openPlaceCallActivity();
+        }
     }
 
     public class GetTweets extends AsyncTask<Void, Void, Void> {
@@ -301,6 +321,11 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
             if (resultCode == 1)
                 ProfilePicture.setProfilePicture(FirebaseAuth.getInstance().getCurrentUser().getUid(), dp);
         }
+        else if(requestCode==415&&data!=null)
+        {
+            MyLocation myLocation=new MyLocation(data.getDoubleExtra("lng",0),data.getDoubleExtra("lat",0));
+            FirebaseDatabase.getInstance().getReference("AgencyLocation").child(agencyId).setValue(myLocation);
+        }
     }
 
     @Override
@@ -312,6 +337,14 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
             case R.id.chat_icon:
                 startActivity(new Intent(this, Chat.class));
                 return true;
+            case R.id.Call_icon:
+                callClicked();
+                return true;
+            case R.id.markAttendence:
+                startActivity(new Intent(this, AttendanceSystem.class));
+                return true;
+
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -329,6 +362,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
     }
     private void callClicked() {
         String userName = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        callClicked=true;
 
         if (userName.isEmpty()) {
             Toast.makeText(this, "Please enter a name", Toast.LENGTH_LONG).show();
@@ -348,7 +382,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
     }
 
     private void openPlaceCallActivity() {
-        Intent mainActivity = new Intent(this, PlaceCallActivity.class);
+        Intent mainActivity = new Intent(this, AllUsersForCall.class);
         startActivity(mainActivity);
     }
 

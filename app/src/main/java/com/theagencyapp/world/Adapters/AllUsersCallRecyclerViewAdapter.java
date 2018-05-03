@@ -19,13 +19,13 @@ import com.theagencyapp.world.Utility.ProfilePicture;
 import java.util.ArrayList;
 
 
-public class AllUsersChatRecyclerViewAdapter extends RecyclerView.Adapter<AllUsersChatRecyclerViewAdapter.ViewHolder> {
+public class AllUsersCallRecyclerViewAdapter extends RecyclerView.Adapter<AllUsersCallRecyclerViewAdapter.ViewHolder> {
 
     private final ArrayList<User_Display> mValues;
     Context c;
     OnListFragmentInteractionListener mListener;
 
-    public AllUsersChatRecyclerViewAdapter(ArrayList<User_Display> items, Context context, OnListFragmentInteractionListener mListener) {
+    public AllUsersCallRecyclerViewAdapter(ArrayList<User_Display> items, Context context, OnListFragmentInteractionListener mListener) {
         mValues = items;
         c = context;
         this.mListener = mListener;

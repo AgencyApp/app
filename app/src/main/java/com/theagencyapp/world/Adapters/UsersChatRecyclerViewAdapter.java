@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.theagencyapp.world.ClassModel.LastMessage;
-import com.theagencyapp.world.ClassModel.LastMessage;
 import com.theagencyapp.world.Interfaces.OnListFragmentInteractionListener;
 import com.theagencyapp.world.R;
 import com.theagencyapp.world.Utility.ProfilePicture;
