@@ -181,7 +181,7 @@ public class SinchService extends Service {
 
         @Override
         public void onRegistrationCredentialsRequired(SinchClient client,
-                ClientRegistration clientRegistration) {
+                                                      ClientRegistration clientRegistration) {
         }
     }
 
@@ -189,7 +189,7 @@ public class SinchService extends Service {
 
         @Override
         public void onIncomingCall(CallClient callClient, Call call) {
-           Log.d(TAG, "Incoming call");
+            Log.d(TAG, "Incoming call");
             Intent intent = new Intent(SinchService.this, IncomingCallScreenActivity.class);
             intent.putExtra(CALL_ID, call.getCallId());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

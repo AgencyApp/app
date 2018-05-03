@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -16,14 +17,18 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 
+import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,6 +41,7 @@ import com.theagencyapp.world.Fragments.ProjectFragment;
 import com.theagencyapp.world.R;
 import com.theagencyapp.world.Fragments.TeamFragment;
 import com.theagencyapp.world.Services.SinchService;
+import com.theagencyapp.world.Utility.ProfilePicture;
 
 import java.util.List;
 
@@ -45,7 +51,7 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements OnListFragmentInteractionListener, SinchService.StartFailedListener {
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
@@ -148,10 +154,10 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
                             getTweets.execute();
                         } else if (id == R.id.nav_log_out) {
                             auth.signOut();
-                        }
-                        else if(id==R.id.nav_gallery)
-                        {
+                        } else if (id == R.id.nav_gallery) {
                             callClicked();
+                        } else if (id == R.id.nav_firebase) {
+                            onInviteClick();
                         }
 
 
@@ -202,13 +208,13 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
 
     @Override
     public void onStartFailed(SinchError error) {
-        Toast.makeText(this,"ServiceFalied",Toast.LENGTH_LONG);
+        Toast.makeText(this, "ServiceFalied", Toast.LENGTH_LONG);
     }
 
 
     @Override
     public void onStarted() {
-        openPlaceCallActivity();
+        // openPlaceCallActivity();
     }
 
     public class GetTweets extends AsyncTask<Void, Void, Void> {
@@ -263,6 +269,16 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         }
     }
 
+    public void onInviteClick() {
+        Intent intent = new AppInviteInvitation.IntentBuilder("Agency")
+                .setMessage("Download my app!")
+                .setDeepLink(Uri.parse("https://agency.com"))
+                .setCallToActionText("Send")
+                .build();
+        startActivityForResult(intent, 2);
+    }
+
+
     @Override
     public void onListFragmentInteraction(Bundle details, String action, boolean isFabClicked) {
         if (isFabClicked) {
@@ -300,6 +316,17 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         if (requestCode == 1) {
             if (resultCode == 1)
                 ProfilePicture.setProfilePicture(FirebaseAuth.getInstance().getCurrentUser().getUid(), dp);
+        } else if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                // Get the invitation IDs of all sent messages
+                String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                for (String id : ids) {
+
+                }
+            } else {
+                // Sending failed or it was canceled, show failure message to the user
+                // ...
+            }
         }
     }
 
@@ -327,6 +354,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
     protected void onServiceConnected() {
         getSinchServiceInterface().setStartListener(MainActivity.this);
     }
+
     private void callClicked() {
         String userName = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -341,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
 
         if (!getSinchServiceInterface().isStarted()) {
             getSinchServiceInterface().startClient(userName);
-           // showSpinner();
+            // showSpinner();
         } else {
             openPlaceCallActivity();
         }

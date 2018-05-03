@@ -10,14 +10,18 @@
             android:title="Update Profile Picture" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:icon="@drawable/ic_call_black_24dp"
+            android:title="Call" />
         <item
             android:id="@+id/nav_tweets"
             android:icon="@drawable/ic_menu_tweets"
             android:title="Agency Tweets" />
         <item
             android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Settings" />
+        <item
+            android:id="@+id/nav_firebase"
             android:icon="@drawable/ic_menu_manage"
             android:title="Settings" />
 

@@ -20,24 +20,22 @@ import java.util.HashMap;
 
 public class Fetcher {
 
-    ArrayList<Client_Display>client_displays;
+    ArrayList<Client_Display> client_displays;
 
-    public  void FetchClient()
-    {
-        final FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
+    public void FetchClient() {
+        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
-        DatabaseReference agid= FirebaseDatabase.getInstance().getReference("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/agencyid");
+        DatabaseReference agid = FirebaseDatabase.getInstance().getReference("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/agencyid");
         agid.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String agencyid=dataSnapshot.getValue(String.class);
-                DatabaseReference clients=firebaseDatabase.getReference("AgencyClientRef/"+agencyid);
+                String agencyid = dataSnapshot.getValue(String.class);
+                DatabaseReference clients = firebaseDatabase.getReference("AgencyClientRef/" + agencyid);
                 clients.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            if(snapshot.getValue(boolean.class))
-                            {
+                            if (snapshot.getValue(boolean.class)) {
                                 fetchClientData(snapshot.getKey());
                             }
                         }
@@ -60,20 +58,19 @@ public class Fetcher {
         });
     }
 
-     public void fetchClientData(final String clientId)
-    {
-        final FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
-        DatabaseReference user=firebaseDatabase.getReference("Users/"+clientId);
+    public void fetchClientData(final String clientId) {
+        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference user = firebaseDatabase.getReference("Users/" + clientId);
         user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final User user =dataSnapshot.getValue(User.class);
-                DatabaseReference client=firebaseDatabase.getReference("Client/"+clientId);
+                final User user = dataSnapshot.getValue(User.class);
+                DatabaseReference client = firebaseDatabase.getReference("Client/" + clientId);
                 client.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Client client=dataSnapshot.getValue(Client.class);
-                       // client_displays.add(new Client_Display(user.getName(),user.getPhoneNo(),user.getAgencyid(),user.getStatus(),client.getRatings(),client.getImageUrl()));
+                        Client client = dataSnapshot.getValue(Client.class);
+                        // client_displays.add(new Client_Display(user.getName(),user.getPhoneNo(),user.getAgencyid(),user.getStatus(),client.getRatings(),client.getImageUrl()));
                     }
 
                     @Override

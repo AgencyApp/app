@@ -232,6 +232,7 @@ public class SendMessage extends AppCompatActivity {
         }
 
         isMap = false;
+        msg.setText("");
 
         DatabaseReference chatRef = firebaseDatabase.getReference("ChatRef/" + senderUid + "/" + reciverUid);
         chatRef.setValue(true);

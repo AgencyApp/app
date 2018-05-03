@@ -15,14 +15,16 @@ public class MakeCall extends AppCompatActivity {
     Button makecall;
     private Call call;
     SinchClient sinchClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_call);
-        makecall=(Button) findViewById(R.id.MakeCall);
+        makecall = (Button) findViewById(R.id.MakeCall);
         CallServices.init(this);
-        sinchClient=CallServices.getSinchClient();
+        sinchClient = CallServices.getSinchClient();
     }
+
     public void onClick(View view) {
         if (call == null) {
             call = sinchClient.getCallClient().callUser("Dad5213");

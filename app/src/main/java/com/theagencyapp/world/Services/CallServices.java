@@ -12,10 +12,9 @@ import com.sinch.android.rtc.SinchClient;
 
 public class CallServices {
 
-    private static SinchClient sinchClient ;
+    private static SinchClient sinchClient;
 
-    public static void init(Context context)
-    {
+    public static void init(Context context) {
         SinchClient sinchClient;
         sinchClient = Sinch.getSinchClientBuilder()
                 .context(context)

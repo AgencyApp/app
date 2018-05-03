@@ -50,8 +50,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.MainActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activities.MainActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".Activities.SignUpActivity" />
         <activity android:name=".Activities.AddCompanyActivity" />
         <activity android:name=".Activities.SubscriptonActivity" />
@@ -114,6 +115,7 @@
         <activity android:name=".Activities.UpdateClient" />
         <activity android:name=".Activities.EmployeeProfile" />
         <activity android:name=".Activities.SpeechToText" />
+        <activity android:name=".Activities.ShowMap" />
 
         <service android:name=".Services.IstanceIdGenerator">
             <intent-filter>
@@ -141,11 +143,14 @@
             android:label="@string/title_activity_ad_mobs" />
         <activity android:name=".Activities.GoogleSignUp" />
         <activity android:name=".Activities.MakeCall" />
-        <activity android:name=".Activities.PlaceCallActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.CallScreenActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.IncomingCallScreenActivity"
+        <activity
+            android:name=".Activities.PlaceCallActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.CallScreenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.IncomingCallScreenActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 
